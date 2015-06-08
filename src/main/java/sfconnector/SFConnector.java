@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 	        @WebInitParam(name = "clientSecret", value = "8922169740292202489"),
 	        // This must be identical to 'Callback URL' in the Remote Access UI
 	        @WebInitParam(name = "redirectUri", value = "https://tranquil-taiga-6535.herokuapp.com/getsf/"),
-	        @WebInitParam(name = "environment", value = "https://login.salesforce.com"), })
+	        @WebInitParam(name = "environment", value = "https://login.salesforce.com/?pw=knp48//G&un=yevhenii.riabinin@gmail.com"), })
 
 public class SFConnector extends HttpServlet {
 	private static final String CLIENT_ID = "3MVG9Rd3qC6oMalUQmRJ9gVbbcd7fa9vmARC5CJe7WzzPgD9Dy_dQaYYBCBr7Z0B8vLFZ71bhnGMrghvHDDYu";
