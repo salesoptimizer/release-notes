@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServlet;
 
 
 
-@WebServlet(name = "oauth", urlPatterns = { "/oauth/*", "/oauth" }, initParams = {
+@WebServlet(name = "oauth", urlPatterns = { "/getsf/*", "/getsf" }, initParams = {
 	        // clientId is 'Consumer Key' in the Remote Access UI
 	        @WebInitParam(name = "clientId", value = "3MVG9Rd3qC6oMalUQmRJ9gVbbcd7fa9vmARC5CJe7WzzPgD9Dy_dQaYYBCBr7Z0B8vLFZ71bhnGMrghvHDDYu"),
 	        // clientSecret is 'Consumer Secret' in the Remote Access UI
