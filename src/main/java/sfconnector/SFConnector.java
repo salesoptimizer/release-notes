@@ -45,7 +45,7 @@ public class SFConnector extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String accessToken = (String) request.getSession().getAttribute(
+		/*String accessToken = (String) request.getSession().getAttribute(
 				ACCESS_TOKEN);
 
 		if (accessToken == null) {
@@ -98,7 +98,7 @@ public class SFConnector extends HttpServlet {
 			// We also get the instance URL from the OAuth response, so set it
 			// in the session too
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
-		}
+		}*/
 
 		response.sendRedirect(request.getContextPath() + "/DemoREST");
 	}
