@@ -16,6 +16,12 @@
   	<description></description>
   	<servlet-class>rnservices.GGLService</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>DemoREST</servlet-name>
+  	<display-name>DemoREST</display-name>
+  	<description></description>
+  	<servlet-class>sfconnector.DemoREST</servlet-class>
+  </servlet>
   <servlet-mapping>
   <servlet>
   	<servlet-name>SFConnector</servlet-name>
@@ -35,4 +41,8 @@
   	<servlet-name>SFConnector</servlet-name>
   	<url-pattern>/getsf</url-pattern>
   </servlet-mapping>
-</web-app>
+</servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>DemoREST</servlet-name>
+  	<url-pattern>/DemoREST</url-pattern>
+  </servlet-mapping></web-app>
