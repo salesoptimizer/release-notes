@@ -31,7 +31,7 @@ public class SFConnector extends HttpServlet {
 	private String tokenUrl = null;
 	
 	public void init() throws ServletException {
-		/*try {
+		try {
 			authUrl = ENVIRONMENT
 					+ "/services/oauth2/authorize?response_type=code&client_id="
 					+ CLIENT_ID + "&redirect_uri="
@@ -40,7 +40,7 @@ public class SFConnector extends HttpServlet {
 			throw new ServletException(e);
 		}
 
-		tokenUrl = ENVIRONMENT + "/services/oauth2/token";*/
+		tokenUrl = ENVIRONMENT + "/services/oauth2/token";
 	}
 	
 	@Override
