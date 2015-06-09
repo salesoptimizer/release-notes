@@ -45,7 +45,7 @@ public class SFConnector extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*String accessToken = (String) request.getSession().getAttribute(
+		String accessToken = (String) request.getSession().getAttribute(
 				ACCESS_TOKEN);
 
 		if (accessToken == null) {
@@ -100,7 +100,7 @@ public class SFConnector extends HttpServlet {
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
 		}
 
-		response.sendRedirect(request.getContextPath() + "/DemoREST");*/
+		response.sendRedirect(request.getContextPath() + "/DemoREST");
 	}
 	
 	
