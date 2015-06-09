@@ -15,9 +15,10 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-@WebServlet(name = "oauth", urlPatterns = { "/oauth/*", "/oauth" })
+//@WebServlet(name = "oauth", urlPatterns = { "/oauth/*", "/oauth" })
 
 public class SFConnector extends HttpServlet {
+	private static final long serialVersionUID = 6637048634977987707L;
 	private static final String CLIENT_ID = "3MVG9Rd3qC6oMalUQmRJ9gVbbcd7fa9vmARC5CJe7WzzPgD9Dy_dQaYYBCBr7Z0B8vLFZ71bhnGMrghvHDDYu";
 	private static final String CLIENT_SECRET = "8922169740292202489";
 	private static final String REDIRECT_URL = "https://tranquil-taiga-6535.herokuapp.com/RestTest/oauth/_callback";

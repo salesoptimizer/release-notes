@@ -17,11 +17,16 @@
   	<servlet-class>rnservices.GGLService</servlet-class>
   </servlet>
   <servlet>
+  	<servlet-name>SFConnector</servlet-name>
+  	<servlet-class>sfconnector.SFConnector</servlet-class>
+  </servlet>
+  <servlet>
   	<servlet-name>DemoREST</servlet-name>
   	<display-name>DemoREST</display-name>
   	<description></description>
   	<servlet-class>sfconnector.DemoREST</servlet-class>
   </servlet>
+  
   <servlet-mapping>
   	<servlet-name>MainController</servlet-name>
   	<url-pattern>/</url-pattern>
@@ -29,6 +34,10 @@
   <servlet-mapping>
   	<servlet-name>GGLService</servlet-name>
   	<url-pattern>/doc</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SFConnector</servlet-name>
+  	<url-pattern>/oauth*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>DemoREST</servlet-name>
