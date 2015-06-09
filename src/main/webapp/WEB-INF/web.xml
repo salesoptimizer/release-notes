@@ -23,13 +23,6 @@
   	<servlet-class>sfconnector.DemoREST</servlet-class>
   </servlet>
   <servlet-mapping>
-  <servlet>
-  	<servlet-name>SFConnector</servlet-name>
-  	<display-name>SFConnector</display-name>
-  	<description></description>
-  	<servlet-class>sfconnector.SFConnector</servlet-class>
-  </servlet>
-  <servlet-mapping>
   	<servlet-name>MainController</servlet-name>
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
@@ -38,11 +31,7 @@
   	<url-pattern>/doc</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>SFConnector</servlet-name>
-  	<url-pattern>/getsf</url-pattern>
-  </servlet-mapping>
-</servlet-mapping>
-  <servlet-mapping>
   	<servlet-name>DemoREST</servlet-name>
   	<url-pattern>/DemoREST</url-pattern>
-  </servlet-mapping></web-app>
+  </servlet-mapping>
+</web-app>
