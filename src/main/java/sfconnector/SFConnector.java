@@ -15,7 +15,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-//@WebServlet(name = "oauth", urlPatterns = { "/oauth/*", "/oauth" })
+@WebServlet(name = "SFConnector", urlPatterns = { "/oauth/*", "/oauth" })
 
 public class SFConnector extends HttpServlet {
 	private static final long serialVersionUID = 6637048634977987707L;
