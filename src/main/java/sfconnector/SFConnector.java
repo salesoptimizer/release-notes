@@ -97,8 +97,8 @@ public class SFConnector extends HttpServlet {
 
 			// We also get the instance URL from the OAuth response, so set it
 			// in the session too
-			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
-		}*/
+			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);*/
+		}
 
 		response.sendRedirect(request.getContextPath() + "/DemoREST");
 	}
