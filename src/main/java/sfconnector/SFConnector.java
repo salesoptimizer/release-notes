@@ -47,10 +47,11 @@ public class SFConnector extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accessToken = (String) request.getSession().getAttribute(
 				ACCESS_TOKEN);
-
+		response.getWriter().print(authUrl);
+		
 		if (accessToken == null) {
 			String instanceUrl = null;
-
+			
 		/*	if (request.getRequestURI().endsWith("oauth")) {
 				// we need to send the user to authorize
 				response.sendRedirect(authUrl);
