@@ -94,7 +94,7 @@ public class SFConnector extends HttpServlet {
 
 			// Set a session attribute so that other servlets can get the access
 			// token
-			request.getSession().setAttribute(ACCESS_TOKEN, accessToken);
+			request.getSession().setAttribute(ACCESS_TOKEN, accessToken); 
 
 			// We also get the instance URL from the OAuth response, so set it
 			// in the session too
