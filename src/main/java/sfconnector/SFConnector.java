@@ -53,11 +53,13 @@ public class SFConnector extends HttpServlet {
 			String instanceUrl = null;
 			
 			if (request.getRequestURI().endsWith("oauth")) {
+				response.getWriter().print("oauth");
 				// we need to send the user to authorize
 				response.sendRedirect(authUrl);
 				return;
 			} else {
 				System.out.println("Auth successful - got callback");
+				response.getWriter().print("Auth successful - got callback");
 
 				String code = request.getParameter("code");
 
@@ -73,9 +75,9 @@ public class SFConnector extends HttpServlet {
 				try {
 					httpclient.executeMethod(post);
 					String responseBody = post.getResponseBodyAsString();
-					
-					try {
-						JSONObject authResponse = new JSONObject(responseBody);
+					response.getWriter().print(responseBody);
+//					try {
+//						JSONObject authResponse = new JSONObject(responseBody);
 //						System.out.println("Auth response: "
 //								+ authResponse.toString(2));
 //
@@ -83,10 +85,10 @@ public class SFConnector extends HttpServlet {
 //						instanceUrl = authResponse.getString("instance_url");
 //
 //						System.out.println("Got access token: " + accessToken);
-					} catch (JSONException e) {
-						e.printStackTrace();
-						throw new ServletException(e);
-					}
+//					} catch (JSONException e) {
+//						e.printStackTrace();
+//						throw new ServletException(e);
+//					}
 				} finally {
 					post.releaseConnection();
 				}
@@ -101,7 +103,7 @@ public class SFConnector extends HttpServlet {
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
 		}
 
-		response.sendRedirect(request.getContextPath() + "/DemoREST");
+//		response.sendRedirect(request.getContextPath() + "/DemoREST");
 	}
 	
 	
