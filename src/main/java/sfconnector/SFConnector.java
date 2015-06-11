@@ -70,9 +70,9 @@ public class SFConnector extends HttpServlet {
 				post.addParameter("client_secret", CLIENT_SECRET);
 				post.addParameter("redirect_uri", REDIRECT_URL);
 
-//				try {
-//					httpclient.executeMethod(post);
-//					String responseBody = post.getResponseBodyAsString();
+				try {
+					httpclient.executeMethod(post);
+					String responseBody = post.getResponseBodyAsString();
 //					
 //					try {
 //						JSONObject authResponse = new JSONObject(responseBody);
@@ -87,9 +87,9 @@ public class SFConnector extends HttpServlet {
 //						e.printStackTrace();
 //						throw new ServletException(e);
 //					}
-//				} finally {
-//					post.releaseConnection();
-//				}
+				} finally {
+					post.releaseConnection();
+				}
 			}
 
 			// Set a session attribute so that other servlets can get the access
