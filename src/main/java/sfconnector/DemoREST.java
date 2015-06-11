@@ -49,14 +49,14 @@ public class DemoREST extends HttpServlet {
 			if (statusCode == HttpStatus.SC_OK) {
 				// Now lets use the standard java json classes to work with the
 				// results
+				String responseBody = get.getResponseBodyAsString();
+				writer.print("RESPONSE => " + responseBody + "\n");
 				try {
-					JSONObject response = new JSONObject(
-							new JSONTokener(new InputStreamReader(
-									get.getResponseBodyAsStream())));
+					JSONObject response = new JSONObject(responseBody);
 					System.out.println("Query response: "
 							+ response.toString(2));
 
-					writer.write(response.getString("totalSize")
+					writer.print(response.getString("totalSize")
 							+ " record(s) returned\n\n");
 
 					JSONArray results = response.getJSONArray("records");
