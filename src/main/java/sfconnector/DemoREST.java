@@ -53,21 +53,22 @@ public class DemoREST extends HttpServlet {
 				writer.print("RESPONSE => " + responseBody + "\n");
 				try {
 					JSONObject response = new JSONObject(responseBody);
-					System.out.println("Query response: "
-							+ response.toString(2));
+					writer.print("line 56 \n");
+					writer.print("Query response => "
+							+ response.toString() + "\n");
 
 					writer.print(response.getString("totalSize")
 							+ " record(s) returned\n\n");
 
-					JSONArray results = response.getJSONArray("records");
-
-					for (int i = 0; i < results.length(); i++) {
-						writer.write(results.getJSONObject(i).getString("Id")
-								+ ", "
-								+ results.getJSONObject(i).getString("Name")
-								+ "\n");
-					}
-					writer.write("\n");
+//					JSONArray results = response.getJSONArray("records");
+//
+//					for (int i = 0; i < results.length(); i++) {
+//						writer.write(results.getJSONObject(i).getString("Id")
+//								+ ", "
+//								+ results.getJSONObject(i).getString("Name")
+//								+ "\n");
+//					}
+//					writer.write("\n");
 				} catch (JSONException e) {
 					e.printStackTrace();
 					throw new ServletException(e);
