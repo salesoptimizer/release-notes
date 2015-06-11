@@ -78,9 +78,11 @@ public class SFConnector extends HttpServlet {
 					httpclient.executeMethod(post);
 					String responseBody = post.getResponseBodyAsString();
 					response.getWriter().print("responseBody => "+responseBody+"\n");
+					response.getWriter().print("line 81 \n");
 //					try {
 //						JSONObject json = new JSONObject(); 
 						JSONObject authResponse = new JSONObject(responseBody);
+						response.getWriter().print("line 85 \n");
 //						JSONObject authResponse = new JSONObject(
 //								new JSONTokener(new InputStreamReader(
 //										post.getResponseBodyAsStream())));
@@ -99,16 +101,16 @@ public class SFConnector extends HttpServlet {
 					post.releaseConnection();
 				}
 			}
-
+			response.getWriter().print("line 104 \n");
 			// Set a session attribute so that other servlets can get the access
 			// token
 			request.getSession().setAttribute(ACCESS_TOKEN, accessToken);
-
+			response.getWriter().print("line 108 \n");
 			// We also get the instance URL from the OAuth response, so set it
 			// in the session too
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
 		}
-
+		response.getWriter().print("line 113 \n");
 		response.sendRedirect(request.getContextPath() + "/DemoREST");
 	}
 	
