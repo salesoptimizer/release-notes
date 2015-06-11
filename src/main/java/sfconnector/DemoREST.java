@@ -61,14 +61,16 @@ public class DemoREST extends HttpServlet {
 //							+ " record(s) returned\n\n");
 
 					JSONArray results = response.getJSONArray("records");
-//					writer.print("JSONArray of results => " + results.toString() + "\n");
+					writer.print("JSONArray of results => " + results.toString() + "\n");
+					writer.print("results.getJSONObject(0) => " + results.getJSONObject(0).toString());
+					writer.print("results.getJSONObject(0).getString(\"Id\") => " + results.getJSONObject(0).getString("Id"));
 
-					for (int i = 0; i < results.length(); i++) {
-						writer.print(results.getJSONObject(i).getString("Id")
-								+ ", "
-								+ results.getJSONObject(i).getString("Name")
-								+ "\n");
-					}
+//					for (int i = 0; i < results.length(); i++) {
+//						writer.print(results.getJSONObject(i).getString("Id")
+//								+ ", "
+//								+ results.getJSONObject(i).getString("Name")
+//								+ "\n");
+//					}
 					writer.print("\n");
 				} catch (JSONException e) {
 					e.printStackTrace();
