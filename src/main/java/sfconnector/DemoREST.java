@@ -66,7 +66,7 @@ public class DemoREST extends HttpServlet {
 					writer.print("results.getJSONObject(0).getString(\"Id\") => " + results.getJSONObject(0).getString("Id"));
 					writer.print("\n \n ------------------------------------------------------ \n \n ");
 					for (int i = 0; i < results.length(); i++) {
-						writer.print("ID[" + i + "] => " + results.getJSONObject(i).getString("Id") + "\n");
+						writer.print("ID[" + i + "], NAME[" + i + "] => " + results.getJSONObject(i).getString("Id") + ", " + results.getJSONObject(i).getString("Name") + "\n");
 //								+ ", "
 //								+ results.getJSONObject(i).getString("Name")
 //								+ "\n");
