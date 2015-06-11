@@ -77,7 +77,7 @@ public class SFConnector extends HttpServlet {
 				try {
 					httpclient.executeMethod(post);
 					String responseBody = post.getResponseBodyAsString();
-					response.getWriter().print("responseBody => "+responseBody);
+					response.getWriter().print("responseBody => "+responseBody+"\n");
 //					try {
 //						JSONObject json = new JSONObject(); 
 						JSONObject authResponse = new JSONObject(responseBody);
@@ -90,7 +90,7 @@ public class SFConnector extends HttpServlet {
 						accessToken = authResponse.getString("access_token");
 						instanceUrl = authResponse.getString("instance_url");
 
-						System.out.println("Got access token: " + accessToken);
+						System.out.println("Got access token: " + accessToken + "\n");
 //					} catch (JSONException e) {
 //						e.printStackTrace();
 //						throw new ServletException(e);
