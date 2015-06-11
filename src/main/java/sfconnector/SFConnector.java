@@ -1,6 +1,7 @@
 package sfconnector;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -14,6 +15,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 //@WebServlet(name = "SFConnector", urlPatterns = { "/oauth/*", "/oauth" })
 
@@ -77,7 +79,10 @@ public class SFConnector extends HttpServlet {
 					String responseBody = post.getResponseBodyAsString();
 					response.getWriter().print("responseBody => "+responseBody);
 					try {
-						JSONObject authResponse = new JSONObject(responseBody);
+//						JSONObject authResponse = new JSONObject(responseBody);
+						JSONObject authResponse = new JSONObject(
+								new JSONTokener(new InputStreamReader(
+										post.getResponseBodyAsStream())));
 						System.out.println("Auth response: "
 								+ authResponse.toString(2));
 
