@@ -56,7 +56,7 @@ public class SFConnector extends HttpServlet {
 				// we need to send the user to authorize
 				response.sendRedirect(authUrl);
 				return;
-			} /*else {
+			} else {
 				System.out.println("Auth successful - got callback");
 
 				String code = request.getParameter("code");
@@ -70,27 +70,27 @@ public class SFConnector extends HttpServlet {
 				post.addParameter("client_secret", CLIENT_SECRET);
 				post.addParameter("redirect_uri", REDIRECT_URL);
 
-				try {
-					httpclient.executeMethod(post);
-					String responseBody = post.getResponseBodyAsString();
-					
-					try {
-						JSONObject authResponse = new JSONObject(responseBody);
-						System.out.println("Auth response: "
-								+ authResponse.toString(2));
-
-						accessToken = authResponse.getString("access_token");
-						instanceUrl = authResponse.getString("instance_url");
-
-						System.out.println("Got access token: " + accessToken);
-					} catch (JSONException e) {
-						e.printStackTrace();
-						throw new ServletException(e);
-					}
-				} finally {
-					post.releaseConnection();
-				}
-			}*/
+//				try {
+//					httpclient.executeMethod(post);
+//					String responseBody = post.getResponseBodyAsString();
+//					
+//					try {
+//						JSONObject authResponse = new JSONObject(responseBody);
+//						System.out.println("Auth response: "
+//								+ authResponse.toString(2));
+//
+//						accessToken = authResponse.getString("access_token");
+//						instanceUrl = authResponse.getString("instance_url");
+//
+//						System.out.println("Got access token: " + accessToken);
+//					} catch (JSONException e) {
+//						e.printStackTrace();
+//						throw new ServletException(e);
+//					}
+//				} finally {
+//					post.releaseConnection();
+//				}
+			}
 
 			// Set a session attribute so that other servlets can get the access
 			// token
