@@ -49,14 +49,14 @@ public class SFConnector extends HttpServlet {
 		String accessToken = (String) request.getSession().getAttribute(
 				ACCESS_TOKEN);
 		
-		/*if (accessToken == null) {
+		if (accessToken == null) {
 			String instanceUrl = null;
 			
 			if (request.getRequestURI().endsWith("oauth")) {
 				// we need to send the user to authorize
 				response.sendRedirect(authUrl);
 				return;
-			} else {
+			} /*else {
 				System.out.println("Auth successful - got callback");
 
 				String code = request.getParameter("code");
@@ -90,7 +90,7 @@ public class SFConnector extends HttpServlet {
 				} finally {
 					post.releaseConnection();
 				}
-			}
+			}*/
 
 			// Set a session attribute so that other servlets can get the access
 			// token
@@ -99,7 +99,7 @@ public class SFConnector extends HttpServlet {
 			// We also get the instance URL from the OAuth response, so set it
 			// in the session too
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
-		}*/
+		}
 
 		response.sendRedirect(request.getContextPath() + "/DemoREST");
 	}
