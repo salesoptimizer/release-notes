@@ -76,19 +76,19 @@ public class SFConnector extends HttpServlet {
 					httpclient.executeMethod(post);
 					String responseBody = post.getResponseBodyAsString();
 					response.getWriter().print("responseBody => "+responseBody);
-//					try {
-//						JSONObject authResponse = new JSONObject(responseBody);
-//						System.out.println("Auth response: "
-//								+ authResponse.toString(2));
-//
-//						accessToken = authResponse.getString("access_token");
-//						instanceUrl = authResponse.getString("instance_url");
-//
-//						System.out.println("Got access token: " + accessToken);
-//					} catch (JSONException e) {
-//						e.printStackTrace();
-//						throw new ServletException(e);
-//					}
+					try {
+						JSONObject authResponse = new JSONObject(responseBody);
+						System.out.println("Auth response: "
+								+ authResponse.toString(2));
+
+						accessToken = authResponse.getString("access_token");
+						instanceUrl = authResponse.getString("instance_url");
+
+						System.out.println("Got access token: " + accessToken);
+					} catch (JSONException e) {
+						e.printStackTrace();
+						throw new ServletException(e);
+					}
 				} finally {
 					post.releaseConnection();
 				}
@@ -103,7 +103,7 @@ public class SFConnector extends HttpServlet {
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
 		}
 
-//		response.sendRedirect(request.getContextPath() + "/DemoREST");
+		response.sendRedirect(request.getContextPath() + "/DemoREST");
 	}
 	
 	
