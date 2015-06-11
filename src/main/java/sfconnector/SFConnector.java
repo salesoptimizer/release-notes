@@ -79,7 +79,7 @@ public class SFConnector extends HttpServlet {
 					String responseBody = post.getResponseBodyAsString();
 					response.getWriter().print("responseBody => "+responseBody);
 //					try {
-//						JSONObject json = new JSONObject();
+//						JSONObject json = new JSONObject(); 
 						JSONObject authResponse = new JSONObject(responseBody);
 //						JSONObject authResponse = new JSONObject(
 //								new JSONTokener(new InputStreamReader(
