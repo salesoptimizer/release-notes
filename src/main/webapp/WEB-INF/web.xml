@@ -39,6 +39,10 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>SFConnector</servlet-name>
+  	<url-pattern>/RestTest/oauth</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SFConnector</servlet-name>
   	<url-pattern>/RestTest/oauth/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
