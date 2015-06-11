@@ -111,7 +111,7 @@ public class SFConnector extends HttpServlet {
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
 		}
 		response.getWriter().print("line 113 \n");
-//		response.sendRedirect(request.getContextPath() + "/DemoREST");
+		response.sendRedirect(request.getContextPath() + "/DemoREST");
 	}
 	
 	
