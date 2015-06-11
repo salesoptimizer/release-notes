@@ -75,7 +75,7 @@ public class SFConnector extends HttpServlet {
 				try {
 					httpclient.executeMethod(post);
 					String responseBody = post.getResponseBodyAsString();
-					response.getWriter().print(responseBody);
+					response.getWriter().print("responseBody => "+responseBody);
 //					try {
 //						JSONObject authResponse = new JSONObject(responseBody);
 //						System.out.println("Auth response: "
