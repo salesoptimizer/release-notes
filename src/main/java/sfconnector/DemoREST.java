@@ -64,13 +64,13 @@ public class DemoREST extends HttpServlet {
 					writer.print("JSONArray of results => " + results.toString() + "\n");
 					writer.print("results.getJSONObject(0) => " + results.getJSONObject(0).toString());
 					writer.print("results.getJSONObject(0).getString(\"Id\") => " + results.getJSONObject(0).getString("Id"));
-
-//					for (int i = 0; i < results.length(); i++) {
-//						writer.print(results.getJSONObject(i).getString("Id")
+					writer.print("\n \n ------------------------------------------------------ \n \n ");
+					for (int i = 0; i < results.length(); i++) {
+						writer.print("ID[" + i + "] => " + results.getJSONObject(i).getString("Id") + "\n");
 //								+ ", "
 //								+ results.getJSONObject(i).getString("Name")
 //								+ "\n");
-//					}
+					}
 					writer.print("\n");
 				} catch (JSONException e) {
 					e.printStackTrace();
