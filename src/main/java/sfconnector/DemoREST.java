@@ -44,7 +44,9 @@ public class DemoREST extends HttpServlet {
 
 		try {
 			httpclient.executeMethod(get);
-			if (get.getStatusCode() == HttpStatus.SC_OK) {
+			int statusCode = get.getStatusCode(); 
+			writer.print("\n HttpStatus => " + statusCode);
+			if (statusCode == HttpStatus.SC_OK) {
 				// Now lets use the standard java json classes to work with the
 				// results
 				try {
@@ -70,6 +72,8 @@ public class DemoREST extends HttpServlet {
 					e.printStackTrace();
 					throw new ServletException(e);
 				}
+			} else {
+				writer.print("\n HttpStatus => " + statusCode + " but OK is " + HttpStatus.SC_OK);
 			}
 		} finally {
 			get.releaseConnection();
