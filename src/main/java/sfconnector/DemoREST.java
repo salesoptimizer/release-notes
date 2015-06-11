@@ -55,12 +55,13 @@ public class DemoREST extends HttpServlet {
 					JSONObject response = new JSONObject(responseBody);
 					writer.print("line 56 \n");
 					writer.print("Query response => "
-							+ response.toString() + "\n");
+							+ response.toString(2) + "\n");
 
 					writer.print(response.getString("totalSize")
 							+ " record(s) returned\n\n");
 
-//					JSONArray results = response.getJSONArray("records");
+					JSONArray results = response.getJSONArray("records");
+					writer.print("JSONArray of results => " + results.toString() + "\n");
 //
 //					for (int i = 0; i < results.length(); i++) {
 //						writer.write(results.getJSONObject(i).getString("Id")
