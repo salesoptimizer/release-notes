@@ -61,7 +61,7 @@ public class SFConnector extends HttpServlet {
 				return;
 			} else {
 				System.out.println("Auth successful - got callback");
-				response.getWriter().print("Auth successful - got callback");
+				response.getWriter().print("Auth successful - got callback\n");
 
 				String code = request.getParameter("code");
 
@@ -79,9 +79,9 @@ public class SFConnector extends HttpServlet {
 					String responseBody = post.getResponseBodyAsString();
 					response.getWriter().print("responseBody => "+responseBody+"\n");
 					response.getWriter().print("line 81 \n");
-					try {
+//					try {
 //						JSONObject json = new JSONObject(); 
-						JSONObject authResponse = new JSONObject(responseBody);
+//						JSONObject authResponse = new JSONObject(responseBody);
 						response.getWriter().print("line 85 \n");
 //						JSONObject authResponse = new JSONObject(
 //								new JSONTokener(new InputStreamReader(
@@ -93,10 +93,10 @@ public class SFConnector extends HttpServlet {
 						instanceUrl = authResponse.getString("instance_url");*/
 
 						System.out.println("Got access token: " + accessToken + "\n");
-					} catch (JSONException e) {
-						e.printStackTrace();
-						throw new ServletException("JSONException => " + e);
-					}
+//					} catch (JSONException e) {
+//						e.printStackTrace();
+//						throw new ServletException("JSONException => " + e);
+//					}
 				} finally {
 					post.releaseConnection();
 				}
@@ -111,7 +111,7 @@ public class SFConnector extends HttpServlet {
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
 		}
 		response.getWriter().print("line 113 \n");
-		response.sendRedirect(request.getContextPath() + "/DemoREST");
+//		response.sendRedirect(request.getContextPath() + "/DemoREST");
 	}
 	
 	
