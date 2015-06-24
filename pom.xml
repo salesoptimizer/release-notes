@@ -46,7 +46,7 @@
 		<version>3.1</version>
 	</dependency>
 	
-	<dependency>
+	<!-- <dependency>
 		<groupId>commons-codec</groupId>
 		<artifactId>commons-codec</artifactId>
 		<version>1.10</version>
@@ -55,7 +55,7 @@
 		<groupId>commons-logging</groupId>
 		<artifactId>commons-logging</artifactId>
 		<version>1.2</version>
-	</dependency>
+	</dependency> -->
 	
 	<dependency>
 		<groupId>org.json</groupId>
@@ -64,12 +64,16 @@
 	</dependency>
 	
 	
-	<dependency>
+	<!-- <dependency>
 		<groupId>com.fasterxml.jackson.core</groupId>
 		<artifactId>jackson-core</artifactId>
 		<version>2.5.4</version>
+	</dependency> -->
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>jstl</artifactId>
+		<version>1.2</version>
 	</dependency>
-	
 	
 	
   </dependencies>
