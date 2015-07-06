@@ -21,7 +21,7 @@ import org.json.JSONTokener;
 /**
  * Servlet implementation class DemoREST
  */
-public class DemoREST extends HttpServlet {
+public class DemoREST /*extends HttpServlet*/ {
 	private static final long serialVersionUID = 1L;
 	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 	private static final String INSTANCE_URL = "INSTANCE_URL";
@@ -84,7 +84,7 @@ public class DemoREST extends HttpServlet {
 		}
 	}
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void getInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accessToken = (String) request.getSession().getAttribute(
 				ACCESS_TOKEN);
 

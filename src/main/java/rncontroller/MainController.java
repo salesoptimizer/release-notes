@@ -16,6 +16,9 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import sfconnector.DemoREST;
+import sfconnector.SFConnector;
+
 /**
  * Servlet implementation class MainController
  */
@@ -26,7 +29,12 @@ public class MainController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		getServletContext().getRequestDispatcher("index.jsp").forward(request, response);
+		SFConnector sfConnector = new SFConnector();
+		sfConnector.getAccessToSalesforce(request, response);
+		
+		DemoREST demoREST = new DemoREST();
+		demoREST.getInfo(request, response);
+		//getServletContext().getRequestDispatcher("index.jsp").forward(request, response);
 	}
 	
 }
