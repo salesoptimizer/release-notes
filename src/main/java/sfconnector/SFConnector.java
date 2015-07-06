@@ -66,7 +66,7 @@ public class SFConnector/* extends HttpServlet*/ {
 		if (accessToken == null) {
 			String instanceUrl = null;
 			
-			if (request.getRequestURI().endsWith("oauth")) {
+			if (!request.getRequestURI().endsWith("_callback")) {
 				response.getWriter().print("oauth authUrl =>"+authUrl);
 				// we need to send the user to authorize
 				response.sendRedirect(authUrl);
