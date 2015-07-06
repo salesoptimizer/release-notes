@@ -33,7 +33,7 @@
   	<servlet-name>MainController</servlet-name>
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
-  <servlet-mapping>
+  <!-- <servlet-mapping>
   	<servlet-name>MainController</servlet-name>
   	<url-pattern>/RestTest/oauth</url-pattern>
   </servlet-mapping>
@@ -41,7 +41,7 @@
   	<servlet-name>MainController</servlet-name>
   	<url-pattern>/RestTest/oauth/*</url-pattern>
   </servlet-mapping>
-  <servlet-mapping>
+  <servlet-mapping> -->
   	<servlet-name>GGLService</servlet-name>
   	<url-pattern>/doc</url-pattern>
   </servlet-mapping>

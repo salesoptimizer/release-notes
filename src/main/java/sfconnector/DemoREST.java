@@ -53,18 +53,7 @@ public class DemoREST /*extends HttpServlet*/ {
 				writer.print("RESPONSE => " + responseBody + "\n");
 				try {
 					JSONObject response = new JSONObject(responseBody);
-//					writer.print("line 56 \n");
-//					writer.print("Query response => "
-//							+ response.toString(2) + "\n");
-//
-//					writer.print(response.getString("totalSize")
-//							+ " record(s) returned\n\n");
-
 					JSONArray results = response.getJSONArray("records");
-					writer.print("JSONArray of results => " + results.toString() + "\n");
-					writer.print("results.getJSONObject(0) => " + results.getJSONObject(0).toString());
-					writer.print("results.getJSONObject(0).getString(\"Id\") => " + results.getJSONObject(0).getString("Id"));
-					writer.print("\n \n ------------------------------------------------------ \n \n ");
 					for (int i = 0; i < results.length(); i++) {
 						writer.print("ID[" + i + "], NAME[" + i + "] => " + 
 						results.getJSONObject(i).getString("Id") + 
