@@ -22,16 +22,16 @@ import org.json.JSONTokener;
 public class SFConnector/* extends HttpServlet*/ {
 	private static final long serialVersionUID = 6637048634977987707L;
 	/* Eugene test org */ 
-	/*private static final String CLIENT_ID = "3MVG9Rd3qC6oMalUQmRJ9gVbbcd7fa9vmARC5CJe7WzzPgD9Dy_dQaYYBCBr7Z0B8vLFZ71bhnGMrghvHDDYu";
-	private static final String CLIENT_SECRET = "8922169740292202489";*/
+	private static final String CLIENT_ID = "3MVG9Rd3qC6oMalUQmRJ9gVbbcd7fa9vmARC5CJe7WzzPgD9Dy_dQaYYBCBr7Z0B8vLFZ71bhnGMrghvHDDYu";
+	private static final String CLIENT_SECRET = "8922169740292202489";
 	
 	/* Salesoptimizer sandbox */ 
-	private static final String CLIENT_ID = "3MVG9Iu66FKeHhIPlMlaDshNV605eVYIpb8RFv08Ln2iC1qIwMIDZ8jLXRNM4twGgmfj4o6g9gGciWw1TjERQ";
-	private static final String CLIENT_SECRET = "4861802443923999686";
+	/*private static final String CLIENT_ID = "3MVG9Iu66FKeHhIPlMlaDshNV605eVYIpb8RFv08Ln2iC1qIwMIDZ8jLXRNM4twGgmfj4o6g9gGciWw1TjERQ";
+	private static final String CLIENT_SECRET = "4861802443923999686";*/
 	
 	private static final String REDIRECT_URL = "https://tranquil-taiga-6535.herokuapp.com/RestTest/oauth/_callback";
-//	private static final String ENVIRONMENT = "https://login.salesforce.com";
-	private static final String ENVIRONMENT = "https://test.salesforce.com";
+	private static final String ENVIRONMENT = "https://login.salesforce.com";
+//	private static final String ENVIRONMENT = "https://test.salesforce.com";
 	
 	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 	private static final String INSTANCE_URL = "INSTANCE_URL";
