@@ -30,11 +30,11 @@ public class MainController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.getWriter().print("TEST!!");
-		/*SFConnector sfConnector = new SFConnector();
+		SFConnector sfConnector = new SFConnector();
 		sfConnector.getAccessToSalesforce(request, response);
 		
 		DemoREST demoREST = new DemoREST();
-		demoREST.getInfo(request, response);*/
+		demoREST.getInfo(request, response);
 		//getServletContext().getRequestDispatcher("index.jsp").forward(request, response);
 	}
 	
