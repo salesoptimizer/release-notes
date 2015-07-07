@@ -18,13 +18,13 @@
 		<input type="submit" value="Get Release Notes" />
 	</form>
 	
-	<%-- <c:if test="${requestScope.tickets != null}">
+	<c:if test="${requestScope.tickets != null}">
 		<c:forEach var="ticket" items="${requestScope.tickets}">
 			Name : <c:out value="${ticket.value.0}" /><br/>
 			Version : <c:out value="${ticket.value.1}" /><br/>
-			Release Notes : <c:out value="${ticket.value.2}" /><br/>
+			Release Notes : <c:out value="${ticket.value.2}" />
 		</c:forEach>
-	</c:if> --%>
+	</c:if>
 	
 <%-- 	<c:out value="${requestScope.accounts}" />
 	<c:out value="${requestScope.projects}" /> --%>
