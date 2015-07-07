@@ -17,8 +17,8 @@
 		<input type="submit" value="Get Release Notes" />
 	</form>
 	
-	<% final String message = (String) request.getAttribute ("Error_Message"); %>
-	<%= message %>
+	<% String message = (String) request.getAttribute("content");
+	  out.println("Servlet communicated message to JSP: "+ message); %>
 	
 	<a href="/doc">Create test google doc</a>
 <jsp:include page="footer.jsp" />
