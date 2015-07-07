@@ -4,6 +4,9 @@ import gglconnector.GGLConnector;
 import gglconnector.GGLFileManager;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
 
 import javax.servlet.RequestDispatcher;
@@ -24,17 +27,39 @@ import sfconnector.SFConnector;
  */
 public class MainController extends HttpServlet {
 	private static final long serialVersionUID = 7546372886300391908L;
+	
+	private String content;
+	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+	private static final String INSTANCE_URL = "INSTANCE_URL";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().print("TEST!!");
 		SFConnector sfConnector = new SFConnector();
 		sfConnector.getAccessToSalesforce(request, response);
 		
 		DemoREST demoREST = new DemoREST();
-		demoREST.getInfo(request, response);
+		
+		String accessToken = (String) request.getSession().getAttribute(
+				ACCESS_TOKEN);
+
+		String instanceUrl = (String) request.getSession().getAttribute(
+				INSTANCE_URL);
+		
+		PrintWriter writer = response.getWriter();
+
+		if (accessToken == null) {
+			response.getWriter().print("Error - no access token");
+			return;
+		}
+
+		writer.print("We have an access token: " + accessToken + "\n"
+				+ "Using instance " + instanceUrl + "\n\n");
+		
+		
+		content = demoREST.showAccounts(instanceUrl, accessToken, writer);
+		writer.print(content);
 		//getServletContext().getRequestDispatcher("index.jsp").forward(request, response);
 	}
 	

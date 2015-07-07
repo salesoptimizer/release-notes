@@ -26,8 +26,9 @@ public class DemoREST /*extends HttpServlet*/ {
 	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 	private static final String INSTANCE_URL = "INSTANCE_URL";
        
-	private void showAccounts(String instanceUrl, String accessToken,
+	public String showAccounts(String instanceUrl, String accessToken,
 			PrintWriter writer) throws ServletException, IOException {
+		StringBuilder resultString = new StringBuilder();
 		HttpClient httpclient = new HttpClient();
 		GetMethod get = new GetMethod(instanceUrl
 				+ "/services/data/v20.0/query");
@@ -45,22 +46,27 @@ public class DemoREST /*extends HttpServlet*/ {
 		try {
 			httpclient.executeMethod(get);
 			int statusCode = get.getStatusCode(); 
-			writer.print("\n HttpStatus => " + statusCode);
+//			writer.print("\n HttpStatus => " + statusCode);
 			if (statusCode == HttpStatus.SC_OK) {
 				// Now lets use the standard java json classes to work with the
 				// results
 				String responseBody = get.getResponseBodyAsString();
-				writer.print("RESPONSE => " + responseBody + "\n");
+			//	writer.print("RESPONSE => " + responseBody + "\n");
 				try {
 					JSONObject response = new JSONObject(responseBody);
 					JSONArray results = response.getJSONArray("records");
 					for (int i = 0; i < results.length(); i++) {
-						writer.print("ID[" + i + "], NAME[" + i + "] => " + 
-						results.getJSONObject(i).getString("Id") + 
-						", " + 
-						results.getJSONObject(i).getString("Name") + "\n");
+						resultString.append("ID[")
+									.append(i)
+									.append("], NAME[")
+									.append(i)
+									.append("] => ")
+									.append(results.getJSONObject(i).getString("Id"))
+									.append(", ")
+									.append(results.getJSONObject(i).getString("Name"))
+									.append("\n");
 					}
-					writer.print("\n");
+					resultString.append("\n");
 				} catch (JSONException e) {
 					e.printStackTrace();
 					throw new ServletException(e);
@@ -71,9 +77,10 @@ public class DemoREST /*extends HttpServlet*/ {
 		} finally {
 			get.releaseConnection();
 		}
+		return resultString.toString();
 	}
 	
-	public void getInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	/*public void getInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accessToken = (String) request.getSession().getAttribute(
 				ACCESS_TOKEN);
 
@@ -91,6 +98,6 @@ public class DemoREST /*extends HttpServlet*/ {
 				+ "Using instance " + instanceUrl + "\n\n");
 		
 		showAccounts(instanceUrl, accessToken, writer);
-	}
+	}*/
 
 }
