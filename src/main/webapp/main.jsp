@@ -17,7 +17,8 @@
 		<input type="submit" value="Get Release Notes" />
 	</form>
 	
-	<c:out value="${requestScope.content}" />
+	<c:out value="${requestScope.accounts}" />
+	<c:out value="${requestScope.projects}" />
 	
 	<a href="/doc">Create test google doc</a>
 <jsp:include page="footer.jsp" />
