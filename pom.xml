@@ -34,12 +34,6 @@
       <artifactId>postgresql</artifactId>
       <version>9.4-1201-jdbc4</version>
     </dependency>
-    
-<!--     <dependency>
-		<groupId>org.apache.httpcomponents</groupId>
-		<artifactId>httpclient</artifactId>
-		<version>4.5</version>
-	</dependency> -->
 	<dependency>
 		<groupId>commons-httpclient</groupId>
 		<artifactId>commons-httpclient</artifactId>
@@ -62,17 +56,15 @@
 		<artifactId>json</artifactId>
 		<version>20140107</version>
 	</dependency>
-	
-	
-	<!-- <dependency>
-		<groupId>com.fasterxml.jackson.core</groupId>
-		<artifactId>jackson-core</artifactId>
-		<version>2.5.4</version>
-	</dependency> -->
 	<dependency>
 		<groupId>javax.servlet</groupId>
 		<artifactId>jstl</artifactId>
 		<version>1.2</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.el</groupId>
+		<artifactId>javax.el-api</artifactId>
+		<version>3.0.0</version>
 	</dependency>
 	
 	
