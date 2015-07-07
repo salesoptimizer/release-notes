@@ -110,7 +110,7 @@ public class DemoREST /*extends HttpServlet*/ {
 				try {
 					JSONObject response = new JSONObject(responseBody);
 					JSONArray results = response.getJSONArray("records");
-					resultString.append("PROJECTS:\n");
+//					resultString.append("PROJECTS:\n");
 					for (int i = 0; i < results.length(); i++) {
 						String projectId = results.getJSONObject(i).getString("Id"); 
 						String projectName = results.getJSONObject(i).getString("Name"); 
