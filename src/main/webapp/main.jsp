@@ -5,8 +5,8 @@
 	<form action="${post_url}">
 		<label for="projectList">Select a project</label>
 		<select name="projectList">
-			<c:forEach var="i">
-				<option id="project_${i}" value="${requestScope.projects[i]}>${requestScope.projects[i]}</option>	
+			<c:forEach var="project" items="${requestScope.projects}">
+				<option value="${project.ID}>${project.NAME}</option>	
 			</c:forEach>
 		</select>
 		<p>Write versions range:</p>
