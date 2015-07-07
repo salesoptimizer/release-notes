@@ -36,7 +36,7 @@ public class MainController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*SFConnector sfConnector = new SFConnector();
+		SFConnector sfConnector = new SFConnector();
 		sfConnector.getAccessToSalesforce(request, response);
 		
 		DemoREST demoREST = new DemoREST();
@@ -55,8 +55,9 @@ public class MainController extends HttpServlet {
 		}
 
 		content = demoREST.showAccounts(instanceUrl, accessToken, writer);
-		writer.print(content);*/
-		request.setAttribute("content", "content");
+		//writer.print(content);
+//		request.setAttribute("content", "content");
+		request.setAttribute("content", content);
 		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
 	}
 	
