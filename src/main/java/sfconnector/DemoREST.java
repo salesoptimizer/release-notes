@@ -128,7 +128,7 @@ public class DemoREST /*extends HttpServlet*/ {
 		return resultMap;
 	}
 	
-	public HashMap<String, String> getTickets(String instanceUrl, String accessToken, String ver1, String ver2, PrintWriter writer) throws ServletException, IOException {
+	/*public HashMap<String, String> getTickets(String instanceUrl, String accessToken, String ver1, String ver2, PrintWriter writer) throws ServletException, IOException {
 		
 		HashMap<String, List<String>> resultMap = new HashMap<String, List<String>>();
 		
@@ -171,7 +171,7 @@ public class DemoREST /*extends HttpServlet*/ {
 			get.releaseConnection();
 		}
 		return resultMap;
-	}
+	}*/
 	
 	/*public void getInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accessToken = (String) request.getSession().getAttribute(
