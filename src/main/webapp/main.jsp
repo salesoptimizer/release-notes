@@ -20,9 +20,9 @@
 	
 	<c:if test="${requestScope.tickets != null}">
 		<c:forEach var="ticket" items="${requestScope.tickets}">
-			Name : <c:out value="${ticket.value.Name}" /><br/>
-			Version : <c:out value="${ticket.value.Fixed_in_Ver__c}" /><br/>
-			Release Notes : <c:out value="${ticket.value.Release_Notes__c}" /><br/>
+			Name : <c:out value="${ticket.value.0}" /><br/>
+			Version : <c:out value="${ticket.value.1}" /><br/>
+			Release Notes : <c:out value="${ticket.value.2}" /><br/>
 		</c:forEach>
 	</c:if>
 	
