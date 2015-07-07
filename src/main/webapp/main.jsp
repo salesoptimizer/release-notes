@@ -10,12 +10,7 @@
 			</c:forEach>
 		</select>
 		<br/><br/><br/><br/>
-		<p>Write versions range:</p>
-		<label for="minVer">Min version</label>
-		<input type="text" name="minVer" />
-		<label for="maxVer">Max version</label>
-		<input type="text" name="maxVer" />
-		<input type="submit" value="Get Release Notes" />
+		
 	</form>
 	
 	<c:out value="${requestScope.accounts}" />
