@@ -5,9 +5,9 @@
 	<form action="${post_url}">
 		<label for="projectList">Select a project</label>
 		<select name="projectList">
-			<option value="Test1_Id">Test1</option>
-			<option value="Test2_Id">Test2</option>
-			<option value="Test3_Id">Test3</option>
+			<c:forEach var="i">
+				<option id="project_${i}" value="${requestScope.projects[i]}>${requestScope.projects[i]}</option>	
+			</c:forEach>
 		</select>
 		<p>Write versions range:</p>
 		<label for="minVer">Min version</label>
@@ -18,7 +18,7 @@
 	</form>
 	
 	<c:out value="${requestScope.accounts}" />
-	<c:out value="${requestScope.projects}" />
+	<%-- <c:out value="${requestScope.projects}" /> --%>
 	
 	<a href="/doc">Create test google doc</a>
 <jsp:include page="footer.jsp" />
