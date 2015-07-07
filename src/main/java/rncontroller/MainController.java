@@ -54,13 +54,10 @@ public class MainController extends HttpServlet {
 			return;
 		}
 
-		writer.print("We have an access token: " + accessToken + "\n"
-				+ "Using instance " + instanceUrl + "\n\n");
-		
-		
 		content = demoREST.showAccounts(instanceUrl, accessToken, writer);
 		writer.print(content);
-		//getServletContext().getRequestDispatcher("index.jsp").forward(request, response);
+		request.setAttribute("content", content);
+		getServletContext().getRequestDispatcher("index.jsp").forward(request, response);
 	}
 	
 }

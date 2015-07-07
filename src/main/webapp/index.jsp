@@ -16,5 +16,8 @@
 		<input type="text" name="maxVer" />
 		<input type="submit" value="Get Release Notes" />
 	</form>
+	
+	${requestScope.content}
+	
 	<a href="/doc">Create test google doc</a>
 <jsp:include page="footer.jsp" />
