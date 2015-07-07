@@ -31,6 +31,8 @@ public class MainController extends HttpServlet {
 	private String content;
 	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 	private static final String INSTANCE_URL = "INSTANCE_URL";
+	private static String accessToken;
+	private static String instanceUrl;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -39,13 +41,13 @@ public class MainController extends HttpServlet {
 		SFConnector sfConnector = new SFConnector();
 		sfConnector.getAccessToSalesforce(request, response);
 		
-		DemoREST demoREST = new DemoREST();
-		
-		String accessToken = (String) request.getSession().getAttribute(
+		accessToken = (String) request.getSession().getAttribute(
 				ACCESS_TOKEN);
 
-		String instanceUrl = (String) request.getSession().getAttribute(
+		instanceUrl = (String) request.getSession().getAttribute(
 				INSTANCE_URL);
+		
+		DemoREST demoREST = new DemoREST();
 		
 		PrintWriter writer = response.getWriter();
 
