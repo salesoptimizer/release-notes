@@ -68,7 +68,9 @@ public class MainController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		PrintWriter writer = resp.getWriter();
-		writer.print("POST");
+		writer.print("POST <br/>");
+		writer.print("accessToken " + accessToken);
+		writer.print("instanceUrl" + instanceUrl);
 	}
 	
 	
