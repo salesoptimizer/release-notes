@@ -129,7 +129,7 @@ public class DemoREST /*extends HttpServlet*/ {
 		return resultMap;
 	}
 	
-	public HashMap<String, List<String>> getTickets(String instanceUrl, String accessToken, String ver1, String ver2, PrintWriter writer) throws ServletException, IOException {
+	public HashMap<String, List<String>> getTickets(String instanceUrl, String accessToken, String ver1, PrintWriter writer) throws ServletException, IOException {
 		
 		HashMap<String, List<String>> resultMap = new HashMap<String, List<String>>();
 		
@@ -144,7 +144,7 @@ public class DemoREST /*extends HttpServlet*/ {
 		NameValuePair[] params = new NameValuePair[1];
 		
 		params[0] = new NameValuePair("q",
-				"SELECT Name, Id, Fixed_in_Ver__c, Release_Notes__c from Ticket__c LIMIT 100");
+				"SELECT Name, Id, Fixed_in_Ver__c, Release_Notes__c FROM Ticket__c WHERE Fixed_in_Ver__c = '" + ver1 + "' LIMIT 100");
 		get.setQueryString(params);
 		
 		try {

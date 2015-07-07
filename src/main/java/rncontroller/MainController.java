@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jetty.http.HttpTester.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -68,9 +69,10 @@ public class MainController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		PrintWriter writer = resp.getWriter();
-		writer.print("POST <br/>");
-		writer.print("accessToken " + accessToken);
-		writer.print("instanceUrl" + instanceUrl);
+		String minVer = req.getParameter("minVer");
+		DemoREST demoREST = new DemoREST();
+		req.setAttribute("tickets", demoREST.getTickets(instanceUrl, accessToken, minVer, writer));
+		getServletContext().getRequestDispatcher("/main.jsp").forward(req, resp);
 	}
 	
 	
