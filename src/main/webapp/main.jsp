@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <jsp:include page="header.jsp" />
 	<c:url var="post_url" value="/doc" />
-	<form action="${post_url}" method="post">
+	<form action="/" method="post">
 		<label for="projectList">Select a project</label>
 		<select name="projectList">
 			<c:forEach var="project" items="${requestScope.projects}">
