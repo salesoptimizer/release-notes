@@ -54,8 +54,8 @@ public class MainController extends HttpServlet {
 			return;
 		}
 
-//		content = demoREST.showAccounts(instanceUrl, accessToken, writer);
-//		request.setAttribute("accounts", content);
+		content = demoREST.showAccounts(instanceUrl, accessToken, writer);
+		request.setAttribute("accounts", content);
 		content = demoREST.showProjects(instanceUrl, accessToken, writer);
 		request.setAttribute("projects", content);
 		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
