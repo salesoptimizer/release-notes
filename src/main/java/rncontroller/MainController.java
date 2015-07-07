@@ -37,6 +37,7 @@ public class MainController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SFConnector sfConnector = new SFConnector();
 		sfConnector.getAccessToSalesforce(request, response);
@@ -62,5 +63,14 @@ public class MainController extends HttpServlet {
 		request.setAttribute("projects", demoREST.showProjects(instanceUrl, accessToken, writer));
 		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
 	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		PrintWriter writer = resp.getWriter();
+		writer.print("POST");
+	}
+	
+	
 	
 }
