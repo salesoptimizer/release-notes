@@ -28,7 +28,9 @@ public class DemoREST /*extends HttpServlet*/ {
        
 	public String showAccounts(String instanceUrl, String accessToken,
 			PrintWriter writer) throws ServletException, IOException {
+		
 		StringBuilder resultString = new StringBuilder();
+		
 		HttpClient httpclient = new HttpClient();
 		GetMethod get = new GetMethod(instanceUrl
 				+ "/services/data/v20.0/query");
@@ -46,15 +48,13 @@ public class DemoREST /*extends HttpServlet*/ {
 		try {
 			httpclient.executeMethod(get);
 			int statusCode = get.getStatusCode(); 
-//			writer.print("\n HttpStatus => " + statusCode);
 			if (statusCode == HttpStatus.SC_OK) {
-				// Now lets use the standard java json classes to work with the
-				// results
+				// Now lets use the standard java json classes to work with the results
 				String responseBody = get.getResponseBodyAsString();
-			//	writer.print("RESPONSE => " + responseBody + "\n");
 				try {
 					JSONObject response = new JSONObject(responseBody);
 					JSONArray results = response.getJSONArray("records");
+					resultString.append("ACCOUNTS:\n");
 					for (int i = 0; i < results.length(); i++) {
 						resultString.append("ID[")
 									.append(i)
@@ -65,6 +65,60 @@ public class DemoREST /*extends HttpServlet*/ {
 									.append(", ")
 									.append(results.getJSONObject(i).getString("Name"))
 									.append("\n");
+					}
+					resultString.append("\n");
+				} catch (JSONException e) {
+					e.printStackTrace();
+					throw new ServletException(e);
+				}
+			} else {
+				writer.print("\n HttpStatus => " + statusCode + " but OK is " + HttpStatus.SC_OK);
+			}
+		} finally {
+			get.releaseConnection();
+		}
+		return resultString.toString();
+	}
+	
+	public String showProjects(String instanceUrl, String accessToken,
+			PrintWriter writer) throws ServletException, IOException {
+		
+		StringBuilder resultString = new StringBuilder();
+		
+		HttpClient httpclient = new HttpClient();
+		GetMethod get = new GetMethod(instanceUrl
+				+ "/services/data/v20.0/query");
+		
+		// set the token in the header
+		get.setRequestHeader("Authorization", "OAuth " + accessToken);
+		
+		// set the SOQL as a query param
+		NameValuePair[] params = new NameValuePair[1];
+		
+		params[0] = new NameValuePair("q",
+				"SELECT Name, Id from SFDC_Project__c LIMIT 100");
+		get.setQueryString(params);
+		
+		try {
+			httpclient.executeMethod(get);
+			int statusCode = get.getStatusCode(); 
+			if (statusCode == HttpStatus.SC_OK) {
+				// Now lets use the standard java json classes to work with the results
+				String responseBody = get.getResponseBodyAsString();
+				try {
+					JSONObject response = new JSONObject(responseBody);
+					JSONArray results = response.getJSONArray("records");
+					resultString.append("PROJECTS:\n");
+					for (int i = 0; i < results.length(); i++) {
+						resultString.append("ID[")
+						.append(i)
+						.append("], NAME[")
+						.append(i)
+						.append("] => ")
+						.append(results.getJSONObject(i).getString("Id"))
+						.append(", ")
+						.append(results.getJSONObject(i).getString("Name"))
+						.append("\n");
 					}
 					resultString.append("\n");
 				} catch (JSONException e) {
