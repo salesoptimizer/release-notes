@@ -3,6 +3,7 @@ package sfconnector;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -80,10 +81,11 @@ public class DemoREST /*extends HttpServlet*/ {
 		return resultString.toString();
 	}
 	
-	public String showProjects(String instanceUrl, String accessToken,
+	public HashMap<String, String> showProjects(String instanceUrl, String accessToken,
 			PrintWriter writer) throws ServletException, IOException {
 		
-		StringBuilder resultString = new StringBuilder();
+//		StringBuilder resultString = new StringBuilder();
+		HashMap<String, String> resultMap = new HashMap<String, String>();
 		
 		HttpClient httpclient = new HttpClient();
 		GetMethod get = new GetMethod(instanceUrl
@@ -110,7 +112,10 @@ public class DemoREST /*extends HttpServlet*/ {
 					JSONArray results = response.getJSONArray("records");
 					resultString.append("PROJECTS:\n");
 					for (int i = 0; i < results.length(); i++) {
-						resultString.append("ID[")
+						String projectId = results.getJSONObject(i).getString("Id"); 
+						String projectName = results.getJSONObject(i).getString("Name"); 
+						resultMap.put(projectId, projectName);
+						/*resultString.append("ID[")
 						.append(i)
 						.append("], NAME[")
 						.append(i)
@@ -118,9 +123,9 @@ public class DemoREST /*extends HttpServlet*/ {
 						.append(results.getJSONObject(i).getString("Id"))
 						.append(", ")
 						.append(results.getJSONObject(i).getString("Name"))
-						.append("\n");
+						.append("\n");*/
 					}
-					resultString.append("\n");
+//					resultString.append("\n");
 				} catch (JSONException e) {
 					e.printStackTrace();
 					throw new ServletException(e);
@@ -131,7 +136,7 @@ public class DemoREST /*extends HttpServlet*/ {
 		} finally {
 			get.releaseConnection();
 		}
-		return resultString.toString();
+		return resultMap;
 	}
 	
 	/*public void getInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

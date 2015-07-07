@@ -6,9 +6,10 @@
 		<label for="projectList">Select a project</label>
 		<select name="projectList">
 			<c:forEach var="project" items="${requestScope.projects}">
-				<option value="${project.ID}>${project.NAME}</option>	
+				<option value="${project.key}>${project.value}</option>	
 			</c:forEach>
 		</select>
+		<br/><br/><br/><br/>
 		<p>Write versions range:</p>
 		<label for="minVer">Min version</label>
 		<input type="text" name="minVer" />
@@ -18,7 +19,7 @@
 	</form>
 	
 	<c:out value="${requestScope.accounts}" />
-	<%-- <c:out value="${requestScope.projects}" /> --%>
+	<c:out value="${requestScope.projects}" />
 	
 	<a href="/doc">Create test google doc</a>
 <jsp:include page="footer.jsp" />
