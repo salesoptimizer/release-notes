@@ -17,7 +17,7 @@
 	</form>
 	
 	<c:forEach var="project" items="${requestScope.projects}">
-		<c:out value="${project.value}">	
+		<c:out value="${project.value}" />	
 	</c:forEach>
 	
 <%-- 	<c:out value="${requestScope.accounts}" />
