@@ -3,6 +3,7 @@ package sfconnector;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -128,7 +129,7 @@ public class DemoREST /*extends HttpServlet*/ {
 		return resultMap;
 	}
 	
-	/*public HashMap<String, String> getTickets(String instanceUrl, String accessToken, String ver1, String ver2, PrintWriter writer) throws ServletException, IOException {
+	public HashMap<String, List<String>> getTickets(String instanceUrl, String accessToken, String ver1, String ver2, PrintWriter writer) throws ServletException, IOException {
 		
 		HashMap<String, List<String>> resultMap = new HashMap<String, List<String>>();
 		
@@ -143,7 +144,7 @@ public class DemoREST /*extends HttpServlet*/ {
 		NameValuePair[] params = new NameValuePair[1];
 		
 		params[0] = new NameValuePair("q",
-				"SELECT Name, Id from SFDC_Project__c LIMIT 100");
+				"SELECT Name, Id, Fixed_in_Ver__c, Release_Notes__c from Ticket__c LIMIT 100");
 		get.setQueryString(params);
 		
 		try {
@@ -151,14 +152,20 @@ public class DemoREST /*extends HttpServlet*/ {
 			int statusCode = get.getStatusCode(); 
 			if (statusCode == HttpStatus.SC_OK) {
 				// Now lets use the standard java json classes to work with the results
+				List<String> ticketDetails = new ArrayList<String>();
 				String responseBody = get.getResponseBodyAsString();
 				try {
 					JSONObject response = new JSONObject(responseBody);
 					JSONArray results = response.getJSONArray("records");
 					for (int i = 0; i < results.length(); i++) {
-						String projectId = results.getJSONObject(i).getString("Id"); 
-						String projectName = results.getJSONObject(i).getString("Name"); 
-						resultMap.put(projectId, projectName);
+						String ticketId = results.getJSONObject(i).getString("Id"); 
+						String ticketName = results.getJSONObject(i).getString("Name"); 
+						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c"); 
+						String ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");
+						ticketDetails.add(ticketName);
+						ticketDetails.add(ticketFixedVersion);
+						ticketDetails.add(ticketReleaseNotes);
+						resultMap.put(ticketId, ticketDetails);
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -171,7 +178,7 @@ public class DemoREST /*extends HttpServlet*/ {
 			get.releaseConnection();
 		}
 		return resultMap;
-	}*/
+	}
 	
 	/*public void getInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accessToken = (String) request.getSession().getAttribute(
