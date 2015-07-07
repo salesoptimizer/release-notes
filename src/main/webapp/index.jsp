@@ -17,7 +17,8 @@
 		<input type="submit" value="Get Release Notes" />
 	</form>
 	
-	${requestScope.content}
+	<% final String message = (String) request.getAttribute ("Error_Message"); %>
+	<%= message %>
 	
 	<a href="/doc">Create test google doc</a>
 <jsp:include page="footer.jsp" />
