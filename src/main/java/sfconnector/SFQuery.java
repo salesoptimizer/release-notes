@@ -24,7 +24,7 @@ import org.json.JSONTokener;
 /**
  * Servlet implementation class DemoREST
  */
-public class DemoREST /*extends HttpServlet*/ {
+public class SFQuery {
 	private static final long serialVersionUID = 1L;
 	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 	private static final String INSTANCE_URL = "INSTANCE_URL";
@@ -179,25 +179,5 @@ public class DemoREST /*extends HttpServlet*/ {
 		}
 		return resultMap;
 	}
-	
-	/*public void getInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String accessToken = (String) request.getSession().getAttribute(
-				ACCESS_TOKEN);
-
-		String instanceUrl = (String) request.getSession().getAttribute(
-				INSTANCE_URL);
-		
-		PrintWriter writer = response.getWriter();
-
-		if (accessToken == null) {
-			response.getWriter().print("Error - no access token");
-			return;
-		}
-
-		writer.print("We have an access token: " + accessToken + "\n"
-				+ "Using instance " + instanceUrl + "\n\n");
-		
-		showAccounts(instanceUrl, accessToken, writer);
-	}*/
 
 }

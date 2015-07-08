@@ -20,7 +20,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-import sfconnector.DemoREST;
+import sfconnector.SFQuery;
 import sfconnector.SFConnector;
 
 /**
@@ -49,7 +49,7 @@ public class MainController extends HttpServlet {
 		instanceUrl = (String) request.getSession().getAttribute(
 				INSTANCE_URL);
 		
-		DemoREST demoREST = new DemoREST();
+		SFQuery demoREST = new SFQuery();
 		
 		PrintWriter writer = response.getWriter();
 
@@ -70,7 +70,7 @@ public class MainController extends HttpServlet {
 			throws ServletException, IOException {
 		PrintWriter writer = resp.getWriter();
 		String minVer = req.getParameter("minVer");
-		DemoREST demoREST = new DemoREST();
+		SFQuery demoREST = new SFQuery();
 		req.setAttribute("tickets", demoREST.getTickets(instanceUrl, accessToken, minVer, writer));
 		getServletContext().getRequestDispatcher("/main.jsp").forward(req, resp);
 	}
