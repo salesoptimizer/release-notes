@@ -23,7 +23,7 @@ public class GGLService extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		GGLFileManager fileManager = new GGLFileManager();
 		try {
-			fileManager.insertFile(GGLConnector.getDrive(), "TESTTTTT DOCUMENT", "document description", "", "text/richtext", "RTFExamplePdfPTable1.rtf");
+			fileManager.insertFile(GGLConnector.getDrive(), "TESTTTTT DOCUMENT", "document description", "", "application/rtf", "RTFExamplePdfPTable1.rtf");
 		} catch (GeneralSecurityException e) {
 			response.getWriter().print("Fail");
 			e.printStackTrace();

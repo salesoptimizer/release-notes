@@ -19,7 +19,7 @@ public class ITextTest {
 	            document.open();
 	          
 	            PdfPTable t1 = new PdfPTable(3);
-	            t1.setTotalWidth(new float[] {20.0f, 150.0f, 30.0f});
+	            t1.setTotalWidth(new float[] {20.0f, 20.0f, 30.0f});
 	            PdfPCell c = new PdfPCell(new Phrase("Entry T1.R1.C1"));
 	            t1.addCell(c);
 	            c = new PdfPCell(new Phrase("Entry T1.R2.C2"));
