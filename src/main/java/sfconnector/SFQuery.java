@@ -131,9 +131,8 @@ public class SFQuery {
 		return resultMap;
 	}
 	
-	public List<ReleaseNote> getTickets(String instanceUrl, String accessToken, String ver1, PrintWriter writer) throws ServletException, IOException {
+	public List<ReleaseNote> getTickets(String instanceUrl, String accessToken, String ver1, String ver2, PrintWriter writer) throws ServletException, IOException {
 		
-		HashMap<String, List<String>> resultMap = new HashMap<String, List<String>>();
 		List<ReleaseNote> releaseNotes = new ArrayList<ReleaseNote>();
 		
 		HttpClient httpclient = new HttpClient();
@@ -147,7 +146,10 @@ public class SFQuery {
 		NameValuePair[] params = new NameValuePair[1];
 		
 		params[0] = new NameValuePair("q",
-				"SELECT Name, Id, Fixed_in_Ver__c, Release_Notes__c FROM Ticket__c WHERE Fixed_in_Ver__c = '" + ver1 + "' LIMIT 100");
+				"SELECT Name, Id, Fixed_in_Ver__c, Release_Notes__c "
+			  + "FROM Ticket__c "
+			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "') "
+	  		  + "LIMIT 100");
 		get.setQueryString(params);
 		
 		try {
@@ -155,7 +157,6 @@ public class SFQuery {
 			int statusCode = get.getStatusCode(); 
 			if (statusCode == HttpStatus.SC_OK) {
 				// Now lets use the standard java json classes to work with the results
-//				List<String> ticketDetails = new ArrayList<String>();
 				String responseBody = get.getResponseBodyAsString();
 				try {
 					JSONObject response = new JSONObject(responseBody);
@@ -166,10 +167,6 @@ public class SFQuery {
 						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c"); 
 						String ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");
 						releaseNotes.add(new ReleaseNote(ticketId, ticketName, ticketFixedVersion, ticketReleaseNotes));
-						/*ticketDetails.add(ticketName);
-						ticketDetails.add(ticketFixedVersion);
-						ticketDetails.add(ticketReleaseNotes);
-						resultMap.put(ticketId, ticketDetails);*/
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
