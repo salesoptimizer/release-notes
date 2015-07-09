@@ -21,7 +21,7 @@ public class RTFConverter {
 		Document document = new Document();
         try {
             RtfWriter2 writer = RtfWriter2.getInstance(document, new FileOutputStream(
-                    "RTFExamplePdfPTable1.rtf"));
+                    "ReleaseNotes.rtf"));
             document.open();
           
             PdfPTable t1 = new PdfPTable(3);
