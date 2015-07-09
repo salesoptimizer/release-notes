@@ -165,8 +165,10 @@ public class SFQuery {
 					for (int i = 0; i < results.length(); i++) {
 						String ticketId = results.getJSONObject(i).getString("Id"); 
 						String ticketName = results.getJSONObject(i).getString("Name"); 
-						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c"); 
-						String ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");
+						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c");
+						if (results.getJSONObject(i).getString("Release_Notes__c") != null) {
+							String ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");
+						}
 						releaseNotes.add(new ReleaseNote(ticketId, ticketName, ticketFixedVersion, ticketReleaseNotes));
 					}
 				} catch (JSONException e) {
