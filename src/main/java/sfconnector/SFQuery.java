@@ -131,7 +131,7 @@ public class SFQuery {
 		return resultMap;
 	}
 	
-	public List<ReleaseNote> getTickets(String instanceUrl, String accessToken, String ver1, String ver2, PrintWriter writer) throws ServletException, IOException {
+	public List<ReleaseNote> getTickets(String instanceUrl, String accessToken, String ver1, String ver2, String projectId, PrintWriter writer) throws ServletException, IOException {
 		
 		List<ReleaseNote> releaseNotes = new ArrayList<ReleaseNote>();
 		
@@ -148,7 +148,8 @@ public class SFQuery {
 		params[0] = new NameValuePair("q",
 				"SELECT Name, Id, Fixed_in_Ver__c, Release_Notes__c "
 			  + "FROM Ticket__c "
-			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "') "
+			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
+			  + "AND Project__c = '" + projectId + "'"
 	  		  + "LIMIT 100");
 		get.setQueryString(params);
 		

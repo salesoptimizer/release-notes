@@ -60,29 +60,18 @@ public class SFConnector/* extends HttpServlet*/ {
 		tokenUrl = ENVIRONMENT + "/services/oauth2/token";
 	}
 	
-//	@Override
-//	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	public void getAccessToSalesforce(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String accessToken = (String) request.getSession().getAttribute(
-				ACCESS_TOKEN);
-		
+		String accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		if (accessToken == null) {
 			String instanceUrl = null;
-			
 			if (!request.getRequestURI().endsWith("_callback")) {
 				response.getWriter().print("oauth authUrl =>"+authUrl);
 				// we need to send the user to authorize
 				response.sendRedirect(authUrl);
 				return;
 			} else {
-				System.out.println("Auth successful - got callback");
-				response.getWriter().print("Auth successful - got callback\n");
-
 				String code = request.getParameter("code");
-
 				HttpClient httpclient = new HttpClient();
-
 				PostMethod post = new PostMethod(tokenUrl);
 				post.addParameter("code", code);
 				post.addParameter("grant_type", "authorization_code");
@@ -93,22 +82,10 @@ public class SFConnector/* extends HttpServlet*/ {
 				try {
 					httpclient.executeMethod(post);
 					String responseBody = post.getResponseBodyAsString();
-					response.getWriter().print("responseBody => "+responseBody+"\n");
-					response.getWriter().print("line 81 \n");
 					try {
-//						JSONObject json = new JSONObject(); 
 						JSONObject authResponse = new JSONObject(responseBody);
-						response.getWriter().print("line 85 \n");
-//						JSONObject authResponse = new JSONObject(
-//								new JSONTokener(new InputStreamReader(
-//										post.getResponseBodyAsStream())));
-						System.out.println("Auth response: "
-								+ authResponse.toString(2));
-
 						accessToken = authResponse.getString("access_token");
 						instanceUrl = authResponse.getString("instance_url");
-
-						System.out.println("Got access token: " + accessToken + "\n");
 					} catch (JSONException e) {
 						e.printStackTrace();
 						throw new ServletException("JSONException => " + e);
@@ -117,17 +94,10 @@ public class SFConnector/* extends HttpServlet*/ {
 					post.releaseConnection();
 				}
 			}
-			response.getWriter().print("line 104 \n");
-			// Set a session attribute so that other servlets can get the access
-			// token
+			// Set a session attribute so that other servlets can get the access token and instance URL
 			request.getSession().setAttribute(ACCESS_TOKEN, accessToken);
-			response.getWriter().print("line 108 \n");
-			// We also get the instance URL from the OAuth response, so set it
-			// in the session too
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
 		}
-		response.getWriter().print("line 113 \n");
-//		response.sendRedirect(request.getContextPath() + "/DemoREST");
 	}
 	
 	

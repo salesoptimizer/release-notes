@@ -61,7 +61,6 @@ public class MainController extends HttpServlet {
 
 		content = demoREST.showAccounts(instanceUrl, accessToken, writer);
 		request.setAttribute("accounts", content);
-//		content = demoREST.showProjects(instanceUrl, accessToken, writer);
 		request.setAttribute("projects", demoREST.showProjects(instanceUrl, accessToken, writer));
 		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
 	}
@@ -72,8 +71,9 @@ public class MainController extends HttpServlet {
 		PrintWriter writer = resp.getWriter();
 		String minVer = req.getParameter("minVer");
 		String maxVer = req.getParameter("maxVer");
+		String projectId = req.getParameter("projectId");
 		SFQuery demoREST = new SFQuery();
-		RTFConverter.convertToRTF(demoREST.getTickets(instanceUrl, accessToken, minVer, maxVer, writer));
+		RTFConverter.convertToRTF(demoREST.getTickets(instanceUrl, accessToken, minVer, maxVer, projectId, writer));
 		req.setAttribute("tickets", true);
 		getServletContext().getRequestDispatcher("/main.jsp").forward(req, resp);
 	}
