@@ -20,6 +20,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import rnservices.RTFConverter;
 import sfconnector.SFQuery;
 import sfconnector.SFConnector;
 
@@ -71,7 +72,8 @@ public class MainController extends HttpServlet {
 		PrintWriter writer = resp.getWriter();
 		String minVer = req.getParameter("minVer");
 		SFQuery demoREST = new SFQuery();
-		req.setAttribute("tickets", demoREST.getTickets(instanceUrl, accessToken, minVer, writer));
+		RTFConverter.convertToRTF(demoREST.getTickets(instanceUrl, accessToken, minVer, writer));
+		req.setAttribute("tickets", true);
 		getServletContext().getRequestDispatcher("/main.jsp").forward(req, resp);
 	}
 	
