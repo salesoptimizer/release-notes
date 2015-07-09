@@ -71,8 +71,9 @@ public class MainController extends HttpServlet {
 			throws ServletException, IOException {
 		PrintWriter writer = resp.getWriter();
 		String minVer = req.getParameter("minVer");
+		String maxVer = req.getParameter("maxVer");
 		SFQuery demoREST = new SFQuery();
-		RTFConverter.convertToRTF(demoREST.getTickets(instanceUrl, accessToken, minVer, writer));
+		RTFConverter.convertToRTF(demoREST.getTickets(instanceUrl, accessToken, minVer, maxVer, writer));
 		req.setAttribute("tickets", true);
 		getServletContext().getRequestDispatcher("/main.jsp").forward(req, resp);
 	}
