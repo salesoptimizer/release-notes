@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.ReleaseNote;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
@@ -129,9 +131,10 @@ public class SFQuery {
 		return resultMap;
 	}
 	
-	public HashMap<String, List<String>> getTickets(String instanceUrl, String accessToken, String ver1, PrintWriter writer) throws ServletException, IOException {
+	public List<ReleaseNote> getTickets(String instanceUrl, String accessToken, String ver1, PrintWriter writer) throws ServletException, IOException {
 		
 		HashMap<String, List<String>> resultMap = new HashMap<String, List<String>>();
+		List<ReleaseNote> releaseNotes = new ArrayList<ReleaseNote>();
 		
 		HttpClient httpclient = new HttpClient();
 		GetMethod get = new GetMethod(instanceUrl
@@ -152,7 +155,7 @@ public class SFQuery {
 			int statusCode = get.getStatusCode(); 
 			if (statusCode == HttpStatus.SC_OK) {
 				// Now lets use the standard java json classes to work with the results
-				List<String> ticketDetails = new ArrayList<String>();
+//				List<String> ticketDetails = new ArrayList<String>();
 				String responseBody = get.getResponseBodyAsString();
 				try {
 					JSONObject response = new JSONObject(responseBody);
@@ -162,10 +165,11 @@ public class SFQuery {
 						String ticketName = results.getJSONObject(i).getString("Name"); 
 						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c"); 
 						String ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");
-						ticketDetails.add(ticketName);
+						releaseNotes.add(new ReleaseNote(ticketId, ticketName, ticketFixedVersion, ticketReleaseNotes));
+						/*ticketDetails.add(ticketName);
 						ticketDetails.add(ticketFixedVersion);
 						ticketDetails.add(ticketReleaseNotes);
-						resultMap.put(ticketId, ticketDetails);
+						resultMap.put(ticketId, ticketDetails);*/
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -177,7 +181,7 @@ public class SFQuery {
 		} finally {
 			get.releaseConnection();
 		}
-		return resultMap;
+		return releaseNotes;
 	}
 
 }
