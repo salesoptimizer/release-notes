@@ -150,6 +150,7 @@ public class SFQuery {
 			  + "FROM Ticket__c "
 			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
 			  + "AND Project__c = '" + projectId + "'"
+			  + "AND Release_Notes__c != ''"
 	  		  + "LIMIT 100");
 		get.setQueryString(params);
 		
