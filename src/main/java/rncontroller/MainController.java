@@ -72,11 +72,11 @@ public class MainController extends HttpServlet {
 		String minVer = req.getParameter("minVer");
 		String maxVer = req.getParameter("maxVer");
 		String projectId = req.getParameter("projectList");
-		writer.print(projectId);
-		/*SFQuery demoREST = new SFQuery();
+//		writer.print(projectId);
+		SFQuery demoREST = new SFQuery();
 		RTFConverter.convertToRTF(demoREST.getTickets(instanceUrl, accessToken, minVer, maxVer, projectId, writer));
 		req.setAttribute("tickets", true);
-		getServletContext().getRequestDispatcher("/main.jsp").forward(req, resp);*/
+		getServletContext().getRequestDispatcher("/main.jsp").forward(req, resp);
 	}
 	
 	
