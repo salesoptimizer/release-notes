@@ -71,7 +71,7 @@ public class MainController extends HttpServlet {
 		PrintWriter writer = resp.getWriter();
 		String minVer = req.getParameter("minVer");
 		String maxVer = req.getParameter("maxVer");
-		String projectId = req.getParameter("projectList");
+		String projectId = req.getParameter("projectId");
 //		writer.print(projectId);
 		SFQuery demoREST = new SFQuery(accessToken, instanceUrl);
 		RTFConverter.convertToRTF(demoREST.getTickets(minVer, maxVer, projectId, writer));
