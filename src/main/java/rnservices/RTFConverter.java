@@ -24,8 +24,8 @@ public class RTFConverter {
 	public static boolean convertToRTF(List<ReleaseNote> releaseNotes) {
 		Document document = new Document(PageSize.A4);
         try {
-//            RtfWriter2 writer = RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
-        	PdfWriter.getInstance(document, new FileOutputStream("ReleaseNotes.pdf"));
+            RtfWriter2 writer = RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
+//        	PdfWriter.getInstance(document, new FileOutputStream("ReleaseNotes.pdf"));
             document.open();
           
             PdfPTable table = new PdfPTable(3);
