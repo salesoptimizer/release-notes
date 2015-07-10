@@ -30,7 +30,6 @@ public class SFQuery {
 	private static final long serialVersionUID = 1L;
 	private String accessToken;
 	private String instanceUrl;
-	private static GetMethod get;
 	
 	public SFQuery(String accessToken, String instanceUrl) {
 		this.accessToken = accessToken;
@@ -38,10 +37,8 @@ public class SFQuery {
 	}
 
 	private GetMethod createGetMethod() {
-		if (get == null) {
-			get = new GetMethod(this.instanceUrl + "/services/data/v20.0/query");
-			get.setRequestHeader("Authorization", "OAuth " + this.accessToken);
-		}
+		GetMethod get = new GetMethod(this.instanceUrl + "/services/data/v20.0/query");
+		get.setRequestHeader("Authorization", "OAuth " + this.accessToken);
 		return get;
 	}
 	
