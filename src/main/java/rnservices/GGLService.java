@@ -28,7 +28,8 @@ public class GGLService extends HttpServlet {
 			response.getWriter().print("Fail");
 			e.printStackTrace();
 		}
-		response.getWriter().print("OK");
+		response.getWriter().print("<a href='https://tranquil-taiga-6535.herokuapp.com'>Back to main page</a><br/>");
+		response.getWriter().print("<b>Google doc successfully created on Google Drive</b>");
 	}
 
 }

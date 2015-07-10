@@ -5,10 +5,10 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
   <servlet>
-  	<servlet-name>MainController</servlet-name>
-  	<display-name>MainController</display-name>
+  	<servlet-name>RNController</servlet-name>
+  	<display-name>RNController</display-name>
   	<description></description>
-  	<servlet-class>rncontroller.MainController</servlet-class>
+  	<servlet-class>rncontroller.RNController</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>GGLService</servlet-name>
@@ -17,31 +17,11 @@
   	<servlet-class>rnservices.GGLService</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>MainController</servlet-name>
+  	<servlet-name>RNController</servlet-name>
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
-  <!-- <servlet-mapping>
-  	<servlet-name>MainController</servlet-name>
-  	<url-pattern>/RestTest/oauth</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>MainController</servlet-name>
-  	<url-pattern>/RestTest/oauth/*</url-pattern>
-  </servlet-mapping-->
   <servlet-mapping>
   	<servlet-name>GGLService</servlet-name>
   	<url-pattern>/doc</url-pattern>
   </servlet-mapping>
-  <!-- <servlet-mapping>
-  	<servlet-name>SFConnector</servlet-name>
-  	<url-pattern>/RestTest/oauth</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>SFConnector</servlet-name>
-  	<url-pattern>/RestTest/oauth/*</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>DemoREST</servlet-name>
-  	<url-pattern>/DemoREST</url-pattern>
-  </servlet-mapping> -->
 </web-app>

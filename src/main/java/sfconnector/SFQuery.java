@@ -42,51 +42,6 @@ public class SFQuery {
 		return get;
 	}
 	
-	public String showAccounts() throws ServletException, IOException {
-		StringBuilder resultString = new StringBuilder();
-		HttpClient httpclient = new HttpClient();
-		
-		// set the SOQL as a query param
-		NameValuePair[] params = new NameValuePair[1];
-
-		params[0] = new NameValuePair("q",
-				"SELECT Name, Id from Account LIMIT 100");
-		GetMethod getMethod = createGetMethod();
-		getMethod.setQueryString(params);
-
-		try {
-			httpclient.executeMethod(getMethod);
-			int statusCode = getMethod.getStatusCode(); 
-			if (statusCode == HttpStatus.SC_OK) {
-				// Now lets use the standard java json classes to work with the results
-				String responseBody = getMethod.getResponseBodyAsString();
-				try {
-					JSONObject response = new JSONObject(responseBody);
-					JSONArray results = response.getJSONArray("records");
-					resultString.append("ACCOUNTS:\n");
-					for (int i = 0; i < results.length(); i++) {
-						resultString.append("ID[")
-									.append(i)
-									.append("], NAME[")
-									.append(i)
-									.append("] => ")
-									.append(results.getJSONObject(i).getString("Id"))
-									.append(", ")
-									.append(results.getJSONObject(i).getString("Name"))
-									.append("\n");
-					}
-					resultString.append("\n");
-				} catch (JSONException e) {
-					e.printStackTrace();
-					throw new ServletException(e);
-				}
-			}
-		} finally {
-			getMethod.releaseConnection();
-		}
-		return resultString.toString();
-	}
-	
 	public HashMap<String, String> showProjects() throws ServletException, IOException {
 		HashMap<String, String> resultMap = new HashMap<String, String>();
 		HttpClient httpclient = new HttpClient();
@@ -134,7 +89,6 @@ public class SFQuery {
 			  + "FROM Ticket__c "
 			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
 			  + "AND Project__c = '" + projectId + "'"
-//			  + "AND Release_Notes__c != ''"
 	  		  + "LIMIT 100");
 		GetMethod getMethod = createGetMethod();
 		getMethod.setQueryString(params);

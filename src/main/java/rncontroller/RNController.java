@@ -27,7 +27,7 @@ import sfconnector.SFConnector;
 /**
  * Servlet implementation class MainController
  */
-public class MainController extends HttpServlet {
+public class RNController extends HttpServlet {
 	private static final long serialVersionUID = 7546372886300391908L;
 	
 	private String content;
@@ -53,8 +53,6 @@ public class MainController extends HttpServlet {
 			return;
 		}
 
-		content = sfQuery.showAccounts();
-		request.setAttribute("accounts", content);
 		request.setAttribute("projects", sfQuery.showProjects());
 		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
 	}

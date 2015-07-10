@@ -8,7 +8,7 @@
 				<c:forEach var="project" items="${requestScope.projects}">
 					<option value="<c:out value="${project.key}" />"><c:out value="${project.value}" /></option>
 				</c:forEach>	
-			</select><br/>
+			</select>
 			<p>Write versions range:</p>
 			<label for="minVer">Min version</label>
 			<input type="text" name="minVer" /><br/>
@@ -18,21 +18,6 @@
 		</form>
 	</c:if>
 	
-	<%-- <c:if test="${requestScope.tickets != null}">
-		<form action="/tickets/" method="post">
-			<p>Selected project: <c:out value="${requestScope.projectName}" /></p>
-			<p>Versions range: <c:out value="${requestScope.versionRange}" /></p>
-			<c:forEach var="ticket" items="${requestScope.tickets}">
-				Name : <c:out value="${ticket.value[0]}" /><br/>
-				Version : <c:out value="${ticket.value[1]}" /><br/>
-				Release Notes : <c:out value="${ticket.value[2]}" />
-			</c:forEach><br/>
-			<input type="submit" value="Get release notes" />
-		</form>
-	</c:if> --%>
-	
-<%-- 	<c:out value="${requestScope.accounts}" />
-	<c:out value="${requestScope.projects}" /> --%>
 	<c:if test="${requestScope.tickets != null}">
 		<a href="/doc">Create test google doc</a>
 	</c:if>
