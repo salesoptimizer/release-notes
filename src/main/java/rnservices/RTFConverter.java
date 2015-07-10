@@ -38,30 +38,19 @@ public class RTFConverter {
             table.addCell("Fix.version");
             table.completeRow();
             
-            /*PdfPTable t1 = new PdfPTable(3);
-//            t1.setTotalWidth(new float[] {20.0f, 50.0f, 30.0f});
-            
-            PdfPCell c = new PdfPCell(new Phrase("Ticket name"));
-            
-            t1.addCell(c);
-            c = new PdfPCell(new Phrase("Ticket release notes"));
-            t1.addCell(c);           
-            c = new PdfPCell(new Phrase("Fix.version"));
-            t1.addCell(c);           
-            t1.completeRow();
-            
-            HtmlParser hp = new HtmlParser();*/
-            
             Iterator<ReleaseNote> iterator = releaseNotes.iterator();
             ReleaseNote rnote;
             while (iterator.hasNext()) {
             	rnote = iterator.next();
-            	PdfPCell c = new PdfPCell(new Phrase(rnote.getTicketName()));
+            	table.addCell(rnote.getTicketName());
+            	table.addCell(rnote.getReleaseNotes());
+            	table.addCell(rnote.getPackVersion());
+            	/*PdfPCell c = new PdfPCell(new Phrase(rnote.getTicketName()));
 	            table.addCell(c);
 	            c = new PdfPCell(new Phrase(rnote.getReleaseNotes()));
 	            table.addCell(c);           
 	            c = new PdfPCell(new Phrase(rnote.getPackVersion()));
-	            table.addCell(c);           
+	            table.addCell(c);*/           
 	            table.completeRow();
             }
            
