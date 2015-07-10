@@ -8,6 +8,7 @@ import java.util.List;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Phrase;
+import com.lowagie.text.html.HtmlParser;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.rtf.RtfWriter2;
@@ -35,11 +36,14 @@ public class RTFConverter {
             t1.addCell(c);           
             t1.completeRow();
             
+            HtmlParser hp = new HtmlParser();
+            
             Iterator<ReleaseNote> iterator = releaseNotes.iterator();
             ReleaseNote rnote;
             while (iterator.hasNext()) {
             	rnote = iterator.next();
 	            c = new PdfPCell(new Phrase(rnote.getTicketName()));
+	            c.setHorizontalAlignment(50);
 	            t1.addCell(c);
 	            c = new PdfPCell(new Phrase(rnote.getReleaseNotes()));
 	            t1.addCell(c);           
