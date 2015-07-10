@@ -29,9 +29,9 @@ public class RTFConverter {
             PdfPTable t1 = new PdfPTable(3);
             t1.setTotalWidth(new float[] {20.0f, 70.0f, 30.0f});
             
-            PdfPCell c = new PdfPCell(new Phrase("Ticket name"));
-            t1.addCell(c);
-            c = new PdfPCell(new Phrase("Ticket release notes"));
+            t1.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+            t1.addCell(new Phrase("Ticket name"));
+            PdfPCell c = new PdfPCell(new Phrase("Ticket release notes"));
             t1.addCell(c);           
             c = new PdfPCell(new Phrase("Fix.version"));
             t1.addCell(c);           
@@ -44,7 +44,6 @@ public class RTFConverter {
             while (iterator.hasNext()) {
             	rnote = iterator.next();
 	            c = new PdfPCell(new Phrase(rnote.getTicketName()));
-	            c.setHorizontalAlignment(Element.ALIGN_MIDDLE);
 	            t1.addCell(c);
 	            c = new PdfPCell(new Phrase(rnote.getReleaseNotes()));
 	            t1.addCell(c);           
