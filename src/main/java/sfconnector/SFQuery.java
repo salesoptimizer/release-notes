@@ -153,7 +153,7 @@ public class SFQuery {
 						String ticketName = results.getJSONObject(i).getString("Name"); 
 						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c");
 						String ticketReleaseNotes = "";
-						if (results.getJSONObject(i).get("Release_Notes__c") != null) {
+						if (results.getJSONObject(i).get("Release_Notes__c") instanceof String) {
 							ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");
 						}
 						releaseNotes.add(new ReleaseNote(ticketId, ticketName, ticketFixedVersion, ticketReleaseNotes));
