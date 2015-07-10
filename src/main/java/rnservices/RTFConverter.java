@@ -30,7 +30,8 @@ public class RTFConverter {
             t1.setTotalWidth(new float[] {20.0f, 70.0f, 30.0f});
             
             t1.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
-            t1.addCell(new Phrase("Ticket name"));
+            t1.getDefaultCell().setVerticalAlignment(Element.ALIGN_TOP);
+            t1.addCell("Ticket name");
             PdfPCell c = new PdfPCell(new Phrase("Ticket release notes"));
             t1.addCell(c);           
             c = new PdfPCell(new Phrase("Fix.version"));
