@@ -137,7 +137,7 @@ public class SFQuery {
 			  + "FROM Ticket__c "
 			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
 			  + "AND Project__c = '" + projectId + "'"
-			  + "AND Release_Notes__c != null"
+//			  + "AND Release_Notes__c != null"
 	  		  + "LIMIT 100");
 		GetMethod getMethod = createGetMethod();
 		getMethod.setQueryString(params);
