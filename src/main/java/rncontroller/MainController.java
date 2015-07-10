@@ -43,38 +43,30 @@ public class MainController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SFConnector sfConnector = new SFConnector();
 		sfConnector.getAccessToSalesforce(request, response);
+		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
+		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
 		
-		accessToken = (String) request.getSession().getAttribute(
-				ACCESS_TOKEN);
-
-		instanceUrl = (String) request.getSession().getAttribute(
-				INSTANCE_URL);
+		SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 		
-		SFQuery demoREST = new SFQuery(accessToken, instanceUrl);
-		
-		PrintWriter writer = response.getWriter();
-
 		if (accessToken == null) {
 			response.getWriter().print("Error - no access token");
 			return;
 		}
 
-		content = demoREST.showAccounts(writer);
+		content = sfQuery.showAccounts();
 		request.setAttribute("accounts", content);
-		request.setAttribute("projects", demoREST.showProjects(writer));
+		request.setAttribute("projects", sfQuery.showProjects());
 		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		PrintWriter writer = resp.getWriter();
 		String minVer = req.getParameter("minVer");
 		String maxVer = req.getParameter("maxVer");
 		String projectId = req.getParameter("projectId");
-//		writer.print(projectId);
-		SFQuery demoREST = new SFQuery(accessToken, instanceUrl);
-		RTFConverter.convertToRTF(demoREST.getTickets(minVer, maxVer, projectId, writer));
+		SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
+		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
 		req.setAttribute("tickets", true);
 		getServletContext().getRequestDispatcher("/main.jsp").forward(req, resp);
 	}

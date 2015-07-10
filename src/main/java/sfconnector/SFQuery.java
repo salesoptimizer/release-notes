@@ -45,17 +45,10 @@ public class SFQuery {
 		return get;
 	}
 	
-	public String showAccounts(PrintWriter writer) throws ServletException, IOException {
-		
+	public String showAccounts() throws ServletException, IOException {
 		StringBuilder resultString = new StringBuilder();
-		
 		HttpClient httpclient = new HttpClient();
-		/*GetMethod get = new GetMethod(instanceUrl
-				+ "/services/data/v20.0/query");
-
-		// set the token in the header
-		get.setRequestHeader("Authorization", "OAuth " + accessToken);*/
-
+		
 		// set the SOQL as a query param
 		NameValuePair[] params = new NameValuePair[1];
 
@@ -90,8 +83,6 @@ public class SFQuery {
 					e.printStackTrace();
 					throw new ServletException(e);
 				}
-			} else {
-				writer.print("\n HttpStatus => " + statusCode + " but OK is " + HttpStatus.SC_OK);
 			}
 		} finally {
 			getMethod.releaseConnection();
@@ -99,20 +90,12 @@ public class SFQuery {
 		return resultString.toString();
 	}
 	
-	public HashMap<String, String> showProjects(PrintWriter writer) throws ServletException, IOException {
-		
+	public HashMap<String, String> showProjects() throws ServletException, IOException {
 		HashMap<String, String> resultMap = new HashMap<String, String>();
-		
 		HttpClient httpclient = new HttpClient();
-		/*GetMethod get = new GetMethod(instanceUrl
-				+ "/services/data/v20.0/query");
-		
-		// set the token in the header
-		get.setRequestHeader("Authorization", "OAuth " + accessToken);*/
 		
 		// set the SOQL as a query param
 		NameValuePair[] params = new NameValuePair[1];
-		
 		params[0] = new NameValuePair("q",
 				"SELECT Name, Id from SFDC_Project__c LIMIT 100");
 		GetMethod getMethod = createGetMethod();
@@ -136,8 +119,6 @@ public class SFQuery {
 					e.printStackTrace();
 					throw new ServletException(e);
 				}
-			} else {
-				writer.print("\n HttpStatus => " + statusCode + " but OK is " + HttpStatus.SC_OK);
 			}
 		} finally {
 			getMethod.releaseConnection();
@@ -145,26 +126,18 @@ public class SFQuery {
 		return resultMap;
 	}
 	
-	public List<ReleaseNote> getTickets(String ver1, String ver2, String projectId, PrintWriter writer) throws ServletException, IOException {
-		
+	public List<ReleaseNote> getTickets(String ver1, String ver2, String projectId) throws ServletException, IOException {
 		List<ReleaseNote> releaseNotes = new ArrayList<ReleaseNote>();
-		
 		HttpClient httpclient = new HttpClient();
-		/*GetMethod get = new GetMethod(instanceUrl
-				+ "/services/data/v20.0/query");
-		
-		// set the token in the header
-		get.setRequestHeader("Authorization", "OAuth " + accessToken);*/
 		
 		// set the SOQL as a query param
 		NameValuePair[] params = new NameValuePair[1];
-		
 		params[0] = new NameValuePair("q",
 				"SELECT Name, Id, Fixed_in_Ver__c, Release_Notes__c "
 			  + "FROM Ticket__c "
 			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
 			  + "AND Project__c = '" + projectId + "'"
-//			  + "AND Release_Notes__c != ''"
+			  + "AND Release_Notes__c != ''"
 	  		  + "LIMIT 100");
 		GetMethod getMethod = createGetMethod();
 		getMethod.setQueryString(params);
@@ -189,8 +162,6 @@ public class SFQuery {
 					e.printStackTrace();
 					throw new ServletException(e);
 				}
-			} else {
-				writer.print("\n HttpStatus => " + statusCode + " but OK is " + HttpStatus.SC_OK);
 			}
 		} finally {
 			getMethod.releaseConnection();
