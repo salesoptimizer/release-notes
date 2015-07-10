@@ -4,7 +4,7 @@
 	<c:if test="${requestScope.tickets == null}">
 		<form action="/" method="post">
 			<label for="projectList">Select a project</label>
-			<select name="projectList">
+			<select name="projectId">
 				<c:forEach var="project" items="${requestScope.projects}">
 					<option value="<c:out value="${project.key}" />"><c:out value="${project.value}" /></option>
 				</c:forEach>	

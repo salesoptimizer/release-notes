@@ -99,7 +99,5 @@ public class SFConnector/* extends HttpServlet*/ {
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
 		}
 	}
-	
-	
 
 }

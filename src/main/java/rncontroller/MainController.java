@@ -50,7 +50,7 @@ public class MainController extends HttpServlet {
 		instanceUrl = (String) request.getSession().getAttribute(
 				INSTANCE_URL);
 		
-		SFQuery demoREST = new SFQuery();
+		SFQuery demoREST = new SFQuery(accessToken, instanceUrl);
 		
 		PrintWriter writer = response.getWriter();
 
@@ -59,9 +59,9 @@ public class MainController extends HttpServlet {
 			return;
 		}
 
-		content = demoREST.showAccounts(instanceUrl, accessToken, writer);
+		content = demoREST.showAccounts(writer);
 		request.setAttribute("accounts", content);
-		request.setAttribute("projects", demoREST.showProjects(instanceUrl, accessToken, writer));
+		request.setAttribute("projects", demoREST.showProjects(writer));
 		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
 	}
 
@@ -73,8 +73,8 @@ public class MainController extends HttpServlet {
 		String maxVer = req.getParameter("maxVer");
 		String projectId = req.getParameter("projectList");
 //		writer.print(projectId);
-		SFQuery demoREST = new SFQuery();
-		RTFConverter.convertToRTF(demoREST.getTickets(instanceUrl, accessToken, minVer, maxVer, projectId, writer));
+		SFQuery demoREST = new SFQuery(accessToken, instanceUrl);
+		RTFConverter.convertToRTF(demoREST.getTickets(minVer, maxVer, projectId, writer));
 		req.setAttribute("tickets", true);
 		getServletContext().getRequestDispatcher("/main.jsp").forward(req, resp);
 	}

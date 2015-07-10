@@ -28,34 +28,48 @@ import org.json.JSONTokener;
  */
 public class SFQuery {
 	private static final long serialVersionUID = 1L;
-	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
-	private static final String INSTANCE_URL = "INSTANCE_URL";
-       
-	public String showAccounts(String instanceUrl, String accessToken,
-			PrintWriter writer) throws ServletException, IOException {
+	private String accessToken;
+	private String instanceUrl;
+	private static GetMethod get;
+	
+	public SFQuery(String accessToken, String instanceUrl) {
+		this.accessToken = accessToken;
+		this.instanceUrl = instanceUrl;
+	}
+
+	private GetMethod createGetMethod() {
+		if (get == null) {
+			get = new GetMethod(this.instanceUrl + "/services/data/v20.0/query");
+			get.setRequestHeader("Authorization", "OAuth " + this.accessToken);
+		}
+		return get;
+	}
+	
+	public String showAccounts(PrintWriter writer) throws ServletException, IOException {
 		
 		StringBuilder resultString = new StringBuilder();
 		
 		HttpClient httpclient = new HttpClient();
-		GetMethod get = new GetMethod(instanceUrl
+		/*GetMethod get = new GetMethod(instanceUrl
 				+ "/services/data/v20.0/query");
 
 		// set the token in the header
-		get.setRequestHeader("Authorization", "OAuth " + accessToken);
+		get.setRequestHeader("Authorization", "OAuth " + accessToken);*/
 
 		// set the SOQL as a query param
 		NameValuePair[] params = new NameValuePair[1];
 
 		params[0] = new NameValuePair("q",
 				"SELECT Name, Id from Account LIMIT 100");
-		get.setQueryString(params);
+		GetMethod getMethod = createGetMethod();
+		getMethod.setQueryString(params);
 
 		try {
-			httpclient.executeMethod(get);
-			int statusCode = get.getStatusCode(); 
+			httpclient.executeMethod(getMethod);
+			int statusCode = getMethod.getStatusCode(); 
 			if (statusCode == HttpStatus.SC_OK) {
 				// Now lets use the standard java json classes to work with the results
-				String responseBody = get.getResponseBodyAsString();
+				String responseBody = getMethod.getResponseBodyAsString();
 				try {
 					JSONObject response = new JSONObject(responseBody);
 					JSONArray results = response.getJSONArray("records");
@@ -80,36 +94,36 @@ public class SFQuery {
 				writer.print("\n HttpStatus => " + statusCode + " but OK is " + HttpStatus.SC_OK);
 			}
 		} finally {
-			get.releaseConnection();
+			getMethod.releaseConnection();
 		}
 		return resultString.toString();
 	}
 	
-	public HashMap<String, String> showProjects(String instanceUrl, String accessToken,
-			PrintWriter writer) throws ServletException, IOException {
+	public HashMap<String, String> showProjects(PrintWriter writer) throws ServletException, IOException {
 		
 		HashMap<String, String> resultMap = new HashMap<String, String>();
 		
 		HttpClient httpclient = new HttpClient();
-		GetMethod get = new GetMethod(instanceUrl
+		/*GetMethod get = new GetMethod(instanceUrl
 				+ "/services/data/v20.0/query");
 		
 		// set the token in the header
-		get.setRequestHeader("Authorization", "OAuth " + accessToken);
+		get.setRequestHeader("Authorization", "OAuth " + accessToken);*/
 		
 		// set the SOQL as a query param
 		NameValuePair[] params = new NameValuePair[1];
 		
 		params[0] = new NameValuePair("q",
 				"SELECT Name, Id from SFDC_Project__c LIMIT 100");
-		get.setQueryString(params);
+		GetMethod getMethod = createGetMethod();
+		getMethod.setQueryString(params);
 		
 		try {
-			httpclient.executeMethod(get);
-			int statusCode = get.getStatusCode(); 
+			httpclient.executeMethod(getMethod);
+			int statusCode = getMethod.getStatusCode(); 
 			if (statusCode == HttpStatus.SC_OK) {
 				// Now lets use the standard java json classes to work with the results
-				String responseBody = get.getResponseBodyAsString();
+				String responseBody = getMethod.getResponseBodyAsString();
 				try {
 					JSONObject response = new JSONObject(responseBody);
 					JSONArray results = response.getJSONArray("records");
@@ -126,21 +140,21 @@ public class SFQuery {
 				writer.print("\n HttpStatus => " + statusCode + " but OK is " + HttpStatus.SC_OK);
 			}
 		} finally {
-			get.releaseConnection();
+			getMethod.releaseConnection();
 		}
 		return resultMap;
 	}
 	
-	public List<ReleaseNote> getTickets(String instanceUrl, String accessToken, String ver1, String ver2, String projectId, PrintWriter writer) throws ServletException, IOException {
+	public List<ReleaseNote> getTickets(String ver1, String ver2, String projectId, PrintWriter writer) throws ServletException, IOException {
 		
 		List<ReleaseNote> releaseNotes = new ArrayList<ReleaseNote>();
 		
 		HttpClient httpclient = new HttpClient();
-		GetMethod get = new GetMethod(instanceUrl
+		/*GetMethod get = new GetMethod(instanceUrl
 				+ "/services/data/v20.0/query");
 		
 		// set the token in the header
-		get.setRequestHeader("Authorization", "OAuth " + accessToken);
+		get.setRequestHeader("Authorization", "OAuth " + accessToken);*/
 		
 		// set the SOQL as a query param
 		NameValuePair[] params = new NameValuePair[1];
@@ -152,14 +166,15 @@ public class SFQuery {
 			  + "AND Project__c = '" + projectId + "'"
 			  + "AND Release_Notes__c != ''"
 	  		  + "LIMIT 100");
-		get.setQueryString(params);
+		GetMethod getMethod = createGetMethod();
+		getMethod.setQueryString(params);
 		
 		try {
-			httpclient.executeMethod(get);
-			int statusCode = get.getStatusCode(); 
+			httpclient.executeMethod(getMethod);
+			int statusCode = getMethod.getStatusCode(); 
 			if (statusCode == HttpStatus.SC_OK) {
 				// Now lets use the standard java json classes to work with the results
-				String responseBody = get.getResponseBodyAsString();
+				String responseBody = getMethod.getResponseBodyAsString();
 				try {
 					JSONObject response = new JSONObject(responseBody);
 					JSONArray results = response.getJSONArray("records");
@@ -178,7 +193,7 @@ public class SFQuery {
 				writer.print("\n HttpStatus => " + statusCode + " but OK is " + HttpStatus.SC_OK);
 			}
 		} finally {
-			get.releaseConnection();
+			getMethod.releaseConnection();
 		}
 		return releaseNotes;
 	}
