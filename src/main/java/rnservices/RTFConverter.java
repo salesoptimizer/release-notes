@@ -32,15 +32,9 @@ public class RTFConverter {
             document.open();
           
             PdfPTable table = new PdfPTable(3);
-            table.setTotalWidth(new float[] {20.0f, 70.0f, 30.0f});
-            // first movie
-            Phrase phrase1 = new Phrase("Ticket name", FontFactory.getFont("MS Mincho", 10, Font.BOLD));
-            Paragraph p1 = new Paragraph(phrase1);
-            p1.setAlignment(Element.ALIGN_CENTER);
-            PdfPCell cell1 = new PdfPCell(p1);
-            table.addCell(cell1);
-            table.addCell("Ticket release notes");
-            table.addCell("Fix.version");
+            addBoldText(table, "Ticket name");
+            addBoldText(table, "Ticket release notes");
+            addBoldText(table, "Fix.version");
             table.completeRow();
             
             Iterator<ReleaseNote> iterator = releaseNotes.iterator();
@@ -70,6 +64,17 @@ public class RTFConverter {
         }
         document.close();
 		return true;
+	}
+	
+	private static void addBoldText(PdfPTable table, String text) throws DocumentException {
+		table.setTotalWidth(new float[] {20.0f, 70.0f, 30.0f});
+        // first movie
+        Phrase phrase = new Phrase(text, FontFactory.getFont("Calibri", 12, Font.BOLD));
+        Paragraph paragraph = new Paragraph(phrase);
+        paragraph.setAlignment(Element.ALIGN_LEFT);
+        PdfPCell cell = new PdfPCell(paragraph);
+        cell.setPadding(20.0f);
+        table.addCell(cell);
 	}
 	
 }
