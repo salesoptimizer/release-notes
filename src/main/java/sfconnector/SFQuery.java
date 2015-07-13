@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import models.ReleaseNote;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -121,6 +122,40 @@ public class SFQuery {
 			getMethod.releaseConnection();
 		}
 		return releaseNotes;
+	}
+	
+	public String getProjectName(String projectId) throws ServletException, IOException {
+		String projectName = null;
+		HttpClient httpclient = new HttpClient();
+		
+		// set the SOQL as a query param
+		NameValuePair[] params = new NameValuePair[1];
+		params[0] = new NameValuePair("q",
+				"SELECT Name from SFDC_Project__c WHERE Id = '" + projectId + "' LIMIT 1");
+		GetMethod getMethod = createGetMethod();
+		getMethod.setQueryString(params);
+		
+		try {
+			httpclient.executeMethod(getMethod);
+			int statusCode = getMethod.getStatusCode(); 
+			if (statusCode == HttpStatus.SC_OK) {
+				// Now lets use the standard java json classes to work with the results
+				String responseBody = getMethod.getResponseBodyAsString();
+				try {
+					JSONObject response = new JSONObject(responseBody);
+					JSONArray results = response.getJSONArray("records");
+					for (int i = 0; i < results.length(); i++) {
+						projectName = results.getJSONObject(i).getString("Name"); 
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+					throw new ServletException(e);
+				}
+			}
+		} finally {
+			getMethod.releaseConnection();
+		}
+		return projectName;
 	}
 
 }

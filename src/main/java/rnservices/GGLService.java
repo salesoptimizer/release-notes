@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class GGLService extends HttpServlet {
 	private static final long serialVersionUID = 5599195927405315789L;
+	public static String docName;
 
 		/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -23,7 +24,10 @@ public class GGLService extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		GGLFileManager fileManager = new GGLFileManager();
 		try {
-			fileManager.insertFile(GGLConnector.getDrive(), "TESTTTTT DOCUMENT", "document description", "", "application/rtf", "ReleaseNotes.rtf");
+			if (docName == null) {
+				docName = "Test document";
+			}
+			fileManager.insertFile(GGLConnector.getDrive(), docName, "document description", "", "application/rtf", "ReleaseNotes.rtf");
 		} catch (GeneralSecurityException e) {
 			response.getWriter().print("Fail");
 			e.printStackTrace();

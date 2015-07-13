@@ -20,6 +20,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import rnservices.GGLService;
 import rnservices.RTFConverter;
 import sfconnector.SFQuery;
 import sfconnector.SFConnector;
@@ -66,6 +67,8 @@ public class RNController extends HttpServlet {
 		SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
 		req.setAttribute("tickets", true);
+//		req.setAttribute("projectName", o);
+		GGLService.docName = sfQuery.getProjectName(projectId);
 		getServletContext().getRequestDispatcher("/main.jsp").forward(req, resp);
 	}
 	
