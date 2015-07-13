@@ -13,7 +13,7 @@
 			<label for="minVer">Min version: </label>
 			<input type="text" name="minVer" style="width: 150px; margin-bottom: 10px;" /><br/>
 			<label for="maxVer">Max version: </label>
-			<input type="text" name="maxVer" style="width: 150px;" /><br/>
+			<input type="text" name="maxVer" style="width: 150px; margin-bottom: 10px;" /><br/>
 			<input type="submit" value="Get tickets" />
 		</form>
 	</c:if>
