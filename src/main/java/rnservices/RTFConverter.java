@@ -41,15 +41,9 @@ public class RTFConverter {
             ReleaseNote rnote;
             while (iterator.hasNext()) {
             	rnote = iterator.next();
-            	table.addCell(rnote.getTicketName());
-            	table.addCell(rnote.getReleaseNotes());
-            	table.addCell(rnote.getPackVersion());
-            	/*PdfPCell c = new PdfPCell(new Phrase(rnote.getTicketName()));
-	            table.addCell(c);
-	            c = new PdfPCell(new Phrase(rnote.getReleaseNotes()));
-	            table.addCell(c);           
-	            c = new PdfPCell(new Phrase(rnote.getPackVersion()));
-	            table.addCell(c);*/           
+            	table.addCell("    " + rnote.getTicketName());
+            	table.addCell("    " + rnote.getReleaseNotes());
+            	table.addCell("    " + rnote.getPackVersion());
 	            table.completeRow();
             }
            
@@ -69,14 +63,11 @@ public class RTFConverter {
 	private static void addBoldText(PdfPTable table, String text) throws DocumentException {
 		table.setTotalWidth(new float[] {20.0f, 70.0f, 30.0f});
         // first movie
-        Phrase phrase = new Phrase(text, FontFactory.getFont("Calibri", 12, Font.BOLD));
+        Phrase phrase = new Phrase("    " + text, FontFactory.getFont("Calibri", 12, Font.BOLD));
         Paragraph paragraph = new Paragraph(phrase);
         paragraph.setAlignment(Element.ALIGN_LEFT);
         PdfPCell cell = new PdfPCell(paragraph);
-        cell.setPaddingLeft(20.0f);
-        cell.setPaddingTop(20.0f);
-        cell.setPaddingBottom(20.0f);
-        cell.setPaddingRight(20.0f);
+        cell.setPadding(20.0f);
         table.addCell(cell);
 	}
 	
