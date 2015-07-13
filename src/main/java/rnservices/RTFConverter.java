@@ -8,7 +8,10 @@ import java.util.List;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
 import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.html.HtmlParser;
 import com.lowagie.text.pdf.PdfPCell;
@@ -24,16 +27,18 @@ public class RTFConverter {
 	public static boolean convertToRTF(List<ReleaseNote> releaseNotes) {
 		Document document = new Document(PageSize.A4);
         try {
-            RtfWriter2 writer = RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
+        	RtfWriter2 writer = RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
 //        	PdfWriter.getInstance(document, new FileOutputStream("ReleaseNotes.pdf"));
             document.open();
           
             PdfPTable table = new PdfPTable(3);
             table.setTotalWidth(new float[] {20.0f, 70.0f, 30.0f});
             // first movie
-            table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.getDefaultCell().setVerticalAlignment(Element.ALIGN_TOP);
-            table.addCell("Ticket name");
+            Phrase phrase1 = new Phrase("Ticket name", FontFactory.getFont("MS Mincho", 10, Font.BOLD));
+            Paragraph p1 = new Paragraph(phrase1);
+            p1.setAlignment(Element.ALIGN_CENTER);
+            PdfPCell cell1 = new PdfPCell(p1);
+            table.addCell(cell1);
             table.addCell("Ticket release notes");
             table.addCell("Fix.version");
             table.completeRow();

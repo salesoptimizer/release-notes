@@ -67,7 +67,6 @@ public class RNController extends HttpServlet {
 		SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
 		req.setAttribute("tickets", true);
-//		req.setAttribute("projectName", o);
 		GGLService.docName = sfQuery.getProjectName(projectId);
 		getServletContext().getRequestDispatcher("/main.jsp").forward(req, resp);
 	}
