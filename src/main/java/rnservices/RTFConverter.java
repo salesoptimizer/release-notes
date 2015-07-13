@@ -73,7 +73,10 @@ public class RTFConverter {
         Paragraph paragraph = new Paragraph(phrase);
         paragraph.setAlignment(Element.ALIGN_LEFT);
         PdfPCell cell = new PdfPCell(paragraph);
-        cell.setPadding(20.0f);
+        cell.setPaddingLeft(20.0f);
+        cell.setPaddingTop(20.0f);
+        cell.setPaddingBottom(20.0f);
+        cell.setPaddingRight(20.0f);
         table.addCell(cell);
 	}
 	
