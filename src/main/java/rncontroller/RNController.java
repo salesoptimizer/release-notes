@@ -46,14 +46,14 @@ public class RNController extends HttpServlet {
 		response.setContentType("text/html");
 	    PrintWriter out = response.getWriter();
 	    out.println("!!!! FIRST !!!!");
-		SFConnector sfConnector = new SFConnector();
+//		SFConnector sfConnector = new SFConnector();
 		
 		out.println("!!!! Before getAccessToSF !!!!");
-		sfConnector.getAccessToSalesforce(request, response);
+//		sfConnector.getAccessToSalesforce(request, response);
 		out.println("!!!! After getAccessToSF !!!!");
 		
-		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
-		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
+//		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
+//		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
 	    out.println(accessToken);
 	    out.println(instanceUrl);
 		
