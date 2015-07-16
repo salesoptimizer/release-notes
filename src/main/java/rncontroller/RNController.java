@@ -43,19 +43,12 @@ public class RNController extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-	    PrintWriter out = response.getWriter();
-	    out.println("!!!! FIRST !!!!");
 //		SFConnector sfConnector = new SFConnector();
 		
-		out.println("!!!! Before getAccessToSF !!!!");
 //		sfConnector.getAccessToSalesforce(request, response);
-		out.println("!!!! After getAccessToSF !!!!");
 		
 //		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 //		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
-	    out.println(accessToken);
-	    out.println(instanceUrl);
 		
 		/*SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 		
@@ -71,14 +64,14 @@ public class RNController extends HttpServlet {
 			out.println(projectKey + " => " + projects.get(projectKey));	
 		}*/
 //		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
-		/*response.setContentType("text/html");
+		response.setContentType("text/html");
 	    PrintWriter out = response.getWriter();
 
 	    out.println("<HTML>");
 	    out.println("<HEAD><TITLE>Hello World</TITLE></HEAD>");
 	    out.println("<BODY>");
 	    out.println("<BIG>Hello World</BIG>");
-	    out.println("</BODY></HTML>");*/
+	    out.println("</BODY></HTML>");
 	}
 
 	@Override
