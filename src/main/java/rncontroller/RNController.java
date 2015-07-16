@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,7 +43,7 @@ public class RNController extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*SFConnector sfConnector = new SFConnector();
+		SFConnector sfConnector = new SFConnector();
 		sfConnector.getAccessToSalesforce(request, response);
 		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
@@ -55,15 +56,23 @@ public class RNController extends HttpServlet {
 		}
 
 		request.setAttribute("projects", sfQuery.showProjects());
-		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);*/
+		
 		response.setContentType("text/html");
+	    PrintWriter out = response.getWriter();
+		
+	    Map<String, String> projects = sfQuery.showProjects(); 
+		for (String projectKey: projects.keySet()) {
+			out.println(projectKey + " => " + projects.get(projectKey));	
+		}
+//		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
+		/*response.setContentType("text/html");
 	    PrintWriter out = response.getWriter();
 
 	    out.println("<HTML>");
 	    out.println("<HEAD><TITLE>Hello World</TITLE></HEAD>");
 	    out.println("<BODY>");
 	    out.println("<BIG>Hello World</BIG>");
-	    out.println("</BODY></HTML>");
+	    out.println("</BODY></HTML>");*/
 	}
 
 	@Override
