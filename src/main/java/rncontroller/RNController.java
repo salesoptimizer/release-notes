@@ -42,7 +42,7 @@ public class RNController extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		SFConnector sfConnector = new SFConnector();
+		/*SFConnector sfConnector = new SFConnector();
 		sfConnector.getAccessToSalesforce(request, response);
 		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
@@ -55,7 +55,15 @@ public class RNController extends HttpServlet {
 		}
 
 		request.setAttribute("projects", sfQuery.showProjects());
-		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
+		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);*/
+		res.setContentType("text/html");
+	    PrintWriter out = res.getWriter();
+
+	    out.println("<HTML>");
+	    out.println("<HEAD><TITLE>Hello World</TITLE></HEAD>");
+	    out.println("<BODY>");
+	    out.println("<BIG>Hello World</BIG>");
+	    out.println("</BODY></HTML>");
 	}
 
 	@Override
