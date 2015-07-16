@@ -56,8 +56,8 @@ public class RNController extends HttpServlet {
 
 		request.setAttribute("projects", sfQuery.showProjects());
 		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);*/
-		res.setContentType("text/html");
-	    PrintWriter out = res.getWriter();
+		response.setContentType("text/html");
+	    PrintWriter out = response.getWriter();
 
 	    out.println("<HTML>");
 	    out.println("<HEAD><TITLE>Hello World</TITLE></HEAD>");
