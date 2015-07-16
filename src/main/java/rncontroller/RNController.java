@@ -48,22 +48,24 @@ public class RNController extends HttpServlet {
 		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
 		
-		SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
+		response.setContentType("text/html");
+	    PrintWriter out = response.getWriter();
+	    out.println(accessToken);
+	    out.println(instanceUrl);
+		
+		/*SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 		
 		if (accessToken == null) {
 			response.getWriter().print("Error - no access token");
 			return;
 		}
 
-		request.setAttribute("projects", sfQuery.showProjects());
+		request.setAttribute("projects", sfQuery.showProjects());*/
 		
-		response.setContentType("text/html");
-	    PrintWriter out = response.getWriter();
-		
-	    Map<String, String> projects = sfQuery.showProjects(); 
+	    /*Map<String, String> projects = sfQuery.showProjects(); 
 		for (String projectKey: projects.keySet()) {
 			out.println(projectKey + " => " + projects.get(projectKey));	
-		}
+		}*/
 //		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
 		/*response.setContentType("text/html");
 	    PrintWriter out = response.getWriter();
