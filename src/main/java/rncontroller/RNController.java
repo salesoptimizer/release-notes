@@ -45,13 +45,16 @@ public class RNController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/plain");
 	    PrintWriter out = response.getWriter();
-	    out.println("TEST");
-//		SFConnector sfConnector = new SFConnector();
+	    out.println("TEST\n");
+		SFConnector sfConnector = new SFConnector();
 		
-//		sfConnector.getAccessToSalesforce(request, response);
+		sfConnector.getAccessToSalesforce(request, response);
 		
-//		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
-//		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
+		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
+		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
+		
+		out.println("accessToken => " + accessToken);
+		out.println("\ninstanceUrl => " + instanceUrl);
 		
 		/*SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 		
