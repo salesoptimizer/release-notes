@@ -73,7 +73,7 @@ public class SFConnector/* extends HttpServlet*/ {
 				/*response.getWriter().print("oauth authUrl =>"+authUrl);*/
 				// we need to send the user to authorize
 				response.sendRedirect(authUrl);
-				return;
+//				return;
 			} else {
 				out.println("REQ ENDS WITH _callback");
 				/*String code = request.getParameter("code");
