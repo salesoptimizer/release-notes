@@ -69,6 +69,7 @@ public class SFConnector/* extends HttpServlet*/ {
 			String instanceUrl = null;
 			if (!request.getRequestURI().endsWith("_callback")) {
 				out.println("REQ DOESN'T END WITH _callback");
+				out.println("oauth authUrl =>"+authUrl);
 				/*response.getWriter().print("oauth authUrl =>"+authUrl);
 				// we need to send the user to authorize
 				response.sendRedirect(authUrl);*/
