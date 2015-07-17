@@ -2,6 +2,7 @@ package sfconnector;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -62,7 +63,9 @@ public class SFConnector/* extends HttpServlet*/ {
 	
 	public void getAccessToSalesforce(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
-		if (accessToken == null) {
+		PrintWriter out = response.getWriter();
+		out.println("REQ_URI" + request.getRequestURI());
+		/*if (accessToken == null) {
 			String instanceUrl = null;
 			if (!request.getRequestURI().endsWith("_callback")) {
 				response.getWriter().print("oauth authUrl =>"+authUrl);
@@ -97,7 +100,7 @@ public class SFConnector/* extends HttpServlet*/ {
 			// Set a session attribute so that other servlets can get the access token and instance URL
 			request.getSession().setAttribute(ACCESS_TOKEN, accessToken);
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
-		}
+		}*/
 	}
 
 }
