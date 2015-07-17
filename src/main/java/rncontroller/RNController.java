@@ -53,8 +53,8 @@ public class RNController extends HttpServlet {
 		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
 		
-		out.println("accessToken => " + accessToken);
-		out.println("\ninstanceUrl => " + instanceUrl);
+//		out.println("accessToken => " + accessToken);
+//		out.println("\ninstanceUrl => " + instanceUrl);
 		
 		/*SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 		
