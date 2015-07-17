@@ -43,6 +43,9 @@ public class RNController extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/plain");
+	    PrintWriter out = response.getWriter();
+	    out.println("TEST");
 //		SFConnector sfConnector = new SFConnector();
 		
 //		sfConnector.getAccessToSalesforce(request, response);
@@ -64,14 +67,12 @@ public class RNController extends HttpServlet {
 			out.println(projectKey + " => " + projects.get(projectKey));	
 		}*/
 //		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
-		response.setContentType("text/html");
-	    PrintWriter out = response.getWriter();
 
-	    out.println("<HTML>");
+	    /*out.println("<HTML>");
 	    out.println("<HEAD><TITLE>Hello World</TITLE></HEAD>");
 	    out.println("<BODY>");
 	    out.println("<BIG>Hello World</BIG>");
-	    out.println("</BODY></HTML>");
+	    out.println("</BODY></HTML>");*/
 	}
 
 	@Override
