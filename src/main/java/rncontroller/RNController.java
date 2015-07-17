@@ -43,9 +43,7 @@ public class RNController extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/plain");
-	    PrintWriter out = response.getWriter();
-	    out.println("TEST\n");
+		
 		SFConnector sfConnector = new SFConnector();
 		
 		sfConnector.getAccessToSalesforce(request, response);
@@ -53,17 +51,17 @@ public class RNController extends HttpServlet {
 		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
 		
-		out.println("accessToken => " + accessToken);
-		out.println("\ninstanceUrl => " + instanceUrl);
+		response.getWriter().println("accessToken => " + accessToken);
+		response.getWriter().println("\ninstanceUrl => " + instanceUrl);
 		
-		/*SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
+		SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 		
 		if (accessToken == null) {
 			response.getWriter().print("Error - no access token");
 			return;
 		}
 
-		request.setAttribute("projects", sfQuery.showProjects());*/
+		request.setAttribute("projects", sfQuery.showProjects());
 		
 	    /*Map<String, String> projects = sfQuery.showProjects(); 
 		for (String projectKey: projects.keySet()) {
