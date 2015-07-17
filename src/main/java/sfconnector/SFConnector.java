@@ -76,7 +76,7 @@ public class SFConnector/* extends HttpServlet*/ {
 				return;
 			} else {
 				out.println("REQ ENDS WITH _callback");
-				/*String code = request.getParameter("code");
+				String code = request.getParameter("code");
 				HttpClient httpclient = new HttpClient();
 				PostMethod post = new PostMethod(tokenUrl);
 				post.addParameter("code", code);
@@ -98,7 +98,7 @@ public class SFConnector/* extends HttpServlet*/ {
 					}
 				} finally {
 					post.releaseConnection();
-				}*/
+				}
 			}
 			// Set a session attribute so that other servlets can get the access token and instance URL
 			request.getSession().setAttribute(ACCESS_TOKEN, accessToken);
