@@ -64,10 +64,9 @@ public class SFConnector/* extends HttpServlet*/ {
 	public void getAccessToSalesforce(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		PrintWriter out = response.getWriter();
-		out.println("REQ_URI");
-		/*if (accessToken == null) {
+		if (accessToken == null) {
 			String instanceUrl = null;
-			if (!request.getRequestURI().endsWith("_callback")) {
+			/*if (!request.getRequestURI().endsWith("_callback")) {
 				response.getWriter().print("oauth authUrl =>"+authUrl);
 				// we need to send the user to authorize
 				response.sendRedirect(authUrl);
@@ -96,11 +95,11 @@ public class SFConnector/* extends HttpServlet*/ {
 				} finally {
 					post.releaseConnection();
 				}
-			}
+			}*/
 			// Set a session attribute so that other servlets can get the access token and instance URL
 			request.getSession().setAttribute(ACCESS_TOKEN, accessToken);
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
-		}*/
+		}
 	}
 
 }
