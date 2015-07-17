@@ -63,10 +63,10 @@ public class RNController extends HttpServlet {
 
 		request.setAttribute("projects", sfQuery.showProjects());
 		
-	    /*Map<String, String> projects = sfQuery.showProjects(); 
+	    Map<String, String> projects = sfQuery.showProjects(); 
 		for (String projectKey: projects.keySet()) {
-			out.println(projectKey + " => " + projects.get(projectKey));	
-		}*/
+			response.getWriter().println(projectKey + " => " + projects.get(projectKey));	
+		}
 //		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
 
 	    /*out.println("<HTML>");
