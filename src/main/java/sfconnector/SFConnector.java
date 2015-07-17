@@ -64,7 +64,7 @@ public class SFConnector/* extends HttpServlet*/ {
 	public void getAccessToSalesforce(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		PrintWriter out = response.getWriter();
-		out.println("REQ_URI" + request.getRequestURI());
+		out.println("REQ_URI");
 		/*if (accessToken == null) {
 			String instanceUrl = null;
 			if (!request.getRequestURI().endsWith("_callback")) {
