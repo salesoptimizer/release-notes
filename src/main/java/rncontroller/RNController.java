@@ -44,6 +44,10 @@ public class RNController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String minVer = request.getParameter("minVer");
+		String maxVer = request.getParameter("maxVer");
+		String projectId = request.getParameter("projectId");
+		
 		SFConnector sfConnector = new SFConnector();
 		
 		sfConnector.getAccessToSalesforce(request, response);
@@ -60,13 +64,17 @@ public class RNController extends HttpServlet {
 			response.getWriter().print("Error - no access token");
 			return;
 		}
-
-		request.setAttribute("projects", sfQuery.showProjects());
 		
-	    Map<String, String> projects = sfQuery.showProjects(); 
-		for (String projectKey: projects.keySet()) {
-			response.getWriter().println(projectKey + " => " + projects.get(projectKey));	
-		}
+		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
+		request.setAttribute("tickets", true);
+		GGLService.docName = sfQuery.getProjectName(projectId);
+
+//		request.setAttribute("projects", sfQuery.showProjects());
+//		
+//	    Map<String, String> projects = sfQuery.showProjects(); 
+//		for (String projectKey: projects.keySet()) {
+//			response.getWriter().println(projectKey + " => " + projects.get(projectKey));	
+//		}
 //		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
 
 	    /*out.println("<HTML>");
