@@ -50,7 +50,7 @@ public class RNController extends HttpServlet {
 		
 		SFConnector sfConnector = new SFConnector();
 		
-		sfConnector.getAccessToSalesforce(request, response);
+//		sfConnector.getAccessToSalesforce(request, response);
 		
 		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
