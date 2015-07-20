@@ -74,10 +74,10 @@ public class SFConnector/* extends HttpServlet*/ {
 				out.println("oauth authUrl =>"+authUrl);
 				/*response.getWriter().print("oauth authUrl =>"+authUrl);*/
 				// we need to send the user to authorize
-				//response.sendRedirect(authUrl);
+				response.sendRedirect(authUrl);
 				
-				GetMethod get = new GetMethod(authUrl);
-				httpclient.executeMethod(get);
+//				GetMethod get = new GetMethod(authUrl);
+//				httpclient.executeMethod(get);
 				return;
 			} else {
 				out.println("REQ ENDS WITH _callback");
