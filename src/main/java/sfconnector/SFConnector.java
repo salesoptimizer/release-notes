@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,6 +66,7 @@ public class SFConnector/* extends HttpServlet*/ {
 		String accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		PrintWriter out = response.getWriter();
 		out.println("URI => " + request.getRequestURI());
+		HttpClient httpclient = new HttpClient();
 		if (accessToken == null) {
 			String instanceUrl = null;
 			if (!request.getRequestURI().endsWith("_callback")) {
@@ -72,13 +74,16 @@ public class SFConnector/* extends HttpServlet*/ {
 				out.println("oauth authUrl =>"+authUrl);
 				/*response.getWriter().print("oauth authUrl =>"+authUrl);*/
 				// we need to send the user to authorize
-				response.sendRedirect(authUrl);
+				//response.sendRedirect(authUrl);
+				
+				GetMethod get = new GetMethod(authUrl);
+				httpclient.executeMethod(get);
 				return;
 			} else {
 				out.println("REQ ENDS WITH _callback");
 				out.println("ACCESS_TOKEN" + (String) request.getSession().getAttribute(ACCESS_TOKEN));
 				String code = request.getParameter("code");
-				HttpClient httpclient = new HttpClient();
+				httpclient = new HttpClient();
 				PostMethod post = new PostMethod(tokenUrl);
 				post.addParameter("code", code);
 				post.addParameter("grant_type", "authorization_code");
