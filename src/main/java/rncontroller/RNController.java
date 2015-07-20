@@ -65,9 +65,12 @@ public class RNController extends HttpServlet {
 			return;
 		}
 		
+		response.getWriter().println("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
+		
 		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
 		request.setAttribute("tickets", true);
 		GGLService.docName = sfQuery.getProjectName(projectId);
+		GGLService.createGoogleDoc();
 
 //		request.setAttribute("projects", sfQuery.showProjects());
 //		

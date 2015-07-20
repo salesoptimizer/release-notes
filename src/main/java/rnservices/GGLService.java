@@ -35,5 +35,19 @@ public class GGLService extends HttpServlet {
 		response.getWriter().print("<a href='https://tranquil-taiga-6535.herokuapp.com'>Back to main page</a><br/>");
 		response.getWriter().print("<b>Google doc successfully created on Google Drive</b>");
 	}
+	
+	public static void createGoogleDoc () {
+		GGLFileManager fileManager = new GGLFileManager();
+		try {
+			if (docName == null) {
+				docName = "Test document";
+			}
+			fileManager.insertFile(GGLConnector.getDrive(), docName, "document description", "", "application/rtf", "ReleaseNotes.rtf");
+		} catch (GeneralSecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
