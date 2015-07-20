@@ -37,14 +37,16 @@ public class RTFConverter {
             addBoldText(table, "Fix.version");
             table.completeRow();
             
-            Iterator<ReleaseNote> iterator = releaseNotes.iterator();
-            ReleaseNote rnote;
-            while (iterator.hasNext()) {
-            	rnote = iterator.next();
-            	table.addCell("    " + rnote.getTicketName());
-            	table.addCell("    " + rnote.getReleaseNotes());
-            	table.addCell("    " + rnote.getPackVersion());
-	            table.completeRow();
+            if (releaseNotes != null) {
+	            Iterator<ReleaseNote> iterator = releaseNotes.iterator();
+	            ReleaseNote rnote;
+	            while (iterator.hasNext()) {
+	            	rnote = iterator.next();
+	            	table.addCell("    " + rnote.getTicketName());
+	            	table.addCell("    " + rnote.getReleaseNotes());
+	            	table.addCell("    " + rnote.getPackVersion());
+		            table.completeRow();
+	            }
             }
            
             document.add(table);

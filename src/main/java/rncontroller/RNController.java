@@ -60,14 +60,15 @@ public class RNController extends HttpServlet {
 		
 		SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 		
-		if (accessToken == null) {
+		/*if (accessToken == null) {
 			response.getWriter().print("Error - no access token");
 			return;
-		}
+		}*/
 		
 		response.getWriter().println("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
 		
-		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
+//		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
+		RTFConverter.convertToRTF(null);
 		request.setAttribute("tickets", true);
 		GGLService.docName = sfQuery.getProjectName(projectId);
 		GGLService.createGoogleDoc();
