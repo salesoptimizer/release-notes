@@ -11,6 +11,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
 import java.util.Map;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,12 +41,16 @@ public class RNController extends HttpServlet {
 	private static final String INSTANCE_URL = "INSTANCE_URL";
 	private static String accessToken;
 	private static String instanceUrl;
+	
+	private static Logger log = Logger.getLogger("rnotes");
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LogManager.getLogManager().readConfiguration(RNController.class.getResourceAsStream("/logging.properties"));
+		log.info("TEST MESSAGE");	
 		
 		if (request.getRequestURI().endsWith("_logs")) {
 			BufferedReader in = new BufferedReader(new FileReader("logs.txt"));
@@ -54,49 +60,42 @@ public class RNController extends HttpServlet {
 			}
 			return;
 		} else {
-		
-		String minVer = request.getParameter("minVer");
-		String maxVer = request.getParameter("maxVer");
-		String projectId = request.getParameter("projectId");
-		
-		SFConnector sfConnector = new SFConnector();
-		
-//		sfConnector.getAccessToSalesforce(request, response);
-		
-		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
-		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
-		
-		response.getWriter().println("accessToken => " + accessToken);
-		response.getWriter().println("\ninstanceUrl => " + instanceUrl);
-		
-		SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
-		
-		/*if (accessToken == null) {
-			response.getWriter().print("Error - no access token");
-			return;
-		}*/
-		
-		response.getWriter().println("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
-		
-//		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
-		RTFConverter.convertToRTF(null);
-		request.setAttribute("tickets", true);
-		GGLService.docName = sfQuery.getProjectName(projectId);
-		GGLService.createGoogleDoc();
-
-//		request.setAttribute("projects", sfQuery.showProjects());
-//		
-//	    Map<String, String> projects = sfQuery.showProjects(); 
-//		for (String projectKey: projects.keySet()) {
-//			response.getWriter().println(projectKey + " => " + projects.get(projectKey));	
-//		}
-//		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
-
-	    /*out.println("<HTML>");
-	    out.println("<HEAD><TITLE>Hello World</TITLE></HEAD>");
-	    out.println("<BODY>");
-	    out.println("<BIG>Hello World</BIG>");
-	    out.println("</BODY></HTML>");*/
+			String minVer = request.getParameter("minVer");
+			String maxVer = request.getParameter("maxVer");
+			String projectId = request.getParameter("projectId");
+			
+			SFConnector sfConnector = new SFConnector();
+			
+			sfConnector.getAccessToSalesforce(request, response);
+			
+			accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
+			instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
+			
+			response.getWriter().println("accessToken => " + accessToken);
+			response.getWriter().println("\ninstanceUrl => " + instanceUrl);
+			
+			SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
+			
+			if (accessToken == null) {
+				response.getWriter().print("Error - no access token");
+				return;
+			}
+			
+			response.getWriter().println("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
+			
+	//		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
+			RTFConverter.convertToRTF(null);
+			request.setAttribute("tickets", true);
+			GGLService.docName = sfQuery.getProjectName(projectId);
+			GGLService.createGoogleDoc();
+	
+	//		request.setAttribute("projects", sfQuery.showProjects());
+	//		
+	//	    Map<String, String> projects = sfQuery.showProjects(); 
+	//		for (String projectKey: projects.keySet()) {
+	//			response.getWriter().println(projectKey + " => " + projects.get(projectKey));	
+	//		}
+	//		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
 		}
 	}
 
