@@ -59,9 +59,9 @@ public class RNController extends HttpServlet {
 			}
 			return;
 		} else {
-			String minVer = request.getParameter("minVer");
+			/*String minVer = request.getParameter("minVer");
 			String maxVer = request.getParameter("maxVer");
-			String projectId = request.getParameter("projectId");
+			String projectId = request.getParameter("projectId");*/
 			
 			SFConnector sfConnector = new SFConnector();
 			
@@ -82,7 +82,7 @@ public class RNController extends HttpServlet {
 				return;
 			}
 			
-			response.getWriter().println("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
+//			response.getWriter().println("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
 //			log.info("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
 			
 	//		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
