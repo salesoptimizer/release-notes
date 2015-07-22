@@ -60,8 +60,8 @@ public class RNController extends HttpServlet {
 			return;
 		} else {
 			/*String minVer = request.getParameter("minVer");
-			String maxVer = request.getParameter("maxVer");
-			String projectId = request.getParameter("projectId");*/
+			String maxVer = request.getParameter("maxVer");*/
+			String projectId = request.getParameter("projectId");
 			
 			SFConnector sfConnector = new SFConnector();
 			
