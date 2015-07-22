@@ -59,9 +59,12 @@ public class RNController extends HttpServlet {
 			}
 			return;
 		} else {
+			log.info("REQUEST REMOTE ADDR => " + request.getRemoteAddr());
 			log.info("REQUEST REMOTE HOST => " + request.getRemoteHost());
 			log.info("REQUEST SESSION ID => " + request.getSession().getId());
 			log.info("REQUEST QUERY STRING => " + request.getQueryString());
+			log.info("REQUEST AUTH TYPE => " + request.getAuthType());
+			
 			/*String minVer = request.getParameter("minVer");
 			String maxVer = request.getParameter("maxVer");*/
 			String projectId = request.getParameter("projectId");
