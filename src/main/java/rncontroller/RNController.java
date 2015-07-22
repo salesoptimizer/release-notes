@@ -50,10 +50,10 @@ public class RNController extends HttpServlet {
 			BufferedReader in = new BufferedReader(new FileReader("logs.txt"));
 			String line;
 			while ((line = in.readLine()) != null) {
-				System.out.println(line);
+				response.getWriter().println(line);
 			}
 			return;
-		}
+		} else {
 		
 		String minVer = request.getParameter("minVer");
 		String maxVer = request.getParameter("maxVer");
@@ -97,6 +97,7 @@ public class RNController extends HttpServlet {
 	    out.println("<BODY>");
 	    out.println("<BIG>Hello World</BIG>");
 	    out.println("</BODY></HTML>");*/
+		}
 	}
 
 	@Override
