@@ -80,10 +80,12 @@ public class SFConnector/* extends HttpServlet*/ {
 				out.println("REQ DOESN'T END WITH _callback");
 				RNController.log.info("REQ DOESN'T END WITH _callback");
 				RNController.log.info("oauth authUrl =>"+authUrl);
+				log1.info("REQ DOESN'T END WITH _callback");
+				log1.info("oauth authUrl =>"+authUrl);
 				out.println("oauth authUrl =>"+authUrl);
 				/*response.getWriter().print("oauth authUrl =>"+authUrl);*/
 				// we need to send the user to authorize
-				response.sendRedirect(authUrl);
+//				response.sendRedirect(authUrl);
 				
 //				GetMethod get = new GetMethod(authUrl);
 //				httpclient.executeMethod(get);
