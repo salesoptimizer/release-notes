@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -48,6 +49,8 @@ public class SFConnector/* extends HttpServlet*/ {
 	private String authUrl = null;
 	private String tokenUrl = null;
 	
+	private Logger log1 = LogManager.getLogManager().getLogger("rnotes");
+	
 	public SFConnector() throws ServletException {
 		init();
 	}
@@ -68,7 +71,8 @@ public class SFConnector/* extends HttpServlet*/ {
 	public void getAccessToSalesforce(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		PrintWriter out = response.getWriter();
-		
+		RNController.log.info("!!!!!!!!!!!!!!!!!!!!! TEST !!!!!!!!!!!!!!!!!!!!!!!!");
+		log1.info("!!!!!!!!!!!!!!!!!!!!! LOG1");
 		HttpClient httpclient = new HttpClient();
 		if (accessToken == null) {
 			String instanceUrl = null;
