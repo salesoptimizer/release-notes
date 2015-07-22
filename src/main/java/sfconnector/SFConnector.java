@@ -71,15 +71,12 @@ public class SFConnector/* extends HttpServlet*/ {
 	public void getAccessToSalesforce(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		PrintWriter out = response.getWriter();
-		RNController.log.info("!!!!!!!!!!!!!!!!!!!!! TEST !!!!!!!!!!!!!!!!!!!!!!!!");
 		log1.info("!!!!!!!!!!!!!!!!!!!!! LOG1");
 		HttpClient httpclient = new HttpClient();
 		if (accessToken == null) {
 			String instanceUrl = null;
 			if (!request.getRequestURI().endsWith("_callback")) {
 				out.println("REQ DOESN'T END WITH _callback");
-				RNController.log.info("REQ DOESN'T END WITH _callback");
-				RNController.log.info("oauth authUrl =>"+authUrl);
 				log1.info("REQ DOESN'T END WITH _callback");
 				log1.info("oauth authUrl =>"+authUrl);
 				out.println("oauth authUrl =>"+authUrl);
