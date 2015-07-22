@@ -52,6 +52,7 @@ public class RNController extends HttpServlet {
 			while ((line = in.readLine()) != null) {
 				System.out.println(line);
 			}
+			return;
 		}
 		
 		String minVer = request.getParameter("minVer");
