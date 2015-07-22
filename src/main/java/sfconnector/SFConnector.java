@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,6 +46,8 @@ public class SFConnector/* extends HttpServlet*/ {
 	private String authUrl = null;
 	private String tokenUrl = null;
 	
+	private static Logger log = Logger.getLogger("rnotes");
+	
 	public SFConnector() throws ServletException {
 		init();
 	}
@@ -65,12 +68,14 @@ public class SFConnector/* extends HttpServlet*/ {
 	public void getAccessToSalesforce(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		PrintWriter out = response.getWriter();
-		out.println("URI => " + request.getRequestURI());
+		
 		HttpClient httpclient = new HttpClient();
 		if (accessToken == null) {
 			String instanceUrl = null;
 			if (!request.getRequestURI().endsWith("_callback")) {
 				out.println("REQ DOESN'T END WITH _callback");
+				log.info("REQ DOESN'T END WITH _callback");
+				log.info("oauth authUrl =>"+authUrl);
 				out.println("oauth authUrl =>"+authUrl);
 				/*response.getWriter().print("oauth authUrl =>"+authUrl);*/
 				// we need to send the user to authorize
