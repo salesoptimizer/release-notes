@@ -42,7 +42,7 @@ public class RNController extends HttpServlet {
 	private static String accessToken;
 	private static String instanceUrl;
 	
-	private static Logger log = Logger.getLogger("rnotes");
+	public static Logger log = Logger.getLogger("rnotes");
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

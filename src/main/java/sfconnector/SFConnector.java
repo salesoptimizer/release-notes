@@ -20,6 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import rncontroller.RNController;
+
 //@WebServlet(name = "SFConnector", urlPatterns = { "/oauth/*", "/oauth" })
 
 public class SFConnector/* extends HttpServlet*/ {
@@ -45,8 +47,6 @@ public class SFConnector/* extends HttpServlet*/ {
 	
 	private String authUrl = null;
 	private String tokenUrl = null;
-	
-	private static Logger log = Logger.getLogger("rnotes");
 	
 	public SFConnector() throws ServletException {
 		init();
@@ -74,8 +74,8 @@ public class SFConnector/* extends HttpServlet*/ {
 			String instanceUrl = null;
 			if (!request.getRequestURI().endsWith("_callback")) {
 				out.println("REQ DOESN'T END WITH _callback");
-				log.info("REQ DOESN'T END WITH _callback");
-				log.info("oauth authUrl =>"+authUrl);
+				RNController.log.info("REQ DOESN'T END WITH _callback");
+				RNController.log.info("oauth authUrl =>"+authUrl);
 				out.println("oauth authUrl =>"+authUrl);
 				/*response.getWriter().print("oauth authUrl =>"+authUrl);*/
 				// we need to send the user to authorize
