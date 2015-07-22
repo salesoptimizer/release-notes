@@ -72,8 +72,8 @@ public class RNController extends HttpServlet {
 			
 			response.getWriter().println("accessToken => " + accessToken);
 			response.getWriter().println("\ninstanceUrl => " + instanceUrl);
-			log.info("accessToken => " + accessToken);
-			log.info("instanceUrl => " + instanceUrl);
+//			log.info("accessToken => " + accessToken);
+//			log.info("instanceUrl => " + instanceUrl);
 			
 			SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 			
@@ -83,7 +83,7 @@ public class RNController extends HttpServlet {
 			}
 			
 			response.getWriter().println("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
-			log.info("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
+//			log.info("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
 			
 	//		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
 			RTFConverter.convertToRTF(null);
