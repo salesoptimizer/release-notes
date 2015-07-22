@@ -135,7 +135,7 @@ public class SFConnector/* extends HttpServlet*/ {
 	    try {
 	      method.setURI(new URI(authUrl, true));
 	      int returnCode = client.executeMethod(method);
-
+	      log1.info("STATUS CODE => " + returnCode);
 	      if(returnCode != HttpStatus.SC_OK) {
 	        log1.warning("Unable to fetch default page, status code: " + returnCode);
 	      }
