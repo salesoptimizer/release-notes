@@ -1,5 +1,6 @@
 package sfconnector;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -15,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.json.JSONException;
@@ -83,9 +87,8 @@ public class SFConnector/* extends HttpServlet*/ {
 				/*response.getWriter().print("oauth authUrl =>"+authUrl);*/
 				// we need to send the user to authorize
 				//response.sendRedirect(authUrl);
-				GetMethod get = new GetMethod();
-				get.setPath(authUrl);
-				httpclient.executeMethod(get);
+				
+				sendRequest(authUrl);
 				return;
 			} else {
 				out.println("REQ ENDS WITH _callback");
@@ -120,6 +123,42 @@ public class SFConnector/* extends HttpServlet*/ {
 			request.getSession().setAttribute(ACCESS_TOKEN, accessToken);
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
 		}
+	}
+	
+	
+	private void sendRequest(String authUrl) {
+		HttpClient client = new HttpClient();
+
+	    GetMethod method  = new GetMethod();
+	    FileOutputStream fos = null;
+
+	    try {
+	      method.setURI(new URI(authUrl, true));
+	      int returnCode = client.executeMethod(method);
+
+	      if(returnCode != HttpStatus.SC_OK) {
+	        log1.warning("Unable to fetch default page, status code: " + returnCode);
+	      }
+
+	      log1.info("RESPONSE BODY => " + method.getResponseBodyAsString());
+
+	      /*HostConfiguration hostConfig = new HostConfiguration();
+	      hostConfig.setHost("www.yahoo.com", null, 80, Protocol.getProtocol("http"));
+
+	      method.setURI(new URI("/", true));
+
+	      client.executeMethod(hostConfig, method);
+
+	      System.err.println(method.getResponseBodyAsString());*/
+
+	    } catch (HttpException he) {
+	      System.err.println(he);
+	    } catch (IOException ie) {
+	      System.err.println(ie);
+	    } finally {
+	      method.releaseConnection();
+	      if(fos != null) try { fos.close(); } catch (Exception fe) {}
+	    }
 	}
 
 }
