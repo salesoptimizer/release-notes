@@ -3,6 +3,8 @@ package rncontroller;
 import gglconnector.GGLConnector;
 import gglconnector.GGLFileManager;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -43,6 +45,14 @@ public class RNController extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if (!request.getRequestURI().endsWith("_logs")) {
+			BufferedReader in = new BufferedReader(new FileReader("logs.txt"));
+			String line;
+			while ((line = in.readLine()) != null) {
+				System.out.println(line);
+			}
+		}
 		
 		String minVer = request.getParameter("minVer");
 		String maxVer = request.getParameter("maxVer");
