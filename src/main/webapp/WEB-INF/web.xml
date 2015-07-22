@@ -21,6 +21,10 @@
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+  	<servlet-name>RNController</servlet-name>
+  	<url-pattern>/_logs</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
   	<servlet-name>GGLService</servlet-name>
   	<url-pattern>/doc</url-pattern>
   </servlet-mapping>
