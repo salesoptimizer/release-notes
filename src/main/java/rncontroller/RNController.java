@@ -50,7 +50,6 @@ public class RNController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LogManager.getLogManager().readConfiguration(RNController.class.getResourceAsStream("/logging.properties"));
-		log.info("TEST MESSAGE");	
 		
 		if (request.getRequestURI().endsWith("_logs")) {
 			BufferedReader in = new BufferedReader(new FileReader("logs.txt"));
@@ -73,6 +72,8 @@ public class RNController extends HttpServlet {
 			
 			response.getWriter().println("accessToken => " + accessToken);
 			response.getWriter().println("\ninstanceUrl => " + instanceUrl);
+			log.info("accessToken => " + accessToken);
+			log.info("instanceUrl => " + instanceUrl);
 			
 			SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 			
@@ -82,6 +83,7 @@ public class RNController extends HttpServlet {
 			}
 			
 			response.getWriter().println("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
+			log.info("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
 			
 	//		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
 			RTFConverter.convertToRTF(null);
