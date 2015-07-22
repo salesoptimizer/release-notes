@@ -46,7 +46,7 @@ public class RNController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if (!request.getRequestURI().endsWith("_logs")) {
+		if (request.getRequestURI().endsWith("_logs")) {
 			BufferedReader in = new BufferedReader(new FileReader("logs.txt"));
 			String line;
 			while ((line = in.readLine()) != null) {
