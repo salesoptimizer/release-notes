@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.eclipse.jetty.http.HttpTester.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -50,6 +52,9 @@ public class RNController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LogManager.getLogManager().readConfiguration(RNController.class.getResourceAsStream("/logging.properties"));
+
+		response.setHeader("Connection", "close");
+		response.getWriter().println();
 		
 		if (request.getRequestURI().endsWith("_logs")) {
 			BufferedReader in = new BufferedReader(new FileReader("logs.txt"));
