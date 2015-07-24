@@ -87,8 +87,8 @@ public class SFConnector/* extends HttpServlet*/ {
 				out.println("oauth authUrl =>"+authUrl);
 				response.getWriter().print("oauth authUrl =>"+authUrl);
 				// we need to send the user to authorize
-//				response.sendRedirect(authUrl);
-				sendRequest();
+				response.sendRedirect(authUrl);
+//				sendRequest();
 				
 //				sendRequest(authUrl);
 				return;
