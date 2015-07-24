@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -79,19 +80,19 @@ public class SFConnector/* extends HttpServlet*/ {
 		HttpClient httpclient = new HttpClient();
 		if (accessToken == null) {
 			String instanceUrl = null;
-			/*if (!request.getRequestURI().endsWith("_callback")) {
+			if (!request.getRequestURI().endsWith("_callback")) {
 				out.println("REQ DOESN'T END WITH _callback");
 				log1.info("REQ DOESN'T END WITH _callback");
 				log1.info("oauth authUrl =>"+authUrl);
 				out.println("oauth authUrl =>"+authUrl);
 				response.getWriter().print("oauth authUrl =>"+authUrl);
 				// we need to send the user to authorize
-				response.sendRedirect(authUrl);
-				
+//				response.sendRedirect(authUrl);
+				sendRequest();
 				
 //				sendRequest(authUrl);
 				return;
-			} else {*/
+			} else {
 				out.println("REQ ENDS WITH _callback");
 				out.println("ACCESS_TOKEN" + (String) request.getSession().getAttribute(ACCESS_TOKEN));
 				log1.info("REQ ENDS WITH _callback");
@@ -119,7 +120,7 @@ public class SFConnector/* extends HttpServlet*/ {
 				} finally {
 					post.releaseConnection();
 				}
-			//}
+			}
 			// Set a session attribute so that other servlets can get the access token and instance URL
 			request.getSession().setAttribute(ACCESS_TOKEN, accessToken);
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
@@ -127,14 +128,19 @@ public class SFConnector/* extends HttpServlet*/ {
 	}
 	
 	
-	private void sendRequest(String authUrl) {
+	private void sendRequest() throws UnsupportedEncodingException {
 		HttpClient client = new HttpClient();
 
-	    GetMethod method  = new GetMethod();
+	    GetMethod method  = new GetMethod(ENVIRONMENT + "/services/oauth2/authorize");
 	    FileOutputStream fos = null;
-
+	    
+	    NameValuePair[] params = new NameValuePair[1];
+		params[0] = new NameValuePair("response_type", "code");
+		params[1] = new NameValuePair("client_id", CLIENT_ID);
+		params[2] = new NameValuePair("redirect_uri", URLEncoder.encode(REDIRECT_URL, "UTF-8"));
+		method.setQueryString(params);
 	    try {
-	      method.setURI(new URI(authUrl, true));
+//	      method.setURI(new URI(authUrl, true));
 	      int returnCode = client.executeMethod(method);
 	      log1.info("STATUS CODE => " + returnCode);
 	      if(returnCode != HttpStatus.SC_OK) {
