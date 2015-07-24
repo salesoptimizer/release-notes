@@ -134,7 +134,7 @@ public class SFConnector/* extends HttpServlet*/ {
 	    GetMethod method  = new GetMethod(ENVIRONMENT + "/services/oauth2/authorize");
 	    FileOutputStream fos = null;
 	    
-	    NameValuePair[] params = new NameValuePair[1];
+	    NameValuePair[] params = new NameValuePair[3];
 		params[0] = new NameValuePair("response_type", "code");
 		params[1] = new NameValuePair("client_id", CLIENT_ID);
 		params[2] = new NameValuePair("redirect_uri", URLEncoder.encode(REDIRECT_URL, "UTF-8"));
