@@ -79,18 +79,19 @@ public class SFConnector/* extends HttpServlet*/ {
 		HttpClient httpclient = new HttpClient();
 		if (accessToken == null) {
 			String instanceUrl = null;
-			if (!request.getRequestURI().endsWith("_callback")) {
+			/*if (!request.getRequestURI().endsWith("_callback")) {
 				out.println("REQ DOESN'T END WITH _callback");
 				log1.info("REQ DOESN'T END WITH _callback");
 				log1.info("oauth authUrl =>"+authUrl);
 				out.println("oauth authUrl =>"+authUrl);
-				/*response.getWriter().print("oauth authUrl =>"+authUrl);*/
+				response.getWriter().print("oauth authUrl =>"+authUrl);
 				// we need to send the user to authorize
 				response.sendRedirect(authUrl);
 				
+				
 //				sendRequest(authUrl);
 				return;
-			} else {
+			} else {*/
 				out.println("REQ ENDS WITH _callback");
 				out.println("ACCESS_TOKEN" + (String) request.getSession().getAttribute(ACCESS_TOKEN));
 				log1.info("REQ ENDS WITH _callback");
@@ -118,7 +119,7 @@ public class SFConnector/* extends HttpServlet*/ {
 				} finally {
 					post.releaseConnection();
 				}
-			}
+			//}
 			// Set a session attribute so that other servlets can get the access token and instance URL
 			request.getSession().setAttribute(ACCESS_TOKEN, accessToken);
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
