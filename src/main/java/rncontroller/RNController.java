@@ -64,7 +64,12 @@ public class RNController extends HttpServlet {
 			}
 			return;
 		} else {
+		
 			
+			SFConnector sfConnector = new SFConnector();
+			
+			sfConnector.getAccessToSalesforce(request, response);
+
 			GGLService.docName = "TEST";
 			GGLService.createGoogleDoc();
 	
