@@ -64,12 +64,40 @@ public class RNController extends HttpServlet {
 			}
 			return;
 		} else {
-		
+			log.info("REQUEST REMOTE ADDR => " + request.getRemoteAddr());
+			log.info("REQUEST REMOTE HOST => " + request.getRemoteHost());
+			log.info("REQUEST SESSION ID => " + request.getSession().getId());
+			log.info("REQUEST QUERY STRING => " + request.getQueryString());
+			log.info("REQUEST AUTH TYPE => " + request.getAuthType());
+			
+			/*String minVer = request.getParameter("minVer");
+			String maxVer = request.getParameter("maxVer");*/
+			String projectId = request.getParameter("projectId");
 			
 			SFConnector sfConnector = new SFConnector();
 			
-			sfConnector.getAccessToSalesforce(request, response);
-
+//			sfConnector.getAccessToSalesforce(request, response);
+			
+			accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
+			instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
+			
+			log.info("accessToken => " + accessToken);
+			log.info("instanceUrl => " + instanceUrl);
+			
+			/*SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
+			
+			if (accessToken == null) {
+				response.getWriter().print("Error - no access token");
+				return;
+			}*/
+			
+//			response.getWriter().println("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
+//			log.info("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
+			
+	//		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
+			RTFConverter.convertToRTF(null);
+			request.setAttribute("tickets", true);
+//			GGLService.docName = sfQuery.getProjectName(projectId);
 			GGLService.docName = "TEST";
 			GGLService.createGoogleDoc();
 	
