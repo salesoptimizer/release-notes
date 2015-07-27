@@ -76,7 +76,7 @@ public class RNController extends HttpServlet {
 			
 			SFConnector sfConnector = new SFConnector();
 			
-			sfConnector.getAccessToSalesforce(request, response);
+//			sfConnector.getAccessToSalesforce(request, response);
 			
 			accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 			instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
@@ -99,7 +99,8 @@ public class RNController extends HttpServlet {
 	//		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
 			RTFConverter.convertToRTF(null);
 			request.setAttribute("tickets", true);
-			GGLService.docName = sfQuery.getProjectName(projectId);
+//			GGLService.docName = sfQuery.getProjectName(projectId);
+			GGLService.docName = "TEST";
 			GGLService.createGoogleDoc();
 	
 	//		request.setAttribute("projects", sfQuery.showProjects());
