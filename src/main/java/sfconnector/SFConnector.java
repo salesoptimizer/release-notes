@@ -87,10 +87,10 @@ public class SFConnector/* extends HttpServlet*/ {
 				out.println("oauth authUrl =>"+authUrl);
 				response.getWriter().print("oauth authUrl =>"+authUrl);
 				// we need to send the user to authorize
-				//response.sendRedirect(authUrl);
-				response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+				response.sendRedirect(authUrl);
+				/*response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 				response.setHeader("Location", authUrl);
-				response.getWriter().print("redirect");
+				response.getWriter().print("redirect");*/
 				
 //				sendRequest(authUrl);
 				return;
