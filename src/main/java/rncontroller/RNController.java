@@ -74,6 +74,12 @@ public class RNController extends HttpServlet {
 			String maxVer = request.getParameter("maxVer");
 			String projectId = request.getParameter("projectId");
 			
+			if (minVer != null && maxVer != null && projectId != null) {
+				request.getSession().setAttribute("minVer", minVer);
+				request.getSession().setAttribute("maxVer", maxVer);
+				request.getSession().setAttribute("projectId", projectId);
+			}
+			
 			SFConnector sfConnector = new SFConnector();
 			
 			sfConnector.getAccessToSalesforce(request, response);
@@ -94,7 +100,7 @@ public class RNController extends HttpServlet {
 			}
 			
 //			response.getWriter().println("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
-			log.info("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
+			log.info("minVer => " + request.getSession().getAttribute("minVer") + " maxVer => " + request.getSession().getAttribute("maxVer") + " projectId => " + request.getSession().getAttribute("projectId"));
 			
 			RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
 //			RTFConverter.convertToRTF(null);
