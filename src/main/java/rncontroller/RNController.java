@@ -52,9 +52,6 @@ public class RNController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LogManager.getLogManager().readConfiguration(RNController.class.getResourceAsStream("/logging.properties"));
-
-		response.setHeader("Connection", "close");
-		response.getWriter().println();
 		
 		if (request.getRequestURI().endsWith("_logs")) {
 			BufferedReader in = new BufferedReader(new FileReader("logs.txt"));
@@ -64,12 +61,6 @@ public class RNController extends HttpServlet {
 			}
 			return;
 		} else {
-			log.info("REQUEST REMOTE ADDR => " + request.getRemoteAddr());
-			log.info("REQUEST REMOTE HOST => " + request.getRemoteHost());
-			log.info("REQUEST SESSION ID => " + request.getSession().getId());
-			log.info("REQUEST QUERY STRING => " + request.getQueryString());
-			log.info("REQUEST AUTH TYPE => " + request.getAuthType());
-			
 			String minVer = request.getParameter("minVer");
 			String maxVer = request.getParameter("maxVer");
 			String projectId = request.getParameter("projectId");
@@ -82,8 +73,6 @@ public class RNController extends HttpServlet {
 			accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 			instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
 
-			response.getWriter().println("accessToken => " + accessToken);
-			response.getWriter().println("instanceUrl => " + instanceUrl);
 			log.info("accessToken => " + accessToken);
 			log.info("instanceUrl => " + instanceUrl);
 			
@@ -94,23 +83,10 @@ public class RNController extends HttpServlet {
 				return;
 			}
 			
-//			response.getWriter().println("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
-			
-			
 			RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
-//			RTFConverter.convertToRTF(null);
 			request.setAttribute("tickets", true);
 			GGLService.docName = sfQuery.getProjectName(projectId);
-//			GGLService.docName = "TEST";
 			GGLService.createGoogleDoc();
-	
-	//		request.setAttribute("projects", sfQuery.showProjects());
-	//		
-	//	    Map<String, String> projects = sfQuery.showProjects(); 
-	//		for (String projectKey: projects.keySet()) {
-	//			response.getWriter().println(projectKey + " => " + projects.get(projectKey));	
-	//		}
-	//		getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
 		}
 	}
 

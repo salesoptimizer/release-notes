@@ -75,30 +75,19 @@ public class SFConnector/* extends HttpServlet*/ {
 	
 	public void getAccessToSalesforce(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
-		PrintWriter out = response.getWriter();
-		log1.info("!!!!!!!!!!!!!!!!!!!!! LOG1");
-		HttpClient httpclient = new HttpClient();
+		
 		if (accessToken == null) {
 			String instanceUrl = null;
 			if (!request.getRequestURI().endsWith("_callback")) {
-				out.println("REQ DOESN'T END WITH _callback");
 				log1.info("REQ DOESN'T END WITH _callback");
 				log1.info("oauth authUrl =>"+authUrl);
-				out.println("oauth authUrl =>"+authUrl);
-				response.getWriter().print("oauth authUrl =>"+authUrl);
 				// we need to send the user to authorize
 				response.sendRedirect(authUrl);
-				/*response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-				response.setHeader("Location", authUrl);
-				response.getWriter().print("redirect");*/
-				
-//				sendRequest(authUrl);
 				return;
 			} else {
-				out.println("REQ ENDS WITH _callback");
 				log1.info("REQ ENDS WITH _callback");
 				String code = request.getParameter("code");
-				httpclient = new HttpClient();
+				HttpClient httpclient = new HttpClient();
 				PostMethod post = new PostMethod(tokenUrl);
 				post.addParameter("code", code);
 				post.addParameter("grant_type", "authorization_code");
