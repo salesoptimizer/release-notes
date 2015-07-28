@@ -70,8 +70,8 @@ public class RNController extends HttpServlet {
 			log.info("REQUEST QUERY STRING => " + request.getQueryString());
 			log.info("REQUEST AUTH TYPE => " + request.getAuthType());
 			
-			/*String minVer = request.getParameter("minVer");
-			String maxVer = request.getParameter("maxVer");*/
+			String minVer = request.getParameter("minVer");
+			String maxVer = request.getParameter("maxVer");
 			String projectId = request.getParameter("projectId");
 			
 			SFConnector sfConnector = new SFConnector();
@@ -86,21 +86,21 @@ public class RNController extends HttpServlet {
 			log.info("accessToken => " + accessToken);
 			log.info("instanceUrl => " + instanceUrl);
 			
-			/*SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
+			SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 			
 			if (accessToken == null) {
 				response.getWriter().print("Error - no access token");
 				return;
-			}*/
+			}
 			
 //			response.getWriter().println("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
-//			log.info("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
+			log.info("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
 			
-	//		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
-			RTFConverter.convertToRTF(null);
+			RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
+//			RTFConverter.convertToRTF(null);
 			request.setAttribute("tickets", true);
-//			GGLService.docName = sfQuery.getProjectName(projectId);
-			GGLService.docName = "TEST";
+			GGLService.docName = sfQuery.getProjectName(projectId);
+//			GGLService.docName = "TEST";
 			GGLService.createGoogleDoc();
 	
 	//		request.setAttribute("projects", sfQuery.showProjects());
