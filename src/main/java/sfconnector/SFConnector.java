@@ -96,9 +96,7 @@ public class SFConnector/* extends HttpServlet*/ {
 				return;
 			} else {
 				out.println("REQ ENDS WITH _callback");
-				out.println("ACCESS_TOKEN" + (String) request.getSession().getAttribute(ACCESS_TOKEN));
 				log1.info("REQ ENDS WITH _callback");
-				log1.info("ACCESS_TOKEN" + (String) request.getSession().getAttribute(ACCESS_TOKEN));
 				String code = request.getParameter("code");
 				httpclient = new HttpClient();
 				PostMethod post = new PostMethod(tokenUrl);

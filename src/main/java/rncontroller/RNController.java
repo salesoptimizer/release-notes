@@ -80,7 +80,9 @@ public class RNController extends HttpServlet {
 			
 			accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 			instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
-			
+
+			response.getWriter().println("accessToken => " + accessToken);
+			response.getWriter().println("instanceUrl => " + instanceUrl);
 			log.info("accessToken => " + accessToken);
 			log.info("instanceUrl => " + instanceUrl);
 			
