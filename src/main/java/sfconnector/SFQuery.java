@@ -43,42 +43,6 @@ public class SFQuery {
 		return get;
 	}
 	
-	public HashMap<String, String> showProjects() throws ServletException, IOException {
-		HashMap<String, String> resultMap = new HashMap<String, String>();
-		HttpClient httpclient = new HttpClient();
-		
-		// set the SOQL as a query param
-		NameValuePair[] params = new NameValuePair[1];
-		params[0] = new NameValuePair("q",
-				"SELECT Name, Id from SFDC_Project__c LIMIT 100");
-		GetMethod getMethod = createGetMethod();
-		getMethod.setQueryString(params);
-		
-		try {
-			httpclient.executeMethod(getMethod);
-			int statusCode = getMethod.getStatusCode(); 
-			if (statusCode == HttpStatus.SC_OK) {
-				// Now lets use the standard java json classes to work with the results
-				String responseBody = getMethod.getResponseBodyAsString();
-				try {
-					JSONObject response = new JSONObject(responseBody);
-					JSONArray results = response.getJSONArray("records");
-					for (int i = 0; i < results.length(); i++) {
-						String projectId = results.getJSONObject(i).getString("Id"); 
-						String projectName = results.getJSONObject(i).getString("Name"); 
-						resultMap.put(projectId, projectName);
-					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-					throw new ServletException(e);
-				}
-			}
-		} finally {
-			getMethod.releaseConnection();
-		}
-		return resultMap;
-	}
-	
 	public List<ReleaseNote> getTickets(String ver1, String ver2, String projectId) throws ServletException, IOException {
 		List<ReleaseNote> releaseNotes = new ArrayList<ReleaseNote>();
 		HttpClient httpclient = new HttpClient();
@@ -86,7 +50,7 @@ public class SFQuery {
 		// set the SOQL as a query param
 		NameValuePair[] params = new NameValuePair[1];
 		params[0] = new NameValuePair("q",
-				"SELECT Name, Id, Fixed_in_Ver__c, Release_Notes__c "
+				"SELECT Id, Fixed_in_Ver__c, Release_Notes__c, Est_Due_Date__c"
 			  + "FROM Ticket__c "
 			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
 			  + "AND Project__c = '" + projectId + "'"
@@ -104,14 +68,14 @@ public class SFQuery {
 					JSONObject response = new JSONObject(responseBody);
 					JSONArray results = response.getJSONArray("records");
 					for (int i = 0; i < results.length(); i++) {
-						String ticketId = results.getJSONObject(i).getString("Id"); 
-						String ticketName = results.getJSONObject(i).getString("Name"); 
+						String ticketId = results.getJSONObject(i).getString("Id");
 						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c");
+						String ticketDate = results.getJSONObject(i).getString("Est_Due_Date__c");
 						String ticketReleaseNotes = "";
 						if (results.getJSONObject(i).get("Release_Notes__c") instanceof String) {
 							ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");
 						}
-						releaseNotes.add(new ReleaseNote(ticketId, ticketName, ticketFixedVersion, ticketReleaseNotes));
+						releaseNotes.add(new ReleaseNote(ticketId, ticketDate, ticketFixedVersion, ticketReleaseNotes));
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();

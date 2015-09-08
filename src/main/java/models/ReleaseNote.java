@@ -2,7 +2,7 @@ package models;
 
 public class ReleaseNote {
 	private String ticketId;
-	private String ticketName;
+	private String ticketDate;
 	private String packVersion;
 	private String releaseNotes;
 
@@ -13,7 +13,7 @@ public class ReleaseNote {
 	public ReleaseNote(String ticketId, String ticketName, String packVersion,
 			String releaseNotes) {
 		this.ticketId = ticketId;
-		this.ticketName = ticketName;
+		this.ticketDate = ticketName;
 		this.packVersion = packVersion;
 		this.releaseNotes = releaseNotes;
 	}
@@ -26,12 +26,12 @@ public class ReleaseNote {
 		this.ticketId = ticketId;
 	}
 
-	public String getTicketName() {
-		return ticketName;
+	public String getTicketDate() {
+		return ticketDate;
 	}
 
-	public void setTicketName(String ticketName) {
-		this.ticketName = ticketName;
+	public void setTicketDate(String ticketDate) {
+		this.ticketDate = ticketDate;
 	}
 
 	public String getPackVersion() {

@@ -32,9 +32,9 @@ public class RTFConverter {
             document.open();
           
             PdfPTable table = new PdfPTable(3);
-            addBoldText(table, "Ticket name");
-            addBoldText(table, "Ticket release notes");
-            addBoldText(table, "Fix.version");
+            addBoldText(table, "Date");
+            addBoldText(table, "Version");
+            addBoldText(table, "Release Notes");
             table.completeRow();
             
             if (releaseNotes != null) {
@@ -42,9 +42,9 @@ public class RTFConverter {
 	            ReleaseNote rnote;
 	            while (iterator.hasNext()) {
 	            	rnote = iterator.next();
-	            	table.addCell("    " + rnote.getTicketName());
-	            	table.addCell("    " + rnote.getReleaseNotes());
+	            	table.addCell("    " + rnote.getTicketDate());
 	            	table.addCell("    " + rnote.getPackVersion());
+	            	table.addCell("    " + rnote.getReleaseNotes());
 		            table.completeRow();
 	            }
             }

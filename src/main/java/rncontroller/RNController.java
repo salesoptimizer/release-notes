@@ -92,20 +92,5 @@ public class RNController extends HttpServlet {
 			}
 		}
 	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		String minVer = req.getParameter("minVer");
-		String maxVer = req.getParameter("maxVer");
-		String projectId = req.getParameter("projectId");
-		SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
-		RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
-		req.setAttribute("tickets", true);
-		GGLService.docName = sfQuery.getProjectName(projectId);
-		getServletContext().getRequestDispatcher("/main.jsp").forward(req, resp);
-	}
-	
-	
 	
 }
