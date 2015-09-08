@@ -14,14 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Foo
  */
-public class GGLService extends HttpServlet {
-	private static final long serialVersionUID = 5599195927405315789L;
+public class GGLService {
 	public static String docName;
 
 		/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	/*protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		GGLFileManager fileManager = new GGLFileManager();
 		try {
 			if (docName == null) {
@@ -34,20 +33,23 @@ public class GGLService extends HttpServlet {
 		}
 		response.getWriter().print("<a href='https://tranquil-taiga-6535.herokuapp.com'>Back to main page</a><br/>");
 		response.getWriter().print("<b>Google doc successfully created on Google Drive</b>");
-	}
+	}*/
 	
-	public static void createGoogleDoc () {
+	public static boolean createGoogleDoc () {
 		GGLFileManager fileManager = new GGLFileManager();
+		boolean result = false;
 		try {
 			if (docName == null) {
 				docName = "Test document";
 			}
 			fileManager.insertFile(GGLConnector.getDrive(), docName, "document description", "", "application/rtf", "ReleaseNotes.rtf");
+			result = true;
 		} catch (GeneralSecurityException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return result;
 	}
 
 }

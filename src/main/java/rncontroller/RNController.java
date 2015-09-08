@@ -85,7 +85,11 @@ public class RNController extends HttpServlet {
 			
 			RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
 			GGLService.docName = sfQuery.getProjectName(projectId);
-			GGLService.createGoogleDoc();
+			if (GGLService.createGoogleDoc()) {
+				response.getWriter().print("<b>Google doc successfully created on Google Drive</b>");
+			} else {
+				response.getWriter().print("<b>Error during document creating. Please, check app logs for getting more info</b>");
+			}
 		}
 	}
 
