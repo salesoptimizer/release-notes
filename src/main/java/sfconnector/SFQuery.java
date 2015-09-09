@@ -86,6 +86,8 @@ public class SFQuery {
 					e.printStackTrace();
 					throw new ServletException(e);
 				}
+			} else {
+				log2.warning("STATUS CODE " + statusCode);
 			}
 		} finally {
 			getMethod.releaseConnection();
