@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +33,8 @@ public class SFQuery {
 	private static final long serialVersionUID = 1L;
 	private String accessToken;
 	private String instanceUrl;
+	
+	private Logger log2 = LogManager.getLogManager().getLogger("rnotes");
 	
 	public SFQuery(String accessToken, String instanceUrl) {
 		this.accessToken = accessToken;
@@ -67,15 +71,16 @@ public class SFQuery {
 				try {
 					JSONObject response = new JSONObject(responseBody);
 					JSONArray results = response.getJSONArray("records");
+					log2.info("!! JSONArrayResults => " + results.toString());
 					for (int i = 0; i < results.length(); i++) {
 						String ticketId = results.getJSONObject(i).getString("Id");
 						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c");
-						String ticketDate = results.getJSONObject(i).getString("Est_Due_Date__c");
+//						String ticketDate = results.getJSONObject(i).getString("Est_Due_Date__c");
 						String ticketReleaseNotes = "";
 						if (results.getJSONObject(i).get("Release_Notes__c") instanceof String) {
 							ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");
 						}
-						releaseNotes.add(new ReleaseNote(ticketId, ticketDate, ticketFixedVersion, ticketReleaseNotes));
+						releaseNotes.add(new ReleaseNote(ticketId, /*ticketDate*/"", ticketFixedVersion, ticketReleaseNotes));
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
