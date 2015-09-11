@@ -56,8 +56,8 @@ public class SFQuery {
 		params[0] = new NameValuePair("q",
 				"SELECT Id, Name, Fixed_in_Ver__c, Release_Notes__c, Est_Due_Date__c "
 			  + "FROM Ticket__c "
-//			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
-//			  + "AND Project__c = '" + projectId + "'"
+			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
+			  + "AND Project__c = '" + projectId + "'"
 	  		  + "LIMIT 100");
 		GetMethod getMethod = createGetMethod();
 		getMethod.setQueryString(params);
@@ -70,21 +70,22 @@ public class SFQuery {
 				String responseBody = getMethod.getResponseBodyAsString();
 				try {
 					JSONObject response = new JSONObject(responseBody);
-					log2.info("!! RESPONSE => " + response.toString());
 					JSONArray results = response.getJSONArray("records");
-					log2.info("!! JSONArrayResults => " + results.toString());
 					for (int i = 0; i < results.length(); i++) {
 						String ticketId = results.getJSONObject(i).getString("Id");
-//						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c");
 						String ticketFixedVersion = "";
-//						String ticketDate = results.getJSONObject(i).getString("Est_Due_Date__c");
 						String ticketDate = "";
 						String ticketReleaseNotes = "";
-						/*if (results.getJSONObject(i).get("Release_Notes__c") instanceof String) {
+						if (results.getJSONObject(i).get("Fixed_in_Ver__c") instanceof String) {
+							ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c");
+						}
+						if (results.getJSONObject(i).get("Est_Due_Date__c") instanceof String) {
+							ticketFixedVersion = results.getJSONObject(i).getString("Est_Due_Date__c");
+						}
+						if (results.getJSONObject(i).get("Release_Notes__c") instanceof String) {
 							ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");
-						}*/
+						}
 						releaseNotes.add(new ReleaseNote(ticketId, ticketDate, ticketFixedVersion, ticketReleaseNotes));
-//						releaseNotes.add(new ReleaseNote(ticketId, "", "", ""));
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
