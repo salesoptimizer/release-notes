@@ -80,7 +80,7 @@ public class SFQuery {
 							ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c");
 						}
 						if (results.getJSONObject(i).get("Est_Due_Date__c") instanceof String) {
-							ticketFixedVersion = results.getJSONObject(i).getString("Est_Due_Date__c");
+							ticketDate = results.getJSONObject(i).getString("Est_Due_Date__c");
 						}
 						if (results.getJSONObject(i).get("Release_Notes__c") instanceof String) {
 							ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");

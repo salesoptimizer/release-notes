@@ -10,10 +10,10 @@ public class ReleaseNote {
 
 	}
 
-	public ReleaseNote(String ticketId, String ticketName, String packVersion,
+	public ReleaseNote(String ticketId, String ticketDate, String packVersion,
 			String releaseNotes) {
 		this.ticketId = ticketId;
-		this.ticketDate = ticketName;
+		this.ticketDate = ticketDate;
 		this.packVersion = packVersion;
 		this.releaseNotes = releaseNotes;
 	}
