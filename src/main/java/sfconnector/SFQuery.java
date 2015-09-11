@@ -70,6 +70,7 @@ public class SFQuery {
 				String responseBody = getMethod.getResponseBodyAsString();
 				try {
 					JSONObject response = new JSONObject(responseBody);
+					log2.info("!! RESPONSE => " + response.toString());
 					JSONArray results = response.getJSONArray("records");
 					log2.info("!! JSONArrayResults => " + results.toString());
 					for (int i = 0; i < results.length(); i++) {
