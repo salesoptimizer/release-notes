@@ -75,7 +75,8 @@ public class SFQuery {
 					log2.info("!! JSONArrayResults => " + results.toString());
 					for (int i = 0; i < results.length(); i++) {
 						String ticketId = results.getJSONObject(i).getString("Id");
-						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c");
+//						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c");
+						String ticketFixedVersion = "";
 						String ticketDate = results.getJSONObject(i).getString("Est_Due_Date__c");
 						String ticketReleaseNotes = "";
 						/*if (results.getJSONObject(i).get("Release_Notes__c") instanceof String) {
