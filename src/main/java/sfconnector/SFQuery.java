@@ -54,7 +54,7 @@ public class SFQuery {
 		// set the SOQL as a query param
 		NameValuePair[] params = new NameValuePair[1];
 		params[0] = new NameValuePair("q",
-				"SELECT Id "
+				"SELECT Id, Name "
 			  + "FROM Ticket__c "
 			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
 			  + "AND Project__c = '" + projectId + "'"
@@ -81,6 +81,9 @@ public class SFQuery {
 							ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");
 						}*/
 //						releaseNotes.add(new ReleaseNote(ticketId, /*ticketDate*/"", ticketFixedVersion, ticketReleaseNotes));
+						log2.info("!! projectId => " + projectId);
+						log2.info("!! ticketId => " + ticketId);
+						log2.info("!! ticketName => " + results.getJSONObject(i).getString("Name"));
 						releaseNotes.add(new ReleaseNote(ticketId, "", "", ""));
 					}
 				} catch (JSONException e) {
