@@ -65,9 +65,12 @@ public class RNController extends HttpServlet {
 			}
 			return;
 		} else {
-			this.minVer = request.getParameter("minVer");
-			this.maxVer = request.getParameter("maxVer");
-			this.projectId = request.getParameter("projectId");
+			String newMinVer = request.getParameter("minVer");
+			String newMaxVer = request.getParameter("maxVer");
+			String newProjectId = request.getParameter("projectId");
+			this.minVer = newMinVer.equals(null) ? this.minVer : newMinVer;
+			this.maxVer = newMaxVer.equals(null) ? this.maxVer : newMaxVer;
+			this.projectId = newProjectId.equals(null) ? this.projectId : newProjectId;
 			log.info("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
 			
 			SFConnector sfConnector = new SFConnector();
