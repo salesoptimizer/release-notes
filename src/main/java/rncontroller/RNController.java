@@ -44,6 +44,10 @@ public class RNController extends HttpServlet {
 	private static String accessToken;
 	private static String instanceUrl;
 	
+	private String minVer;
+	private String maxVer;
+	private String projectId;
+	
 	private static Logger log = Logger.getLogger("rnotes");
 
 	/**
@@ -61,9 +65,9 @@ public class RNController extends HttpServlet {
 			}
 			return;
 		} else {
-			String minVer = request.getParameter("minVer");
-			String maxVer = request.getParameter("maxVer");
-			String projectId = request.getParameter("projectId");
+			this.minVer = request.getParameter("minVer");
+			this.maxVer = request.getParameter("maxVer");
+			this.projectId = request.getParameter("projectId");
 			log.info("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
 			
 			SFConnector sfConnector = new SFConnector();
