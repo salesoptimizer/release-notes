@@ -41,8 +41,8 @@ public class SFConnector/* extends HttpServlet*/ {
 	private static final String CLIENT_SECRET = "4861802443923999686";*/
 	
 	/* Salesoptimizer sandbox */ 
-	private static final String CLIENT_ID = "3MVG982oBBDdwyHjrnsjAnCpNWqm7Uh0aHwcxkLZ9NHZGAF_7CGm1wSWtL5YP74CtD_EitP9vVwjavID4C8xQ";
-	private static final String CLIENT_SECRET = "4574498198215889924";
+	private static final String CLIENT_ID = "3MVG9snqYUvtJB1MWfzh1Ehkk24Hanyly3hFbq9YTZnjgwkXBDQ5YoXmqQDF9F6yfwY5hzAW3U6d5ORMILt4x";
+	private static final String CLIENT_SECRET = "6328597736698327307";
 	
 	private static final String REDIRECT_URL = "https://tranquil-taiga-6535.herokuapp.com/RestTest/oauth/_callback";
 //	private static final String ENVIRONMENT = "https://login.salesforce.com";
