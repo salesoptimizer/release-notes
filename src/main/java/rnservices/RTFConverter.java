@@ -63,7 +63,7 @@ public class RTFConverter {
 	}
 	
 	private static void addBoldText(PdfPTable table, String text) throws DocumentException {
-		table.setTotalWidth(new float[] {20.0f, 70.0f, 30.0f});
+		table.setTotalWidth(new float[] {20.0f, 10.0f, 70.0f});
         // first movie
         Phrase phrase = new Phrase("    " + text, FontFactory.getFont("Calibri", 12, Font.BOLD));
         Paragraph paragraph = new Paragraph(phrase);
