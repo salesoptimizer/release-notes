@@ -74,7 +74,6 @@ public class RNController extends HttpServlet {
 			log.info("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
 			
 			SFConnector sfConnector = new SFConnector();
-			
 			sfConnector.getAccessToSalesforce(request, response);
 			
 			accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
@@ -83,13 +82,12 @@ public class RNController extends HttpServlet {
 			log.info("accessToken => " + accessToken);
 			log.info("instanceUrl => " + instanceUrl);
 			
-			SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
-			
 			if (accessToken == null) {
 				response.getWriter().print("Error - no access token");
 				return;
 			}
-			
+
+			SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 			RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
 			GGLService.docName = sfQuery.getProjectName(projectId);
 			if (GGLService.createGoogleDoc()) {
