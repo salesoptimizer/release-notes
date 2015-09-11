@@ -77,7 +77,8 @@ public class SFQuery {
 						String ticketId = results.getJSONObject(i).getString("Id");
 //						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c");
 						String ticketFixedVersion = "";
-						String ticketDate = results.getJSONObject(i).getString("Est_Due_Date__c");
+//						String ticketDate = results.getJSONObject(i).getString("Est_Due_Date__c");
+						String ticketDate = "";
 						String ticketReleaseNotes = "";
 						/*if (results.getJSONObject(i).get("Release_Notes__c") instanceof String) {
 							ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");
