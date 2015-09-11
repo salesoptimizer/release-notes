@@ -54,7 +54,7 @@ public class SFQuery {
 		// set the SOQL as a query param
 		NameValuePair[] params = new NameValuePair[1];
 		params[0] = new NameValuePair("q",
-				"SELECT Id, Name "
+				"SELECT Id, Name, Fixed_in_Ver__c, Release_Notes__c, Est_Due_Date__c "
 			  + "FROM Ticket__c "
 //			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
 //			  + "AND Project__c = '" + projectId + "'"
@@ -75,17 +75,14 @@ public class SFQuery {
 					log2.info("!! JSONArrayResults => " + results.toString());
 					for (int i = 0; i < results.length(); i++) {
 						String ticketId = results.getJSONObject(i).getString("Id");
-//						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c");
-//						String ticketDate = results.getJSONObject(i).getString("Est_Due_Date__c");
+						String ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c");
+						String ticketDate = results.getJSONObject(i).getString("Est_Due_Date__c");
 						String ticketReleaseNotes = "";
 						/*if (results.getJSONObject(i).get("Release_Notes__c") instanceof String) {
 							ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");
 						}*/
-//						releaseNotes.add(new ReleaseNote(ticketId, /*ticketDate*/"", ticketFixedVersion, ticketReleaseNotes));
-						log2.info("!! projectId => " + projectId);
-						log2.info("!! ticketId => " + ticketId);
-						log2.info("!! ticketName => " + results.getJSONObject(i).getString("Name"));
-						releaseNotes.add(new ReleaseNote(ticketId, "", "", ""));
+						releaseNotes.add(new ReleaseNote(ticketId, ticketDate, ticketFixedVersion, ticketReleaseNotes));
+//						releaseNotes.add(new ReleaseNote(ticketId, "", "", ""));
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
