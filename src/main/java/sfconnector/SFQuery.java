@@ -56,8 +56,8 @@ public class SFQuery {
 		params[0] = new NameValuePair("q",
 				"SELECT Id, Name "
 			  + "FROM Ticket__c "
-			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
-			  + "AND Project__c = '" + projectId + "'"
+//			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
+//			  + "AND Project__c = '" + projectId + "'"
 	  		  + "LIMIT 100");
 		GetMethod getMethod = createGetMethod();
 		getMethod.setQueryString(params);
