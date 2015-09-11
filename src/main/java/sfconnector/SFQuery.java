@@ -54,7 +54,7 @@ public class SFQuery {
 		// set the SOQL as a query param
 		NameValuePair[] params = new NameValuePair[1];
 		params[0] = new NameValuePair("q",
-				"SELECT Id, Name, Fixed_in_Ver__c, Release_Notes__c, Est_Due_Date__c "
+				"SELECT Id, Name, Fixed_in_Ver__c, Est_Due_Date__c "
 			  + "FROM Ticket__c "
 //			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
 //			  + "AND Project__c = '" + projectId + "'"
