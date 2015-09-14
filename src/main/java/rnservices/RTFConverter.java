@@ -1,5 +1,6 @@
 package rnservices;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Iterator;
@@ -22,13 +23,11 @@ import com.lowagie.text.rtf.RtfWriter2;
 import models.ReleaseNote;
 
 public class RTFConverter {
-//	private List<ReleaseNote> releaseNotes;
 	
 	public static boolean convertToRTF(List<ReleaseNote> releaseNotes) {
 		Document document = new Document(PageSize.A4);
         try {
         	RtfWriter2 writer = RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
-//        	PdfWriter.getInstance(document, new FileOutputStream("ReleaseNotes.pdf"));
             document.open();
           
             PdfPTable table = new PdfPTable(3);
@@ -63,13 +62,17 @@ public class RTFConverter {
 	}
 	
 	private static void addBoldText(PdfPTable table, String text) throws DocumentException {
-		table.setTotalWidth(new float[] {20.0f, 10.0f, 70.0f});
+		table.setTotalWidth(new float[] {20.0f, 20.0f, 70.0f});
         // first movie
-        Phrase phrase = new Phrase("    " + text, FontFactory.getFont("Calibri", 12, Font.BOLD));
+        Phrase phrase = new Phrase("    " + text, FontFactory.getFont("Arial", 12, Font.BOLD));
         Paragraph paragraph = new Paragraph(phrase);
         paragraph.setAlignment(Element.ALIGN_LEFT);
         PdfPCell cell = new PdfPCell(paragraph);
-        cell.setPadding(20.0f);
+        cell.setPaddingLeft(20.0f);
+        cell.setPaddingRight(10.0f);
+        cell.setPaddingTop(10.0f);
+        cell.setPaddingBottom(30.0f);
+        cell.setBorderColor(Color.blue);
         table.addCell(cell);
 	}
 	
