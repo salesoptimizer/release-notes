@@ -41,19 +41,15 @@ public class RTFConverter {
 	            Iterator<ReleaseNote> iterator = releaseNotes.iterator();
 	            ReleaseNote rnote;
 	            while (iterator.hasNext()) {
-	            	com.lowagie.text.List list = new com.lowagie.text.List(com.lowagie.text.List.UNORDERED, com.lowagie.text.List.MARKED);
-		            list.setPreSymbol("\u2022");
-		            list.setPostSymbol(";");
-		            list.setLowercase(com.lowagie.text.List.LOWERCASE);
-		            list.add("note1");
-	            	list.add("note2");
-	            	list.add("note3");
-		            
 	            	rnote = iterator.next();
 	            	table.addCell("    " + rnote.getTicketDate());
 	            	table.addCell("    " + rnote.getPackVersion());
 //	            	table.addCell("    " + rnote.getReleaseNotes());
-	            	table.addCell("    " + list.toString());
+	            	StringBuilder rNotesCellText = new StringBuilder();
+	            	rNotesCellText.append("    ").append("\u2022").append(" ").append("note1;\n\r");
+	            	rNotesCellText.append("    ").append("\u2022").append(" ").append("note2;\n\r");
+	            	rNotesCellText.append("    ").append("\u2022").append(" ").append("note3;\n\r");
+	            	table.addCell("    " + rNotesCellText.toString());
 		            table.completeRow();
 	            }
             }
