@@ -14,6 +14,7 @@ import com.lowagie.text.FontFactory;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.html.HtmlParser;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
@@ -40,10 +41,19 @@ public class RTFConverter {
 	            Iterator<ReleaseNote> iterator = releaseNotes.iterator();
 	            ReleaseNote rnote;
 	            while (iterator.hasNext()) {
+	            	com.lowagie.text.List list = new com.lowagie.text.List(com.lowagie.text.List.UNORDERED, com.lowagie.text.List.MARKED);
+		            list.setPreSymbol("\u2022");
+		            list.setPostSymbol(";");
+		            list.setLowercase(com.lowagie.text.List.LOWERCASE);
+		            list.add("note1");
+	            	list.add("note2");
+	            	list.add("note3");
+		            
 	            	rnote = iterator.next();
 	            	table.addCell("    " + rnote.getTicketDate());
 	            	table.addCell("    " + rnote.getPackVersion());
-	            	table.addCell("    " + rnote.getReleaseNotes());
+//	            	table.addCell("    " + rnote.getReleaseNotes());
+	            	table.addCell("    " + list);
 		            table.completeRow();
 	            }
             }
@@ -62,17 +72,17 @@ public class RTFConverter {
 	}
 	
 	private static void addBoldText(PdfPTable table, String text) throws DocumentException {
-		table.setTotalWidth(new float[] {20.0f, 20.0f, 70.0f});
+		table.setTotalWidth(new float[] {20.0f, 20.0f, 80.0f});
         // first movie
         Phrase phrase = new Phrase("    " + text, FontFactory.getFont("Arial", 12, Font.BOLD));
         Paragraph paragraph = new Paragraph(phrase);
         paragraph.setAlignment(Element.ALIGN_LEFT);
         PdfPCell cell = new PdfPCell(paragraph);
-        cell.setPaddingLeft(20.0f);
-        cell.setPaddingRight(10.0f);
-        cell.setPaddingTop(10.0f);
-        cell.setPaddingBottom(30.0f);
-        cell.setBorderColor(Color.blue);
+        cell.setPaddingLeft(10.0f);
+        cell.setPaddingRight(20.0f);
+        cell.setPaddingTop(20.0f);
+        cell.setPaddingBottom(50.0f);
+        cell.getBorderColor();
         table.addCell(cell);
 	}
 	
