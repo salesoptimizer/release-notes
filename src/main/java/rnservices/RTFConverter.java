@@ -53,7 +53,7 @@ public class RTFConverter {
 	            	table.addCell("    " + rnote.getTicketDate());
 	            	table.addCell("    " + rnote.getPackVersion());
 //	            	table.addCell("    " + rnote.getReleaseNotes());
-	            	table.addCell("    " + list);
+	            	table.addCell("    " + list.toString());
 		            table.completeRow();
 	            }
             }
