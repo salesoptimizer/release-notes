@@ -63,6 +63,7 @@ public class RTFConverter {
 	            	table.addCell(cell);
 	            	
 //	            	add list of release notes to the last cell	***************************************************************************************
+	            	cell.setPhrase(new Phrase(""));
 	            	cell.addElement(getReleaseNotesList(rnote.getReleaseNotes()));
 	            	table.addCell(cell);
 	    
@@ -105,7 +106,7 @@ public class RTFConverter {
 		resultList.setIndentationLeft(20.0f);
 		resultList.setListSymbol("\u2022");
 		
-		String[] lines = rnContent.split("\n\r");
+		String[] lines = rnContent.split("\r");
 		for (String line: lines) {
 			line = line.trim().toLowerCase();
 //			yeah, it's a bad practice, but IMHO it's ok when concatination is single	*****************************************************************
