@@ -41,7 +41,7 @@ public class ITextTest {
 	            	rNotesCellText.append("    ").append("\u2022").append(" ").append("note2;\n");
 	            	rNotesCellText.append("    ").append("\u2022").append(" ").append("note3;\n");*/
 //	            	table.addCell("    " + rNotesCellText.toString());
-	            	List list = new List(List.MARKED);
+	            	List list = new List(false, 10);
 	            	list.setSymbolIndent(10.0f);
 	            	list.setIndentationLeft(20.0f);
 	            	list.setListSymbol("\u2022");
