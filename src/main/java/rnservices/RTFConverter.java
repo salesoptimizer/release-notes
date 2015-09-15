@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.util.Iterator;
 import java.util.List;
 
+import com.lowagie.text.Cell;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
@@ -15,6 +16,7 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.Table;
 import com.lowagie.text.html.HtmlParser;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
@@ -23,6 +25,7 @@ import com.lowagie.text.rtf.RtfWriter2;
 
 import models.ReleaseNote;
 
+//	 ***************************************************************************************************************************************************
 public class RTFConverter {
 	
 	public static boolean convertToRTF(List<ReleaseNote> releaseNotes) {
@@ -32,6 +35,7 @@ public class RTFConverter {
             document.open();
           
             PdfPTable table = new PdfPTable(3);
+            table.setTotalWidth(new float[] {20.0f, 20.0f, 80.0f});
             addBoldText(table, "Date");
             addBoldText(table, "Version");
             addBoldText(table, "Release Notes");
@@ -42,14 +46,26 @@ public class RTFConverter {
 	            ReleaseNote rnote;
 	            while (iterator.hasNext()) {
 	            	rnote = iterator.next();
-	            	table.addCell("    " + rnote.getTicketDate());
-	            	table.addCell("    " + rnote.getPackVersion());
-//	            	table.addCell("    " + rnote.getReleaseNotes());
-	            	StringBuilder rNotesCellText = new StringBuilder();
-	            	rNotesCellText.append("    ").append("\u2022").append(" ").append("note1;\n\r");
-	            	rNotesCellText.append("    ").append("\u2022").append(" ").append("note2;\n\r");
-	            	rNotesCellText.append("    ").append("\u2022").append(" ").append("note3;\n\r");
-	            	table.addCell("    " + rNotesCellText.toString());
+	            	
+//	            	set cell format: paddings, border color	*******************************************************************************************
+	            	PdfPCell cell = new PdfPCell();
+	            	cell.setBorderColor(Color.BLUE);
+	            	cell.setPaddingLeft(10.0f);
+	            	cell.setPaddingRight(20.0f);
+	            	cell.setPaddingTop(20.0f);
+	            	cell.setPaddingBottom(20.0f);
+	            	
+//	            	add cells content	***************************************************************************************************************
+	            	cell.setPhrase(new Phrase(rnote.getTicketDate()));
+	            	table.addCell(cell);
+	            	
+	            	cell.setPhrase(new Phrase(rnote.getPackVersion()));
+	            	table.addCell(cell);
+	            	
+//	            	add list of release notes to the last cell	***************************************************************************************
+	            	cell.addElement(getReleaseNotesList(rnote.getReleaseNotes()));
+	            	table.addCell(cell);
+	    
 		            table.completeRow();
 	            }
             }
@@ -68,8 +84,9 @@ public class RTFConverter {
 	}
 	
 	private static void addBoldText(PdfPTable table, String text) throws DocumentException {
-		table.setTotalWidth(new float[] {20.0f, 20.0f, 80.0f});
         // first movie
+		FontFactory.register("arial.ttf");
+		FontFactory.register("arialbd.ttf");
         Phrase phrase = new Phrase("    " + text, FontFactory.getFont("Arial", 12, Font.BOLD));
         Paragraph paragraph = new Paragraph(phrase);
         paragraph.setAlignment(Element.ALIGN_LEFT);
@@ -78,8 +95,25 @@ public class RTFConverter {
         cell.setPaddingRight(20.0f);
         cell.setPaddingTop(20.0f);
         cell.setPaddingBottom(50.0f);
-        cell.getBorderColor();
+        cell.setBorderColor(Color.BLUE);
         table.addCell(cell);
+	}
+	
+	private static com.lowagie.text.List getReleaseNotesList(String rnContent) {
+		com.lowagie.text.List resultList = new com.lowagie.text.List();
+		resultList.setSymbolIndent(10.0f);
+		resultList.setIndentationLeft(20.0f);
+		resultList.setListSymbol("\u2022");
+		
+		String[] lines = rnContent.split("\n\r");
+		for (String line: lines) {
+			line = line.trim().toLowerCase();
+//			yeah, it's a bad practice, but IMHO it's ok when concatination is single	*****************************************************************
+			line = line + ";";
+			resultList.add(line);
+		}
+		
+		return resultList;
 	}
 	
 }

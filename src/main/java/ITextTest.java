@@ -1,11 +1,16 @@
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Iterator;
+
+import models.ReleaseNote;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
+import com.lowagie.text.List;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
@@ -19,49 +24,61 @@ public class ITextTest {
 
 	public static void main(String[] args) {
 		Document document = new Document(PageSize.A4);
-	        try {
-	        	RtfWriter2 writer = RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
-//	        	PdfWriter.getInstance(document, new FileOutputStream("ReleaseNotes.pdf"));
-	            document.open();
-	          
-	            PdfPTable table = new PdfPTable(3);
-	            table.setTotalWidth(new float[] {20.0f, 70.0f, 30.0f});
-	            // first movie
-	            Phrase phrase1 = new Phrase("Ticket name", FontFactory.getFont("MS Mincho", 10, Font.BOLD));
-	            Paragraph p1 = new Paragraph(phrase1);
-	            p1.setAlignment(Element.ALIGN_CENTER);
-	            PdfPCell cell1 = new PdfPCell(p1);
-	            table.addCell(cell1);
-	            table.addCell("Ticket release notes");
-	            table.addCell("Fix.version");
-	            table.completeRow();
-	            
-	           /* PdfPTable t1 = new PdfPTable(3);
-	            t1.setTotalWidth(new float[] {20.0f, 50.0f, 30.0f});
-	            PdfPCell c = new PdfPCell(new Phrase("Entry T1.R1.C1"));
-	            t1.addCell(c);
-	            c = new PdfPCell(new Phrase("Entry T1.R2.C2"));
-	            t1.addCell(c);           
-	            c = new PdfPCell(new Phrase("Entry T1.R2.C3"));
-	            t1.addCell(c);           
-	            t1.completeRow();
-	            
-	            c = new PdfPCell(new Phrase("Entry T1.R1.C1"));
-	            t1.addCell(c);
-	            c = new PdfPCell(new Phrase(""));
-	            t1.addCell(c);
-	            c = new PdfPCell(new Phrase("Entry T1.R2.C2"));
-	            t1.addCell(c);            
-	            t1.completeRow();*/
-	           
-	            document.add(table);
-	           
-	        } catch (FileNotFoundException e) {
-	            e.printStackTrace();
-	        } catch (DocumentException e) {
-	            e.printStackTrace();
-	        }
-	        document.close();
+        try {
+        	RtfWriter2 writer = RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
+            document.open();
+          
+            PdfPTable table = new PdfPTable(3);
+            addBoldText(table, "Date");
+            addBoldText(table, "Version");
+            addBoldText(table, "Release Notes");
+            table.completeRow();
+            
+	            	table.addCell("    22.09");
+	            	table.addCell("    1.1");
+	            	/*StringBuilder rNotesCellText = new StringBuilder();
+	            	rNotesCellText.append("    ").append("\u2022").append(" ").append("note1;\n");
+	            	rNotesCellText.append("    ").append("\u2022").append(" ").append("note2;\n");
+	            	rNotesCellText.append("    ").append("\u2022").append(" ").append("note3;\n");*/
+//	            	table.addCell("    " + rNotesCellText.toString());
+	            	List list = new List(List.MARKED);
+	            	list.setSymbolIndent(10.0f);
+	            	list.setIndentationLeft(20.0f);
+	            	list.setListSymbol("\u2022");
+	            	list.add("arg1");
+	            	list.add("arg2");
+	            	list.add("arg3");
+	            	PdfPCell cell1 = new PdfPCell();
+	            	cell1.setPaddingLeft(20.0f);
+	            	cell1.addElement(list);
+	            	cell1.setPaddingLeft(20.0f);
+	            	table.addCell(cell1);
+		            table.completeRow();
+            document.add(table);
+           
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        document.close();
+	}
+	
+	private static void addBoldText(PdfPTable table, String text) throws DocumentException {
+		table.setTotalWidth(new float[] {20.0f, 20.0f, 80.0f});
+        // first movie
+		FontFactory.register("arial.ttf");
+		FontFactory.register("arialbd.ttf");
+        Phrase phrase = new Phrase("    " + text, FontFactory.getFont("Arial", 12, Font.BOLD));
+        Paragraph paragraph = new Paragraph(phrase);
+        paragraph.setAlignment(Element.ALIGN_LEFT);
+        PdfPCell cell = new PdfPCell(paragraph);
+        cell.setPaddingLeft(10.0f);
+        cell.setPaddingRight(20.0f);
+        cell.setPaddingTop(20.0f);
+        cell.setPaddingBottom(50.0f);
+        cell.setBorderColor(Color.BLUE);
+        table.addCell(cell);
 	}
 
 }
