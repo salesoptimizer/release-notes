@@ -51,17 +51,13 @@ public class RTFConverter {
 //	            	set cell format: paddings, border color	*******************************************************************************************
 	            	PdfPCell cell = new PdfPCell();
 	            	cell.setBorderColor(Color.BLUE);
-	            	cell.setPaddingLeft(10.0f);
-	            	cell.setPaddingRight(20.0f);
-	            	cell.setPaddingTop(20.0f);
-	            	cell.setPaddingBottom(20.0f);
 	            	
 //	            	add cells content	***************************************************************************************************************
-	            	cell.setPhrase(new Phrase(rnote.getTicketDate(), FontFactory.getFont("Arial", 11, Font.NORMAL)));
-	            	cell.setBorderColor(Color.blue);
+	            	cell.setPhrase(new Phrase("    " + rnote.getTicketDate(), FontFactory.getFont("Arial", 11, Font.NORMAL)));
+	            	cell.setBorderColor(Color.BLUE);
 	            	table.addCell(cell);
 	            	
-	            	cell.setPhrase(new Phrase(rnote.getPackVersion(), FontFactory.getFont("Arial", 11, Font.NORMAL)));
+	            	cell.setPhrase(new Phrase("    " + rnote.getPackVersion(), FontFactory.getFont("Arial", 11, Font.NORMAL)));
 	            	cell.setBorderColor(Color.BLUE);
 	            	table.addCell(cell);
 	            	
@@ -100,8 +96,7 @@ public class RTFConverter {
         cell.setPaddingRight(20.0f);
         cell.setPaddingTop(20.0f);
         cell.setPaddingBottom(50.0f);
-        cell.setBorderColor(Color.blue);
-        cell.setBorderColor(Color.green);
+        cell.setBorderColor(Color.BLUE);
         table.addCell(cell);
 	}
 	
