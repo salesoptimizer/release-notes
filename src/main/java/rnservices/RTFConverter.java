@@ -12,6 +12,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
+import com.lowagie.text.ListItem;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
@@ -56,10 +57,10 @@ public class RTFConverter {
 	            	cell.setPaddingBottom(20.0f);
 	            	
 //	            	add cells content	***************************************************************************************************************
-	            	cell.setPhrase(new Phrase(rnote.getTicketDate()));
+	            	cell.setPhrase(new Phrase(rnote.getTicketDate(), FontFactory.getFont("Arial", 11, Font.NORMAL)));
 	            	table.addCell(cell);
 	            	
-	            	cell.setPhrase(new Phrase(rnote.getPackVersion()));
+	            	cell.setPhrase(new Phrase(rnote.getPackVersion(), FontFactory.getFont("Arial", 11, Font.NORMAL)));
 	            	table.addCell(cell);
 	            	
 //	            	add list of release notes to the last cell	***************************************************************************************
@@ -111,7 +112,8 @@ public class RTFConverter {
 			line = line.trim().toLowerCase();
 //			yeah, it's a bad practice, but IMHO it's ok when concatination is single	*****************************************************************
 			line = line + ";";
-			resultList.add(line);
+			ListItem item = new ListItem(line, FontFactory.getFont("Arial", 11, Font.NORMAL));
+			resultList.add(item);
 		}
 		
 		return resultList;
