@@ -58,14 +58,17 @@ public class RTFConverter {
 	            	
 //	            	add cells content	***************************************************************************************************************
 	            	cell.setPhrase(new Phrase(rnote.getTicketDate(), FontFactory.getFont("Arial", 11, Font.NORMAL)));
+	            	cell.setBorderColor(Color.blue);
 	            	table.addCell(cell);
 	            	
 	            	cell.setPhrase(new Phrase(rnote.getPackVersion(), FontFactory.getFont("Arial", 11, Font.NORMAL)));
+	            	cell.setBorderColor(Color.BLUE);
 	            	table.addCell(cell);
 	            	
 //	            	add list of release notes to the last cell	***************************************************************************************
 	            	cell.setPhrase(new Phrase(""));
 	            	cell.addElement(getReleaseNotesList(rnote.getReleaseNotes()));
+	            	cell.setBorderColor(Color.BLUE);
 	            	table.addCell(cell);
 	    
 		            table.completeRow();
