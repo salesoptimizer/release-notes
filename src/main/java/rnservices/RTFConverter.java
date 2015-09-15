@@ -101,10 +101,10 @@ public class RTFConverter {
 	}
 	
 	private static com.lowagie.text.List getReleaseNotesList(String rnContent) {
-		com.lowagie.text.List resultList = new com.lowagie.text.List();
+		com.lowagie.text.List resultList = new com.lowagie.text.List(false, 10);
 		resultList.setSymbolIndent(10.0f);
 		resultList.setIndentationLeft(20.0f);
-		resultList.setListSymbol("\u2022");
+//		resultList.setListSymbol("\u2022");
 		
 		String[] lines = rnContent.split("\r");
 		for (String line: lines) {
