@@ -57,7 +57,7 @@ public class RTFConverter {
 	            	cell.setPaddingBottom(20.0f);
 	            	
 //	            	add cells content	***************************************************************************************************************
-//	            	cell.setPhrase(new Phrase(rnote.getTicketDate(), FontFactory.getFont("Arial", 11, Font.NORMAL)));
+	            	cell.setPhrase(new Phrase(rnote.getTicketDate(), FontFactory.getFont("Arial", 11, Font.NORMAL)));
 	            	cell.setBorderColor(Color.blue);
 	            	table.addCell(cell);
 	            	
@@ -100,7 +100,8 @@ public class RTFConverter {
         cell.setPaddingRight(20.0f);
         cell.setPaddingTop(20.0f);
         cell.setPaddingBottom(50.0f);
-        cell.setBorderColor(Color.BLUE);
+        cell.setBorderColor(Color.blue);
+        cell.setBorderColor(Color.green);
         table.addCell(cell);
 	}
 	
