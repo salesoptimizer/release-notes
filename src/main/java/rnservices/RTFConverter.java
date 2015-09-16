@@ -88,7 +88,7 @@ public class RTFConverter {
         // first movie
 		FontFactory.register("arial.ttf");
 		FontFactory.register("arialbd.ttf");
-        Phrase phrase = new Phrase("    " + text, FontFactory.getFont("Arial", 12, Font.BOLD));
+        Phrase phrase = new Phrase("    " + text, FontFactory.getFont("Arial-Bold", 12, Font.BOLD));
         Paragraph paragraph = new Paragraph(phrase);
         paragraph.setAlignment(Element.ALIGN_LEFT);
         PdfPCell cell = new PdfPCell(paragraph);
