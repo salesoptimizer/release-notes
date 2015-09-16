@@ -49,6 +49,7 @@ public class RNController extends HttpServlet {
 	private String projectId;
 	
 	private static Logger log = Logger.getLogger("rnotes");
+	private int docCounter = 0;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -90,8 +91,11 @@ public class RNController extends HttpServlet {
 			SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 			RTFConverter.convertToRTF(sfQuery.getTickets(minVer, maxVer, projectId));
 			GGLService.docName = sfQuery.getProjectName(projectId);
-			if (GGLService.createGoogleDoc()) {
+			
+//			we need to check docCounter, because there is a strange bug. If we call app first time a day then we will get three docs on GoogleDoc **********************
+			if (GGLService.createGoogleDoc() && docCounter < 1) {
 				response.getWriter().print("<b>Google doc successfully created on Google Drive</b>");
+				docCounter++;
 			} else {
 				response.getWriter().print("<b>Error during document creating. Please, check app logs for getting more info</b>");
 			}
