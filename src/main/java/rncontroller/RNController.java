@@ -49,7 +49,7 @@ public class RNController extends HttpServlet {
 	private String projectId;
 	
 	private static Logger log = Logger.getLogger("rnotes");
-	private int docCounter = 0;
+	private static int docCounter = 0;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
