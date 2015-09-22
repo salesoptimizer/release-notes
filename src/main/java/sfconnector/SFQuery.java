@@ -1,6 +1,9 @@
 package sfconnector;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -150,7 +153,8 @@ public class SFQuery {
 		
 		JSONObject attachment = new JSONObject();
 		attachment.put("Name", "Test.rtf");
-		attachment.put("Body", strToBase64("Hello world!!!"));
+//		attachment.put("Body", strToBase64("Hello world!!!"));
+		attachment.put("Body", encodeFileToBase64Binary("ReleaseNotes.rtf"));
 		attachment.put("ParentId", projectId);
 		//attachment.put("ContentType", "application/rtf");
 		
@@ -174,6 +178,46 @@ public class SFQuery {
 		sb.append("data:application/rtf;base64,");
 		sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(bytes)));
 		return sb.toString();
+	}
+	
+	private String encodeFileToBase64Binary(String fileName) {
+
+		File file = new File(fileName);
+		byte[] bytes;
+		String encodedString = null;
+		try {
+			bytes = loadFile(file);
+			encodedString = Base64.encodeBase64String(bytes);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return encodedString;
+	}
+
+	private static byte[] loadFile(File file) throws IOException {
+	    InputStream is = new FileInputStream(file);
+
+	    long length = file.length();
+	    if (length > Integer.MAX_VALUE) {
+	        // File is too large
+	    }
+	    byte[] bytes = new byte[(int)length];
+	    
+	    int offset = 0;
+	    int numRead = 0;
+	    while (offset < bytes.length
+	           && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
+	        offset += numRead;
+	    }
+
+	    if (offset < bytes.length) {
+	        throw new IOException("Could not completely read file "+file.getName());
+	    }
+
+	    is.close();
+	    return bytes;
 	}
 	
 }
