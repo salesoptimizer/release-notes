@@ -16,11 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import models.ReleaseNote;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +48,12 @@ public class SFQuery {
 		GetMethod get = new GetMethod(this.instanceUrl + "/services/data/v20.0/query");
 		get.setRequestHeader("Authorization", "OAuth " + this.accessToken);
 		return get;
+	}
+	
+	private PostMethod createPostMethod() {
+		PostMethod post = new PostMethod(this.instanceUrl + "/services/data/v20.0/sobjects/Attachment/");
+		post.setRequestHeader("Authorization", "OAuth " + this.accessToken);
+		return post;
 	}
 	
 	public List<ReleaseNote> getTickets(String ver1, String ver2, String projectId) throws ServletException, IOException {
@@ -134,4 +143,26 @@ public class SFQuery {
 		return projectName;
 	}
 
+	public void addAttachmentToProject(String projectId) {
+		HttpClient httpclient = new HttpClient();
+		
+		// set the SOQL as a query param
+		NameValuePair[] params = new NameValuePair[1];
+		params[0] = new NameValuePair("q",
+				"{ \"Name\": \"Test.rtf\","
+				+ "\"Body\": \"" + strToBase64("Hello world!!!")  + "\""
+				+ "\"ParentId\": \"" + projectId + "\""
+				+ "\"ContentType\": \"application/msword\"}");
+		PostMethod postMethod = createPostMethod();
+		postMethod.setQueryString(params);
+	}
+	
+	private String strToBase64(String content) {
+		byte[] bytes = content.getBytes();
+		StringBuilder sb = new StringBuilder();
+		sb.append("data:application/rtf;base64,");
+		sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(bytes, false)));
+		return sb.toString();
+	}
+	
 }
