@@ -150,7 +150,7 @@ public class SFQuery {
 		
 		JSONObject attachment = new JSONObject();
 		attachment.put("Name", "Test.rtf");
-		attachment.put("Body", strToBase64("Hello world!!!"));
+		attachment.put("Body", "Hello world!!!");
 		attachment.put("ParentId", projectId);
 		attachment.put("ContentType", "application/msword");
 		
