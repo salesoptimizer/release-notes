@@ -3,6 +3,7 @@ package sfconnector;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -146,17 +148,18 @@ public class SFQuery {
 	public void addAttachmentToProject(String projectId) {
 		HttpClient httpclient = new HttpClient();
 		
-		// set the SOQL as a query param
-		NameValuePair[] params = new NameValuePair[1];
-		params[0] = new NameValuePair("q",
-				"{ \"Name\": \"Test.rtf\","
-				+ "\"Body\": \"" + strToBase64("Hello world!!!")  + "\""
-				+ "\"ParentId\": \"" + projectId + "\""
-				+ "\"ContentType\": \"application/msword\"}");
+		JSONObject attachment = new JSONObject();
+		attachment.put("Name", "Test.rtf");
+		attachment.put("Body", strToBase64("Hello world!!!"));
+		attachment.put("ParentId", projectId);
+		attachment.put("ContentType", "application/msword");
+		
 		PostMethod postMethod = createPostMethod();
-		postMethod.setQueryString(params);
 		try {
+			postMethod.setRequestEntity(new StringRequestEntity(attachment.toString(), "application/json", null));
 			httpclient.executeMethod(postMethod);
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
 		} catch (HttpException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
