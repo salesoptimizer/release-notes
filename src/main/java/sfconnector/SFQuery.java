@@ -34,6 +34,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import rnservices.GGLService;
+
 /**
  * Servlet implementation class DemoREST
  */
@@ -149,35 +151,26 @@ public class SFQuery {
 	}
 
 	public void addAttachmentToProject(String projectId) {
-		HttpClient httpclient = new HttpClient();
-		
-		JSONObject attachment = new JSONObject();
-		attachment.put("Name", "Test.rtf");
-//		attachment.put("Body", strToBase64("Hello world!!!"));
-		attachment.put("Body", encodeFileToBase64Binary("ReleaseNotes.rtf"));
-		attachment.put("ParentId", projectId);
-		//attachment.put("ContentType", "application/rtf");
-		
-		PostMethod postMethod = createPostMethod();
-		try {
-			postMethod.setRequestEntity(new StringRequestEntity(attachment.toString(), "application/json", null));
-			httpclient.executeMethod(postMethod);
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
-		} catch (HttpException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (!GGLService.docName.equals(null)) {
+			HttpClient httpclient = new HttpClient();
+			
+			JSONObject attachment = new JSONObject();
+			attachment.put("Name", "Test.rtf");
+			attachment.put("Body", encodeFileToBase64Binary(GGLService.docName));
+			attachment.put("ParentId", projectId);
+			
+			PostMethod postMethod = createPostMethod();
+			try {
+				postMethod.setRequestEntity(new StringRequestEntity(attachment.toString(), "application/json", null));
+				httpclient.executeMethod(postMethod);
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			} catch (HttpException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-	}
-	
-	private String strToBase64(String content) {
-		byte[] bytes = content.getBytes();
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("data:application/rtf;base64,");
-		sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(bytes)));
-		return sb.toString();
 	}
 	
 	private String encodeFileToBase64Binary(String fileName) {
