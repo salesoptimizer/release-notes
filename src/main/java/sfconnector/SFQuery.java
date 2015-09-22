@@ -155,6 +155,13 @@ public class SFQuery {
 				+ "\"ContentType\": \"application/msword\"}");
 		PostMethod postMethod = createPostMethod();
 		postMethod.setQueryString(params);
+		try {
+			httpclient.executeMethod(postMethod);
+		} catch (HttpException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private String strToBase64(String content) {
