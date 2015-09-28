@@ -157,8 +157,8 @@ public class SFQuery {
 			HttpClient httpclient = new HttpClient();
 			
 			JSONObject attachment = new JSONObject();
-			attachment.put("Name", "Test.rtf");
-			attachment.put("Body", encodeFileToBase64Binary(GGLService.docName));
+			attachment.put("Name", GGLService.docName + " Release Notes.rtf");
+			attachment.put("Body", encodeFileToBase64Binary("ReleaseNotes.rtf"));
 			attachment.put("ParentId", projectId);
 			
 			PostMethod postMethod = createPostMethod();
