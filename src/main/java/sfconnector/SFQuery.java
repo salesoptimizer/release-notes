@@ -151,7 +151,9 @@ public class SFQuery {
 	}
 
 	public void addAttachmentToProject(String projectId) {
+		log2.info("addAttachmentToProject called");
 		if (!GGLService.docName.equals(null)) {
+			log2.info("!GGLService.docName.equals(null)");
 			HttpClient httpclient = new HttpClient();
 			
 			JSONObject attachment = new JSONObject();
@@ -160,9 +162,11 @@ public class SFQuery {
 			attachment.put("ParentId", projectId);
 			
 			PostMethod postMethod = createPostMethod();
+			log2.info("Post method created");
 			try {
 				postMethod.setRequestEntity(new StringRequestEntity(attachment.toString(), "application/json", null));
 				httpclient.executeMethod(postMethod);
+				log2.info("REQUEST STATUS CODE => " + postMethod.getStatusCode());
 			} catch (UnsupportedEncodingException e1) {
 				e1.printStackTrace();
 			} catch (HttpException e) {
