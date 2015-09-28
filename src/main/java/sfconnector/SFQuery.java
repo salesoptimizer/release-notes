@@ -153,7 +153,7 @@ public class SFQuery {
 	public void addAttachmentToProject(String projectId) {
 		log2.info("addAttachmentToProject called");
 		if (!GGLService.docName.equals(null)) {
-			log2.info("!GGLService.docName.equals(null)");
+			log2.info(GGLService.docName);
 			HttpClient httpclient = new HttpClient();
 			
 			JSONObject attachment = new JSONObject();
