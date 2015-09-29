@@ -57,14 +57,17 @@ public class RNController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LogManager.getLogManager().readConfiguration(RNController.class.getResourceAsStream("/logging.properties"));
+		String requestURI = request.getRequestURI(); 
 		
-		if (request.getRequestURI().endsWith("_logs")) {
+		if (requestURI.endsWith("_logs")) {
 			BufferedReader in = new BufferedReader(new FileReader("logs.txt"));
 			String line;
 			while ((line = in.readLine()) != null) {
 				response.getWriter().println(line);
 			}
 			return;
+		} if (requestURI.endsWith("_ping")) {
+			response.setStatus(200);
 		} else {
 			String newMinVer = request.getParameter("minVer");
 			String newMaxVer = request.getParameter("maxVer");
