@@ -1,5 +1,7 @@
 package sfconnector;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -53,6 +56,12 @@ public class SFQuery {
 
 	private GetMethod createGetMethod() {
 		GetMethod get = new GetMethod(this.instanceUrl + "/services/data/v20.0/query");
+		get.setRequestHeader("Authorization", "OAuth " + this.accessToken);
+		return get;
+	}
+	
+	private GetMethod createGetAttachmentMethod(String id) {
+		GetMethod get = new GetMethod(this.instanceUrl + "/services/data/v20.0/sobjects/Attachment/" + id + "/body");
 		get.setRequestHeader("Authorization", "OAuth " + this.accessToken);
 		return get;
 	}
@@ -150,6 +159,70 @@ public class SFQuery {
 		return projectName;
 	}
 
+	public File getLogo(String projectId) {
+		File logo = null;
+		HttpClient httpclient = new HttpClient();
+		
+		NameValuePair[] params = new NameValuePair[1];
+		params[0] = new NameValuePair("q",
+				"SELECT Id FROM Attachment WHERE ParentId = '" + projectId + "' AND Name = 'logo.png' LIMIT 1");
+		GetMethod getMethod = createGetMethod();
+		getMethod.setQueryString(params);
+		
+		try {
+			httpclient.executeMethod(getMethod);
+			int statusCode = getMethod.getStatusCode(); 
+			if (statusCode == HttpStatus.SC_OK) {
+				String responseBody = getMethod.getResponseBodyAsString();
+				try {
+					JSONObject response = new JSONObject(responseBody);
+					JSONArray results = response.getJSONArray("records");
+					String logoId = results.getJSONObject(0).getString("Id");
+					
+					if (!logoId.isEmpty()) {
+						getMethod = createGetAttachmentMethod(logoId);
+						logo = getLogoFromBytes(getMethod);
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (HttpException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			getMethod.releaseConnection();
+		}
+		return logo;
+	}
+	
+	private File getLogoFromBytes(GetMethod getMethod) {
+		File logo = null;
+		HttpClient httpclient = new HttpClient();
+		try {
+			httpclient.executeMethod(getMethod);
+			int statusCode = getMethod.getStatusCode(); 
+			if (statusCode == HttpStatus.SC_OK) {
+				byte[] responseBody = getMethod.getResponseBody();
+//				String imageString = Base64.encodeBase64String(responseBody);
+				BufferedImage image = null;
+				ByteArrayInputStream bis = new ByteArrayInputStream(responseBody);
+				image = ImageIO.read(bis);
+				bis.close();
+				logo = new File("logo.png");
+				ImageIO.write(image, "png", logo);
+			}
+		} catch (HttpException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			getMethod.releaseConnection();
+		}
+		return logo;
+	}
+	
 	public void addAttachmentToProject(String projectId) {
 		log2.info("addAttachmentToProject called");
 		if (!GGLService.docName.equals(null)) {
@@ -186,7 +259,6 @@ public class SFQuery {
 			bytes = loadFile(file);
 			encodedString = Base64.encodeBase64String(bytes);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

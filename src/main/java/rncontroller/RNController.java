@@ -4,6 +4,7 @@ import gglconnector.GGLConnector;
 import gglconnector.GGLFileManager;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -92,12 +93,13 @@ public class RNController extends HttpServlet {
 			}
 
 			SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
-			RTFConverter.convertToRTF(sfQuery.getTickets(this.minVer, this.maxVer, this.projectId));
+			File logo = sfQuery.getLogo(this.projectId);
+			RTFConverter.convertToRTF(sfQuery.getTickets(this.minVer, this.maxVer, this.projectId), logo);
 			GGLService.docName = sfQuery.getProjectName(this.projectId);
 			
 //			we need to check docCounter, because there is a strange bug. If we call app first time a day then we will get three docs on GoogleDoc **********************
 			if (GGLService.createGoogleDoc()/* && docCounter < 1*/) {
-				response.getWriter().print("<b>Google doc successfully created on Google Drive</b>");
+				response.getWriter().print("<b>Release Notes document was successfully created. It's available on Google Drive and in Project's attachments</b>");
 				sfQuery.addAttachmentToProject(this.projectId);
 //				docCounter++;
 			} else {

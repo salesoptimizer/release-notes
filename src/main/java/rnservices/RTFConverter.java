@@ -1,8 +1,11 @@
 package rnservices;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
+import com.lowagie.text.Image;
 import com.lowagie.text.ListItem;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
@@ -29,12 +33,23 @@ import models.ReleaseNote;
 //	 ***************************************************************************************************************************************************
 public class RTFConverter {
 	
-	public static boolean convertToRTF(List<ReleaseNote> releaseNotes) {
+	public static boolean convertToRTF(List<ReleaseNote> releaseNotes, File logo) {
 		Document document = new Document(PageSize.A4);
         try {
         	RtfWriter2 writer = RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
             document.open();
           
+			try {
+				Image img = Image.getInstance(logo.getPath());
+				img.scaleToFit(703, 119);
+	            img.setAlignment(img.ALIGN_CENTER);
+	            document.add(img);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+            
             PdfPTable table = new PdfPTable(3);
             table.setTotalWidth(new float[] {20.0f, 20.0f, 80.0f});
             addBoldText(table, "Date");

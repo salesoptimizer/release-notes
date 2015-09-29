@@ -1,6 +1,9 @@
 import java.awt.Color;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Iterator;
 
 import models.ReleaseNote;
@@ -10,6 +13,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
+import com.lowagie.text.Image;
 import com.lowagie.text.List;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
@@ -22,12 +26,19 @@ import com.lowagie.text.rtf.RtfWriter2;
 
 public class ITextTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws MalformedURLException, IOException {
 		Document document = new Document(PageSize.A4);
         try {
         	RtfWriter2 writer = RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
             document.open();
-          
+            
+            File file = new File("c:/downloads/logo.png");
+            
+            Image img = Image.getInstance(file.getPath());
+            img.scaleToFit(703, 119);
+            img.setAlignment(img.ALIGN_CENTER);
+            document.add(img);
+            
             PdfPTable table = new PdfPTable(3);
             addBoldText(table, "Date");
             addBoldText(table, "Version");
