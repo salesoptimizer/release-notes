@@ -18,6 +18,7 @@ import com.lowagie.text.List;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
@@ -76,7 +77,8 @@ public class ITextTest {
 	}
 	
 	private static void addBoldText(PdfPTable table, String text) throws DocumentException {
-		table.setTotalWidth(new float[] {20.0f, 20.0f, 80.0f});
+		table.setWidthPercentage(100);
+		table.setTotalWidth(new float[] {20f, 20f, 100f});
         // first movie
 		FontFactory.register("arial.ttf");
 		FontFactory.register("arialbd.ttf");

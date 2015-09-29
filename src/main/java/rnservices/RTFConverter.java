@@ -51,7 +51,8 @@ public class RTFConverter {
 			}
             
             PdfPTable table = new PdfPTable(3);
-            table.setTotalWidth(new float[] {20.0f, 20.0f, 80.0f});
+            table.setWidthPercentage(100);
+    		table.setTotalWidth(new float[] {20f, 20f, 100f});
             addBoldText(table, "Date");
             addBoldText(table, "Version");
             addBoldText(table, "Release Notes");
