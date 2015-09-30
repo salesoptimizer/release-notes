@@ -116,7 +116,7 @@ public class RNController extends HttpServlet {
 			} else {
 				request.setAttribute("attResult", "<b>Error during document creating. Please, check app logs for getting more info</b>");
 			}
-			request.getRequestDispatcher("main.jsp").forward(request, response);
+			request.getRequestDispatcher("/main.jsp").forward(request, response);
 		}
 	}
 	
