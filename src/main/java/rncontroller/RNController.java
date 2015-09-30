@@ -105,16 +105,16 @@ public class RNController extends HttpServlet {
 			String responseText = "";
 			
 			if (GGLService.createGoogleDoc()) {
-				request.setAttribute("gglResult", "<b>Release Notes document was successfully created on Google Drive</b>");
+				request.setAttribute("gglResult", "Release Notes document was successfully created on Google Drive");
 			} else {
-				request.setAttribute("gglResult", "<b>Error during document creating. Please, check app logs for getting more info</b>");
+				request.setAttribute("gglResult", "Error during document creating. Please, check app logs for getting more info");
 			}
 			
 			RTFConverter.convertToRTF(tickets, logo);
 			if (sfQuery.addAttachmentToProject(this.projectId)) {
-				request.setAttribute("attResult", "<b>Release Notes document was successfully added to the Project's attachments</b>");
+				request.setAttribute("attResult", "Release Notes document was successfully added to the Project's attachments");
 			} else {
-				request.setAttribute("attResult", "<b>Error during document creating. Please, check app logs for getting more info</b>");
+				request.setAttribute("attResult", "Error during document creating. Please, check app logs for getting more info");
 			}
 			request.getRequestDispatcher("/main.jsp").forward(request, response);
 		}

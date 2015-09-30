@@ -4,5 +4,16 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Release Notes</title>
+	<style>
+		body {
+			background: #099AD6;
+			padding: 100px 0;
+			font-size: 22px;
+		}
+		
+		.result-box {
+			padding: 50px 100px;
+		}
+	</style>
 </head>
 <body>
