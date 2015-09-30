@@ -8,7 +8,7 @@
 		body {
 			background: #099AD6;
 			padding: 100px 0;
-			font-size: 22px;
+			font-size: 20px;
 			font-family: Arial;
 			margin: 0;
 		}
