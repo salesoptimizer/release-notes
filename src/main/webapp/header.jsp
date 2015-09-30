@@ -10,6 +10,7 @@
 			padding: 100px 0;
 			font-size: 22px;
 			font-family: Arial;
+			margin: 0;
 		}
 		
 		.result-box {
