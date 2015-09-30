@@ -223,7 +223,8 @@ public class SFQuery {
 		return logo;
 	}
 	
-	public void addAttachmentToProject(String projectId) {
+	public boolean addAttachmentToProject(String projectId) {
+		boolean result = false;
 		log2.info("addAttachmentToProject called");
 		if (!GGLService.docName.equals(null)) {
 			log2.info(GGLService.docName);
@@ -239,6 +240,9 @@ public class SFQuery {
 			try {
 				postMethod.setRequestEntity(new StringRequestEntity(attachment.toString(), "application/json", null));
 				httpclient.executeMethod(postMethod);
+				if (postMethod.getStatusCode() == HttpStatus.SC_OK) {
+					result = true;
+				}
 				log2.info("REQUEST STATUS CODE => " + postMethod.getStatusCode());
 			} catch (UnsupportedEncodingException e1) {
 				e1.printStackTrace();
@@ -248,6 +252,7 @@ public class SFQuery {
 				e.printStackTrace();
 			}
 		}
+		return result;
 	}
 	
 	private String encodeFileToBase64Binary(String fileName) {

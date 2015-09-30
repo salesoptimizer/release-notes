@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -20,6 +21,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import models.ReleaseNote;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -94,16 +97,21 @@ public class RNController extends HttpServlet {
 
 			SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 			File logo = sfQuery.getLogo(this.projectId);
-			RTFConverter.convertToRTF(sfQuery.getTickets(this.minVer, this.maxVer, this.projectId), logo);
+			List<ReleaseNote> tickets = sfQuery.getTickets(this.minVer, this.maxVer, this.projectId); 
+			RTFConverter.convertToRTF(tickets, logo, true);
 			GGLService.docName = sfQuery.getProjectName(this.projectId);
 			
-//			we need to check docCounter, because there is a strange bug. If we call app first time a day then we will get three docs on GoogleDoc **********************
-			if (GGLService.createGoogleDoc()/* && docCounter < 1*/) {
-				response.getWriter().print("<b>Release Notes document was successfully created. It's available on Google Drive and in Project's attachments</b>");
-				sfQuery.addAttachmentToProject(this.projectId);
-//				docCounter++;
+			if (GGLService.createGoogleDoc()) {
+				response.getWriter().println("<b>Release Notes document was successfully created on Google Drive</b>");
 			} else {
-				response.getWriter().print("<b>Error during document creating. Please, check app logs for getting more info</b>");
+				response.getWriter().println("<b>Error during document creating. Please, check app logs for getting more info</b>");
+			}
+			
+			RTFConverter.convertToRTF(tickets, logo);
+			if (sfQuery.addAttachmentToProject(this.projectId)) {
+				response.getWriter().println("<b>Release Notes document was successfully added to the Project's attachments</b>");
+			} else {
+				response.getWriter().println("<b>Error during document creating. Please, check app logs for getting more info</b>");
 			}
 		}
 	}

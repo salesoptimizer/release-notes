@@ -34,6 +34,10 @@ import models.ReleaseNote;
 public class RTFConverter {
 	
 	public static boolean convertToRTF(List<ReleaseNote> releaseNotes, File logo) {
+		return convertToRTF(releaseNotes, logo, false);
+	}
+	
+	public static boolean convertToRTF(List<ReleaseNote> releaseNotes, File logo, boolean isGoogleDoc) {
 		Document document = new Document(PageSize.A4);
         try {
         	RtfWriter2 writer = RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
@@ -52,8 +56,11 @@ public class RTFConverter {
             
             PdfPTable table = new PdfPTable(3);
             table.setWidthPercentage(100);
-//    		table.setTotalWidth(new float[] {20f, 20f, 100f});
-    		table.setTotalWidth(new float[] {20f, 20f, 60f});
+            if (isGoogleDoc) {
+            	table.setTotalWidth(new float[] {20f, 10f, 70f});
+            } else {
+            	table.setTotalWidth(new float[] {20f, 20f, 100f});
+            }
             addBoldText(table, "Date");
             addBoldText(table, "Version");
             addBoldText(table, "Release Notes");
