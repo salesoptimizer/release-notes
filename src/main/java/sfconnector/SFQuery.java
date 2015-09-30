@@ -240,10 +240,11 @@ public class SFQuery {
 			try {
 				postMethod.setRequestEntity(new StringRequestEntity(attachment.toString(), "application/json", null));
 				httpclient.executeMethod(postMethod);
-				if (postMethod.getStatusCode() == HttpStatus.SC_OK) {
+				int status = postMethod.getStatusCode();
+				if (status >= 200 && status < 300) {
 					result = true;
 				}
-				log2.info("REQUEST STATUS CODE => " + postMethod.getStatusCode());
+				log2.info("REQUEST STATUS CODE => " + status);
 			} catch (UnsupportedEncodingException e1) {
 				e1.printStackTrace();
 			} catch (HttpException e) {
