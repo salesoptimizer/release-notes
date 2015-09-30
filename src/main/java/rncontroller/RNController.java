@@ -110,9 +110,9 @@ public class RNController extends HttpServlet {
 			
 			RTFConverter.convertToRTF(tickets, logo);
 			if (sfQuery.addAttachmentToProject(this.projectId)) {
-				responseText += "\n<b>Release Notes document was successfully added to the Project's attachments</b>";
+				responseText += "\n\r<b>Release Notes document was successfully added to the Project's attachments</b>";
 			} else {
-				responseText += "\n<b>Error during document creating. Please, check app logs for getting more info</b>";
+				responseText += "\n\r<b>Error during document creating. Please, check app logs for getting more info</b>";
 			}
 			response.getWriter().println(responseText);
 		}
