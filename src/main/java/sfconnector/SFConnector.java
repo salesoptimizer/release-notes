@@ -52,7 +52,7 @@ public class SFConnector {
 	public void getAccessToSalesforce(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 		
-		if (accessToken == null) {
+//		if (accessToken == null) {
 			String instanceUrl = null;
 			if (!request.getRequestURI().endsWith("_callback")) {
 				log1.info("REQ DOESN'T END WITH _callback");
@@ -89,7 +89,7 @@ public class SFConnector {
 			// Set a session attribute so that other servlets can get the access token and instance URL
 			request.getSession().setAttribute(ACCESS_TOKEN, accessToken);
 			request.getSession().setAttribute(INSTANCE_URL, instanceUrl);
-		}
+//		}
 	}
 
 }

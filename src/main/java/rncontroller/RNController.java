@@ -102,8 +102,6 @@ public class RNController extends HttpServlet {
 			RTFConverter.convertToRTF(tickets, logo, true);
 			GGLService.docName = sfQuery.getProjectName(this.projectId);
 			
-			String responseText = "";
-			
 			if (GGLService.createGoogleDoc()) {
 				request.setAttribute("gglResult", "Release Notes document was successfully created on Google Drive");
 			} else {
