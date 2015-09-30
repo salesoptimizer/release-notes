@@ -103,7 +103,7 @@ public class RNController extends HttpServlet {
 			GGLService.docName = sfQuery.getProjectName(this.projectId);
 			
 //			bug-fix (3 docs were created instead of 1 after first calling during day)	***********************************************************  
-			Long time = (Long) request.getSession().getAttribute("gglDocTime");
+			Long time = (Long) request.getSession().getAttribute("docTime");
 			Long docTime = time == null ? 0 : time; 
 			if ((System.currentTimeMillis() - docTime) > 60000) {
 				if (GGLService.createGoogleDoc()) {
