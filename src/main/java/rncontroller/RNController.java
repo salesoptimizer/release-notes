@@ -17,6 +17,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -102,19 +103,20 @@ public class RNController extends HttpServlet {
 			GGLService.docName = sfQuery.getProjectName(this.projectId);
 			
 			String responseText = "";
+			
 			if (GGLService.createGoogleDoc()) {
-				responseText += "<b>Release Notes document was successfully created on Google Drive</b>";
+				request.setAttribute("gglResult", "<b>Release Notes document was successfully created on Google Drive</b>");
 			} else {
-				responseText += "<b>Error during document creating. Please, check app logs for getting more info</b>";
+				request.setAttribute("gglResult", "<b>Error during document creating. Please, check app logs for getting more info</b>");
 			}
 			
 			RTFConverter.convertToRTF(tickets, logo);
 			if (sfQuery.addAttachmentToProject(this.projectId)) {
-				responseText += "\n\r<b>Release Notes document was successfully added to the Project's attachments</b>";
+				request.setAttribute("attResult", "<b>Release Notes document was successfully added to the Project's attachments</b>");
 			} else {
-				responseText += "\n\r<b>Error during document creating. Please, check app logs for getting more info</b>";
+				request.setAttribute("attResult", "<b>Error during document creating. Please, check app logs for getting more info</b>");
 			}
-			response.getWriter().println(responseText);
+			request.getRequestDispatcher("main.jsp").forward(request, response);
 		}
 	}
 	
