@@ -9,10 +9,12 @@
 			background: #099AD6;
 			padding: 100px 0;
 			font-size: 22px;
+			font-family: Arial;
 		}
 		
 		.result-box {
 			padding: 50px 100px;
+			background: #fff;
 		}
 	</style>
 </head>
