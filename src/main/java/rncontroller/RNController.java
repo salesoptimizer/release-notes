@@ -102,16 +102,16 @@ public class RNController extends HttpServlet {
 			GGLService.docName = sfQuery.getProjectName(this.projectId);
 			
 			if (GGLService.createGoogleDoc()) {
-				response.getWriter().println("<b>Release Notes document was successfully created on Google Drive</b>");
+				response.getWriter().println("<b>Release Notes document was successfully created on Google Drive</b>\n");
 			} else {
-				response.getWriter().println("<b>Error during document creating. Please, check app logs for getting more info</b>");
+				response.getWriter().println("<b>Error during document creating. Please, check app logs for getting more info</b>\n");
 			}
 			
 			RTFConverter.convertToRTF(tickets, logo);
 			if (sfQuery.addAttachmentToProject(this.projectId)) {
-				response.getWriter().println("<b>Release Notes document was successfully added to the Project's attachments</b>");
+				response.getWriter().println("<b>Release Notes document was successfully added to the Project's attachments</b>\n");
 			} else {
-				response.getWriter().println("<b>Error during document creating. Please, check app logs for getting more info</b>");
+				response.getWriter().println("<b>Error during document creating. Please, check app logs for getting more info</b>\n");
 			}
 		}
 	}
