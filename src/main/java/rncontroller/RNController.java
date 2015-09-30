@@ -104,29 +104,23 @@ public class RNController extends HttpServlet {
 			
 //			bug-fix (3 docs were created instead of 1 after first calling during day)	***********************************************************  
 			Long time = (Long) request.getSession().getAttribute("gglDocTime");
-			Long gglDocTime = time == null ? 0 : time; 
-			if ((System.currentTimeMillis() - gglDocTime) > 0) {
+			Long docTime = time == null ? 0 : time; 
+			if ((System.currentTimeMillis() - docTime) > 60000) {
 				if (GGLService.createGoogleDoc()) {
 					request.setAttribute("gglResult", "Release Notes document was successfully created on Google Drive");
-					request.getSession().setAttribute("gglDocTime", System.currentTimeMillis());
 				} else {
 					request.setAttribute("gglResult", "Error during document creating. Please, check app logs for getting more info");
 				}
-			}
-			
-			RTFConverter.convertToRTF(tickets, logo);
-//			bug-fix (3 docs were created instead of 1 after first calling during day)	***********************************************************
-			time = (Long) request.getSession().getAttribute("attDocTime");
-			Long attDocTime = time == null ? 0 : time; 
-			if ((System.currentTimeMillis() - attDocTime) > 0) {
+				
+				RTFConverter.convertToRTF(tickets, logo);
 				if (sfQuery.addAttachmentToProject(this.projectId)) {
 					request.setAttribute("attResult", "Release Notes document was successfully added to the Project's attachments");
-					request.getSession().setAttribute("attDocTime", System.currentTimeMillis());
 				} else {
 					request.setAttribute("attResult", "Error during document creating. Please, check app logs for getting more info");
 				}
+				request.getSession().setAttribute("docTime", System.currentTimeMillis());
+				request.getRequestDispatcher("/main.jsp").forward(request, response);
 			}
-			request.getRequestDispatcher("/main.jsp").forward(request, response);
 		}
 	}
 	

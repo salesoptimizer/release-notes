@@ -2,7 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <jsp:include page="header.jsp" />
 	<div class="result-box">
-		<b><c:out value="${gglResult}" /></b><br/>
-		<b><c:out value="${attResult}" /></b>
+		<c:if test="${not empty gglResult}">
+			<b><c:out value="${gglResult}" /></b><br/>
+		</c:if>
+		<c:if test="${not empty attResult}">
+			<b><c:out value="${attResult}" /></b>
+		</c:if>
 	</div>
 <jsp:include page="footer.jsp" />
