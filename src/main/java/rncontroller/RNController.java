@@ -104,7 +104,7 @@ public class RNController extends HttpServlet {
 			
 //			bug-fix (3 docs were created instead of 1 after first calling during day)	***********************************************************  
 			Long gglDocTime = (Long) request.getSession().getAttribute("gglDocTime");
-			if (gglDocTime != null && (System.currentTimeMillis() - gglDocTime) > 120000) {
+			if (gglDocTime.equals(null) || (System.currentTimeMillis() - gglDocTime) > 120000) {
 				if (GGLService.createGoogleDoc()) {
 					request.setAttribute("gglResult", "Release Notes document was successfully created on Google Drive");
 					request.getSession().setAttribute("gglDocTime", System.currentTimeMillis());
@@ -116,7 +116,7 @@ public class RNController extends HttpServlet {
 			RTFConverter.convertToRTF(tickets, logo);
 //			bug-fix (3 docs were created instead of 1 after first calling during day)	***********************************************************
 			Long attDocTime = (Long) request.getSession().getAttribute("attDocTime");
-			if (attDocTime != null && (System.currentTimeMillis() - attDocTime) > 120000) {
+			if (attDocTime.equals(null) || (System.currentTimeMillis() - attDocTime) > 120000) {
 				if (sfQuery.addAttachmentToProject(this.projectId)) {
 					request.setAttribute("attResult", "Release Notes document was successfully added to the Project's attachments");
 					request.getSession().setAttribute("attDocTime", System.currentTimeMillis());
