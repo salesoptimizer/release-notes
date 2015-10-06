@@ -87,7 +87,7 @@ public class RNController extends HttpServlet {
 				request.getRequestDispatcher("/main.jsp").forward(request, response);
 			}
 			List<ReleaseNote> tickets = sfQuery.getTickets(this.minVer, this.maxVer, this.projectId);
-			if (tickets == null) {
+			if (tickets == null || tickets.isEmpty()) {
 				request.setAttribute("errorMsg", "There are no any appropriate tickets");
 				request.getRequestDispatcher("/main.jsp").forward(request, response);
 			}
