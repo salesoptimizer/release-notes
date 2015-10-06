@@ -85,11 +85,13 @@ public class RNController extends HttpServlet {
 			if (logo == null) {
 				request.setAttribute("errorMsg", "Project must has the logo.png image in attachments for successful operation");
 				request.getRequestDispatcher("/main.jsp").forward(request, response);
+				return;
 			}
 			List<ReleaseNote> tickets = sfQuery.getTickets(this.minVer, this.maxVer, this.projectId);
 			if (tickets == null || tickets.isEmpty()) {
 				request.setAttribute("errorMsg", "There are no any appropriate tickets");
 				request.getRequestDispatcher("/main.jsp").forward(request, response);
+				return;
 			}
 			RTFConverter.convertToRTF(tickets, logo, true);
 			GGLService.docName = sfQuery.getProjectName(this.projectId);
