@@ -6,25 +6,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import models.ReleaseNote;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
@@ -35,7 +28,6 @@ import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import rnservices.GGLService;
 
@@ -43,7 +35,6 @@ import rnservices.GGLService;
  * Servlet implementation class DemoREST
  */
 public class SFQuery {
-	private static final long serialVersionUID = 1L;
 	private String accessToken;
 	private String instanceUrl;
 	
@@ -125,6 +116,7 @@ public class SFQuery {
 		return releaseNotes;
 	}
 	
+//	maybe we should delete this method and get SF Project name in the same request from which one we get Project Id *******************************************************
 	public String getProjectName(String projectId) throws ServletException, IOException {
 		String projectName = null;
 		HttpClient httpclient = new HttpClient();
@@ -196,7 +188,8 @@ public class SFQuery {
 		}
 		return logo;
 	}
-	
+
+//	create new logo.ong file from bytes array
 	private File getLogoFromBytes(GetMethod getMethod) {
 		File logo = null;
 		HttpClient httpclient = new HttpClient();
@@ -205,7 +198,6 @@ public class SFQuery {
 			int statusCode = getMethod.getStatusCode(); 
 			if (statusCode == HttpStatus.SC_OK) {
 				byte[] responseBody = getMethod.getResponseBody();
-//				String imageString = Base64.encodeBase64String(responseBody);
 				BufferedImage image = null;
 				ByteArrayInputStream bis = new ByteArrayInputStream(responseBody);
 				image = ImageIO.read(bis);
@@ -282,13 +274,13 @@ public class SFQuery {
 	    
 	    int offset = 0;
 	    int numRead = 0;
-	    while (offset < bytes.length
-	           && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
+	    while (offset < bytes.length 
+	    		&& (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
 	        offset += numRead;
 	    }
 
 	    if (offset < bytes.length) {
-	        throw new IOException("Could not completely read file "+file.getName());
+	        throw new IOException("Could not completely read file " + file.getName());
 	    }
 
 	    is.close();

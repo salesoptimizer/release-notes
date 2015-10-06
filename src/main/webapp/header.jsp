@@ -17,6 +17,11 @@
 			padding: 50px 100px;
 			background: #fff;
 		}
+		
+		.errorMsg {
+			font-weight: bold;
+			color: red;
+		}
 	</style>
 </head>
 <body>

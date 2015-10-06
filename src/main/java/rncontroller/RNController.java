@@ -1,36 +1,19 @@
 package rncontroller;
 
-import gglconnector.GGLConnector;
-import gglconnector.GGLFileManager;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.security.GeneralSecurityException;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.ReleaseNote;
-
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.eclipse.jetty.http.HttpTester.Request;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 
 import rnservices.GGLService;
 import rnservices.RTFConverter;
@@ -43,7 +26,6 @@ import sfconnector.SFConnector;
 public class RNController extends HttpServlet {
 	private static final long serialVersionUID = 7546372886300391908L;
 	
-	private String content;
 	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 	private static final String INSTANCE_URL = "INSTANCE_URL";
 	private static String accessToken;
@@ -54,7 +36,6 @@ public class RNController extends HttpServlet {
 	private String projectId;
 	
 	private static Logger log = Logger.getLogger("rnotes");
-//	private static int docCounter = 0;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -64,6 +45,7 @@ public class RNController extends HttpServlet {
 		LogManager.getLogManager().readConfiguration(RNController.class.getResourceAsStream("/logging.properties"));
 		String requestURI = request.getRequestURI(); 
 		
+//		get logs page
 		if (requestURI.endsWith("_logs")) {
 			BufferedReader in = new BufferedReader(new FileReader("logs.txt"));
 			String line;
@@ -71,7 +53,9 @@ public class RNController extends HttpServlet {
 				response.getWriter().println(line);
 			}
 			return;
-		} if (requestURI.endsWith("_ping")) {
+		} 
+//		wake up heroku application by external request from SF app
+		if (requestURI.endsWith("_ping")) {
 			response.setStatus(200);
 		} else {
 			String newMinVer = request.getParameter("minVer");
@@ -98,7 +82,15 @@ public class RNController extends HttpServlet {
 
 			SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 			File logo = sfQuery.getLogo(this.projectId);
-			List<ReleaseNote> tickets = sfQuery.getTickets(this.minVer, this.maxVer, this.projectId); 
+			if (logo == null) {
+				request.setAttribute("errorMsg", "Project must has the logo.png image in attachments for successful operation");
+				request.getRequestDispatcher("/main.jsp").forward(request, response);
+			}
+			List<ReleaseNote> tickets = sfQuery.getTickets(this.minVer, this.maxVer, this.projectId);
+			if (tickets == null) {
+				request.setAttribute("errorMsg", "There are no any appropriate tickets");
+				request.getRequestDispatcher("/main.jsp").forward(request, response);
+			}
 			RTFConverter.convertToRTF(tickets, logo, true);
 			GGLService.docName = sfQuery.getProjectName(this.projectId);
 			
