@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GGLFileManager {
-	private GGLConnector gglConnector;
+//	private GGLConnector gglConnector;
 
 	/**
 	 * Insert new file.
