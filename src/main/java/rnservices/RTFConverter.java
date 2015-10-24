@@ -109,7 +109,7 @@ public class RTFConverter {
 		if (rnContent != null) {
 			String[] lines = rnContent.split("\r");
 			for (String line: lines) {
-				line = line.trim() + ";";
+				line = line.trim().toLowerCase() + ";";
 				ListItem item = new ListItem(line, FontFactory.getFont("Arial", 11, Font.NORMAL));
 				resultList.add(item);
 			}
