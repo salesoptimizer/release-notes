@@ -3,7 +3,7 @@ package rnservices;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+//import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Iterator;
@@ -21,7 +21,7 @@ import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.rtf.RtfWriter2;
+//import com.lowagie.text.rtf.RtfWriter2;
 
 import models.ReleaseNote;
 
@@ -35,7 +35,7 @@ public class RTFConverter {
 	public static boolean convertToRTF(List<ReleaseNote> releaseNotes, File logo, boolean isGoogleDoc) {
 		Document document = new Document(PageSize.A4);
         try {
-        	RtfWriter2 writer = RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
+//        	RtfWriter2 writer = RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
             document.open();
           
 			try {
@@ -92,9 +92,9 @@ public class RTFConverter {
            
             document.add(table);
            
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//            return false;
         } catch (DocumentException e) {
             e.printStackTrace();
             return false;
