@@ -5,9 +5,12 @@ import gglconnector.GGLFileManager;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class GGLService {
 	public static final String FILENAME = "ReleaseNotes.rtf";
+	private static Logger log = LogManager.getLogManager().getLogger("rnotes");
 	
 	public static boolean createGoogleDoc(String docName) {
 		GGLFileManager fileManager = new GGLFileManager();
@@ -19,9 +22,9 @@ public class GGLService {
 			fileManager.insertFile(GGLConnector.getDrive(), docName, "document description", "", "application/rtf", FILENAME);
 			result = true;
 		} catch (GeneralSecurityException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		}
 		return result;
 	}
