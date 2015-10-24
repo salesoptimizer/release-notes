@@ -37,7 +37,7 @@ public class RTFConverter {
 	public static boolean convertToRTF(List<ReleaseNote> releaseNotes, File logo, boolean isGoogleDoc) {
 		Document document = new Document(PageSize.A4);
         try {
-        	/*RtfWriter2 writer = */RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
+        	RtfWriter2.getInstance(document, new FileOutputStream("ReleaseNotes.rtf"));
             document.open();
             if (logo != null) {
             	writeLogoImage(document, logo);
@@ -65,7 +65,6 @@ public class RTFConverter {
 	}
 	
 	private static void addBoldText(PdfPTable table, String text) throws DocumentException {
-        // first movie
 		FontFactory.register("arial.ttf");
 		FontFactory.register("arialbd.ttf");
         Phrase phrase = new Phrase("    " + text, FontFactory.getFont("Arial-Bold", 12, Font.BOLD));
@@ -88,9 +87,7 @@ public class RTFConverter {
 		
 		String[] lines = rnContent.split("\r");
 		for (String line: lines) {
-			line = line.trim().toLowerCase();
-//			yeah, it's a bad practice, but IMHO it's ok when concatination is single	*****************************************************************
-			line = line + ";";
+			line = line.trim() + ";";
 			ListItem item = new ListItem(line, FontFactory.getFont("Arial", 11, Font.NORMAL));
 			resultList.add(item);
 		}
