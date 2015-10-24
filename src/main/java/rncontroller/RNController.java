@@ -156,7 +156,7 @@ public class RNController extends HttpServlet {
 		response.setStatus(HttpStatus.SC_OK);
 	}
 	
-	private void actionCreateVersionsFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	/*private void actionCreateVersionsFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String newMinVer = request.getParameter("minVer");
 		String newMaxVer = request.getParameter("maxVer");
 		String newProjectId = request.getParameter("projectId");
@@ -214,5 +214,5 @@ public class RNController extends HttpServlet {
 			request.getSession().setAttribute("docTime", System.currentTimeMillis());
 			request.getRequestDispatcher("/main.jsp").forward(request, response);
 		}
-	}
+	}*/
 }
