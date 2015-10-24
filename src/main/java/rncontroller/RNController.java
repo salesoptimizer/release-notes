@@ -47,94 +47,22 @@ public class RNController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LogManager.getLogManager().readConfiguration(RNController.class.getResourceAsStream("/logging.properties"));
 		String requestURI = request.getRequestURI(); 
-		
-//		get logs page
-		if (requestURI != null) { if (requestURI.endsWith("_logs")) {
-			/*BufferedReader in = new BufferedReader(new FileReader("logs.txt"));
-			String line;
-			while ((line = in.readLine()) != null) {
-				response.getWriter().println(line);
-			}*/actionDisplayLog(request, response);
-			return;
-		} 
-//		wake up heroku application by external request from SF app
-		if (requestURI.endsWith("_ping")) {
-			/*response.setStatus(200);*/actionPing(request, response);return;
-		} else {
-			String newMinVer = request.getParameter("minVer");
-			String newMaxVer = request.getParameter("maxVer");
-			String newProjectId = request.getParameter("projectId");
-			String newProjectName = request.getParameter("projectName");
-			this.minVer = newMinVer == null ? this.minVer : newMinVer;
-			this.maxVer = newMaxVer == null ? this.maxVer : newMaxVer;
-			this.projectId = newProjectId == null ? this.projectId : newProjectId;
-			this.projectName = newProjectName == null ? this.projectName : newProjectName;
-			if (this.minVer != null && this.maxVer != null && this.projectId != null && this.projectName != null) {
-				log.info("minVer => " + this.minVer + 
-						 " maxVer => " + this.maxVer + 
-						 " projectId => " + this.projectId + 
-						 " projectName => " + this.projectName);
-				
-				SFConnector sfConnector = new SFConnector();
-				sfConnector.getAccessToSalesforce(request, response);
-				
-				accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
-				instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
-	
-				log.info("accessToken => " + accessToken);
-				log.info("instanceUrl => " + instanceUrl);
-				
-				boolean isError = false;
-				if (accessToken == null) {
-					request.setAttribute("errorMsg", "Fatal Error: unable to connect to Salesforce. Access token not available");
-					isError = true;
-//					request.getRequestDispatcher("/main.jsp").forward(request, response);
-					return;
-				}
-	
-				if (!isError) {
-					SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
-					File logo = sfQuery.getLogo(this.projectId);
-					if (logo == null) {
-						request.setAttribute("errorMsg", "Project must has the logo.png image in attachments for successful operation");
-						request.getRequestDispatcher("/main.jsp").forward(request, response);
-						return;
-					}
-					List<ReleaseNote> tickets = sfQuery.getTickets(this.minVer, this.maxVer, this.projectId);
-					if (tickets.isEmpty()) {
-						request.setAttribute("errorMsg", "There are no any appropriate tickets");
-						isError = true;
-//						request.getRequestDispatcher("/main.jsp").forward(request, response);
-						return;
-					}
-					if (!isError) {
-						RTFConverter.convertToRTF(tickets, logo, true);
-//						GGLService.docName = sfQuery.getProjectName(this.projectId);
-						
-			//			bug-fix (3 docs were created instead of 1 after first calling during day)	***********************************************************  
-						Long time = (Long) request.getSession().getAttribute("docTime");
-						Long docTime = time == null ? 0 : time; 
-						if ((System.currentTimeMillis() - docTime) > 60000) {
-							if (GGLService.createGoogleDoc(this.projectName)) {
-								request.setAttribute("gglResult", "Release Notes document was successfully created on Google Drive");
-							} else {
-								request.setAttribute("gglResult", "Error during document creating. Please, check app logs for getting more info");
-							}
-							
-							RTFConverter.convertToRTF(tickets, logo);
-							if (sfQuery.addAttachmentToProject(this.projectId, this.projectName)) {
-								request.setAttribute("attResult", "Release Notes document was successfully added to the Project's attachments");
-							} else {
-								request.setAttribute("attResult", "Error during document creating. Please, check app logs for getting more info");
-							}
-							request.getSession().setAttribute("docTime", System.currentTimeMillis());
-	//						request.getRequestDispatcher("/main.jsp").forward(request, response);
-						}
-					}
-				}
-				request.getRequestDispatcher("/main.jsp").forward(request, response);
+
+		if (requestURI != null) {
+//			get logs page
+			if (requestURI.endsWith("_logs")) {
+				actionDisplayLog(request, response);
+				return;
+			} 
+	//		wake up heroku application by request from SF app
+			if (requestURI.endsWith("_ping")) {
+				actionPing(request, response);
+				return;
+			} else {
+//				create GoogleDoc and Project attachment
+				actionCreateVersionsFile(request, response);
 			}
-		}}
+		}
 	}
 	
 	private void actionDisplayLog(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -156,63 +84,75 @@ public class RNController extends HttpServlet {
 		response.setStatus(HttpStatus.SC_OK);
 	}
 	
-	/*private void actionCreateVersionsFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void actionCreateVersionsFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String newMinVer = request.getParameter("minVer");
 		String newMaxVer = request.getParameter("maxVer");
 		String newProjectId = request.getParameter("projectId");
+		String newProjectName = request.getParameter("projectName");
 		this.minVer = newMinVer == null ? this.minVer : newMinVer;
 		this.maxVer = newMaxVer == null ? this.maxVer : newMaxVer;
 		this.projectId = newProjectId == null ? this.projectId : newProjectId;
-		log.info("minVer => " + minVer + " maxVer => " + maxVer + " projectId => " + projectId);
-		
-		SFConnector sfConnector = new SFConnector();
-		sfConnector.getAccessToSalesforce(request, response);
-		
-		accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
-		instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
-
-		log.info("accessToken => " + accessToken);
-		log.info("instanceUrl => " + instanceUrl);
-		
-		if (accessToken == null) {
-			response.getWriter().print("Error - no access token");
-			return;
-		}
-
-		SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
-		File logo = sfQuery.getLogo(this.projectId);
-		if (logo == null) {
-			request.setAttribute("errorMsg", "Project must has the logo.png image in attachments for successful operation");
-			request.getRequestDispatcher("/main.jsp").forward(request, response);
-			return;
-		}
-		List<ReleaseNote> tickets = sfQuery.getTickets(this.minVer, this.maxVer, this.projectId);
-		if (tickets == null || tickets.isEmpty()) {
-			request.setAttribute("errorMsg", "There are no any appropriate tickets");
-			request.getRequestDispatcher("/main.jsp").forward(request, response);
-			return;
-		}
-		RTFConverter.convertToRTF(tickets, logo, true);
-		GGLService.docName = sfQuery.getProjectName(this.projectId);
-		
-//		bug-fix (3 docs were created instead of 1 after first calling during day)	***********************************************************  
-		Long time = (Long) request.getSession().getAttribute("docTime");
-		Long docTime = time == null ? 0 : time; 
-		if ((System.currentTimeMillis() - docTime) > 60000) {
-			if (GGLService.createGoogleDoc()) {
-				request.setAttribute("gglResult", "Release Notes document was successfully created on Google Drive");
-			} else {
-				request.setAttribute("gglResult", "Error during document creating. Please, check app logs for getting more info");
-			}
+		this.projectName = newProjectName == null ? this.projectName : newProjectName;
+		if (this.minVer != null && this.maxVer != null && this.projectId != null && this.projectName != null) {
+			log.info("minVer => " + this.minVer + 
+					 " maxVer => " + this.maxVer + 
+					 " projectId => " + this.projectId + 
+					 " projectName => " + this.projectName);
 			
-			RTFConverter.convertToRTF(tickets, logo);
-			if (sfQuery.addAttachmentToProject(this.projectId)) {
-				request.setAttribute("attResult", "Release Notes document was successfully added to the Project's attachments");
-			} else {
-				request.setAttribute("attResult", "Error during document creating. Please, check app logs for getting more info");
+			SFConnector sfConnector = new SFConnector();
+			sfConnector.getAccessToSalesforce(request, response);
+			
+			accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
+			instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
+
+			log.info("accessToken => " + accessToken);
+			log.info("instanceUrl => " + instanceUrl);
+			
+			boolean isError = false;
+			if (accessToken == null) {
+				request.setAttribute("errorMsg", "Fatal Error: unable to connect to Salesforce. Access token not available");
+				isError = true;
+				return;
 			}
-			request.getSession().setAttribute("docTime", System.currentTimeMillis());
+
+			if (!isError) {
+				SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
+				File logo = sfQuery.getLogo(this.projectId);
+				if (logo == null) {
+					request.setAttribute("errorMsg", "Project must has the logo.png image in attachments for successful operation");
+					request.getRequestDispatcher("/main.jsp").forward(request, response);
+					return;
+				}
+				List<ReleaseNote> tickets = sfQuery.getTickets(this.minVer, this.maxVer, this.projectId);
+				if (tickets.isEmpty()) {
+					request.setAttribute("errorMsg", "There are no any appropriate tickets");
+					isError = true;
+					return;
+				}
+				if (!isError) {
+					RTFConverter.convertToRTF(tickets, logo, true);
+					
+		//			bug-fix (3 docs were created instead of 1 after first calling during day)	***********************************************************  
+					Long time = (Long) request.getSession().getAttribute("docTime");
+					Long docTime = time == null ? 0 : time; 
+					if ((System.currentTimeMillis() - docTime) > 60000) {
+						if (GGLService.createGoogleDoc(this.projectName)) {
+							request.setAttribute("gglResult", "Release Notes document was successfully created on Google Drive");
+						} else {
+							request.setAttribute("gglResult", "Error during document creating. Please, check app logs for getting more info");
+						}
+						
+						RTFConverter.convertToRTF(tickets, logo);
+						if (sfQuery.addAttachmentToProject(this.projectId, this.projectName)) {
+							request.setAttribute("attResult", "Release Notes document was successfully added to the Project's attachments");
+						} else {
+							request.setAttribute("attResult", "Error during document creating. Please, check app logs for getting more info");
+						}
+						request.getSession().setAttribute("docTime", System.currentTimeMillis());
+					}
+				}
+			}
 			request.getRequestDispatcher("/main.jsp").forward(request, response);
 		}
-	}*/
+	}
 }
