@@ -44,7 +44,10 @@ public class RTFConverter {
             } else {
             	table.setTotalWidth(new float[] {20f, 20f, 100f});
             }
-            writeTableHeaderRow(table);
+            addBoldText(table, "Date");
+            addBoldText(table, "Version");
+            addBoldText(table, "Release Notes");
+            table.completeRow();
             if (releaseNotes != null) {
                 Iterator<ReleaseNote> iterator = releaseNotes.iterator();
                 ReleaseNote rnote;
