@@ -142,7 +142,7 @@ public class RNController extends HttpServlet {
 							request.setAttribute("gglResult", "Error during document creating. Please, check app logs for getting more info");
 						}
 						
-						RTFConverter.convertToRTF(tickets, logo);
+						RTFConverter.convertToRTF(tickets, logo, false);
 						if (sfQuery.addAttachmentToProject(this.projectId, this.projectName)) {
 							request.setAttribute("attResult", "Release Notes document was successfully added to the Project's attachments");
 						} else {

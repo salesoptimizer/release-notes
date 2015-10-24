@@ -30,9 +30,6 @@ import models.ReleaseNote;
 //	 ***************************************************************************************************************************************************
 public class RTFConverter {
 	private static Logger log = LogManager.getLogManager().getLogger("rnotes");
-	public static boolean convertToRTF(List<ReleaseNote> releaseNotes, File logo) {
-		return convertToRTF(releaseNotes, logo, false);
-	}
 	
 	public static boolean convertToRTF(List<ReleaseNote> releaseNotes, File logo, boolean isGoogleDoc) {
 		Document document = new Document(PageSize.A4);
