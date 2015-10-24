@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class Foo
  */
 public class GGLService {
-	public static String docName;
+//	public static String docName;
 
 		/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,7 +35,7 @@ public class GGLService {
 		response.getWriter().print("<b>Google doc successfully created on Google Drive</b>");
 	}*/
 	
-	public static boolean createGoogleDoc () {
+	public static boolean createGoogleDoc (String docName) {
 		GGLFileManager fileManager = new GGLFileManager();
 		boolean result = false;
 		try {

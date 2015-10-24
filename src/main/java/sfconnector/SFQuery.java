@@ -117,7 +117,7 @@ public class SFQuery {
 	}
 	
 //	maybe we should delete this method and get SF Project name in the same request from which one we get Project Id *******************************************************
-	public String getProjectName(String projectId) throws ServletException, IOException {
+	/*public String getProjectName(String projectId) throws ServletException, IOException {
 		String projectName = null;
 		HttpClient httpclient = new HttpClient();
 		
@@ -149,7 +149,7 @@ public class SFQuery {
 			getMethod.releaseConnection();
 		}
 		return projectName;
-	}
+	}*/
 
 	public File getLogo(String projectId) {
 		File logo = null;
@@ -215,15 +215,15 @@ public class SFQuery {
 		return logo;
 	}
 	
-	public boolean addAttachmentToProject(String projectId) {
+	public boolean addAttachmentToProject(String projectId, String projectName) {
 		boolean result = false;
 		log2.info("addAttachmentToProject called");
-		if (!GGLService.docName.equals(null)) {
-			log2.info(GGLService.docName);
+		if (!projectName.equals(null)) {
+			log2.info(projectName);
 			HttpClient httpclient = new HttpClient();
 			
 			JSONObject attachment = new JSONObject();
-			attachment.put("Name", GGLService.docName + " Release Notes.rtf");
+			attachment.put("Name", projectName + " Release Notes.rtf");
 			attachment.put("Body", encodeFileToBase64Binary("ReleaseNotes.rtf"));
 			attachment.put("ParentId", projectId);
 			
