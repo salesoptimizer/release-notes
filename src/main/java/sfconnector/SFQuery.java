@@ -78,7 +78,7 @@ public class SFQuery {
 						 .append("FROM Ticket__c ")
 						 .append("WHERE (Fixed_in_Ver__c >= '").append(ver1)
 						 .append("' AND Fixed_in_Ver__c <= '").append(ver2).append("')")
-						 .append("AND Project__c = '").append(projectId)
+						 .append("AND Project__c = '").append(projectId).append("'")
 						 .append("LIMIT 100");
 			params[0] = new NameValuePair("q", stringBuilder.toString());
 			GetMethod getMethod = createGetMethod();
