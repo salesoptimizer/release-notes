@@ -38,7 +38,7 @@ public class SFQuery {
 	private String accessToken;
 	private String instanceUrl;
 	
-	private Logger log2 = LogManager.getLogManager().getLogger("rnotes");
+	private Logger log = LogManager.getLogManager().getLogger("rnotes");
 	
 	public SFQuery(String accessToken, String instanceUrl) {
 		this.accessToken = accessToken;
@@ -65,53 +65,47 @@ public class SFQuery {
 	
 	public List<ReleaseNote> getTickets(String ver1, String ver2, String projectId) throws ServletException, IOException {
 		List<ReleaseNote> releaseNotes = new ArrayList<ReleaseNote>();
-		HttpClient httpclient = new HttpClient();
-		
-		// set the SOQL as a query param
-		NameValuePair[] params = new NameValuePair[1];
-		params[0] = new NameValuePair("q",
-				"SELECT Id, Name, Fixed_in_Ver__c, Release_Notes__c, Est_Due_Date__c "
-			  + "FROM Ticket__c "
-			  + "WHERE (Fixed_in_Ver__c >= '" + ver1 + "' AND Fixed_in_Ver__c <= '" + ver2 + "')"
-			  + "AND Project__c = '" + projectId + "'"
-	  		  + "LIMIT 100");
-		GetMethod getMethod = createGetMethod();
-		getMethod.setQueryString(params);
-		
-		try {
-			httpclient.executeMethod(getMethod);
-			int statusCode = getMethod.getStatusCode(); 
-			if (statusCode == HttpStatus.SC_OK) {
-				// Now lets use the standard java json classes to work with the results
-				String responseBody = getMethod.getResponseBodyAsString();
-				try {
-					JSONObject response = new JSONObject(responseBody);
-					JSONArray results = response.getJSONArray("records");
-					for (int i = 0; i < results.length(); i++) {
-						String ticketId = results.getJSONObject(i).getString("Id");
-						String ticketFixedVersion = "";
-						String ticketDate = "";
-						String ticketReleaseNotes = "";
-						if (results.getJSONObject(i).get("Fixed_in_Ver__c") instanceof String) {
-							ticketFixedVersion = results.getJSONObject(i).getString("Fixed_in_Ver__c");
+		if (ver1 != null && !ver1.isEmpty() &&
+			ver2 != null && !ver2.isEmpty() &&
+			projectId != null && !projectId.isEmpty()) {
+			
+			HttpClient httpclient = new HttpClient();
+			
+			// set the SOQL as a query param
+			NameValuePair[] params = new NameValuePair[1];
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("SELECT Id, Name, Fixed_in_Ver__c, Release_Notes__c, Est_Due_Date__c ")
+						 .append("FROM Ticket__c ")
+						 .append("WHERE (Fixed_in_Ver__c >= '").append(ver1)
+						 .append("' AND Fixed_in_Ver__c <= '").append(ver2).append("')")
+						 .append("AND Project__c = '").append(projectId)
+						 .append("LIMIT 100");
+			params[0] = new NameValuePair("q", stringBuilder.toString());
+			GetMethod getMethod = createGetMethod();
+			getMethod.setQueryString(params);
+			
+			try {
+				httpclient.executeMethod(getMethod);
+				int statusCode = getMethod.getStatusCode(); 
+				if (statusCode == HttpStatus.SC_OK) {
+					// Now lets use the standard java json classes to work with the results
+					String responseBody = getMethod.getResponseBodyAsString();
+					try {
+						JSONObject response = new JSONObject(responseBody);
+						JSONArray results = response.getJSONArray("records");
+						if (results != null) {
+							releaseNotes = convertToReleaseNotes(results);
 						}
-						if (results.getJSONObject(i).get("Est_Due_Date__c") instanceof String) {
-							ticketDate = results.getJSONObject(i).getString("Est_Due_Date__c");
-						}
-						if (results.getJSONObject(i).get("Release_Notes__c") instanceof String) {
-							ticketReleaseNotes = results.getJSONObject(i).getString("Release_Notes__c");
-						}
-						releaseNotes.add(new ReleaseNote(ticketId, ticketDate, ticketFixedVersion, ticketReleaseNotes));
+					} catch (JSONException e) {
+						e.printStackTrace();
+						throw new ServletException(e);
 					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-					throw new ServletException(e);
+				} else {
+					log.warning("STATUS CODE " + statusCode);
 				}
-			} else {
-				log2.warning("STATUS CODE " + statusCode);
+			} finally {
+				getMethod.releaseConnection();
 			}
-		} finally {
-			getMethod.releaseConnection();
 		}
 		return releaseNotes;
 	}
@@ -217,9 +211,9 @@ public class SFQuery {
 	
 	public boolean addAttachmentToProject(String projectId, String projectName) {
 		boolean result = false;
-		log2.info("addAttachmentToProject called");
+		log.info("addAttachmentToProject called");
 		if (!projectName.equals(null)) {
-			log2.info(projectName);
+			log.info(projectName);
 			HttpClient httpclient = new HttpClient();
 			
 			JSONObject attachment = new JSONObject();
@@ -228,7 +222,7 @@ public class SFQuery {
 			attachment.put("ParentId", projectId);
 			
 			PostMethod postMethod = createPostMethod();
-			log2.info("Post method created");
+			log.info("Post method created");
 			try {
 				postMethod.setRequestEntity(new StringRequestEntity(attachment.toString(), "application/json", null));
 				httpclient.executeMethod(postMethod);
@@ -236,7 +230,7 @@ public class SFQuery {
 				if (status >= 200 && status < 300) {
 					result = true;
 				}
-				log2.info("REQUEST STATUS CODE => " + status);
+				log.info("REQUEST STATUS CODE => " + status);
 			} catch (UnsupportedEncodingException e1) {
 				e1.printStackTrace();
 			} catch (HttpException e) {
@@ -287,4 +281,27 @@ public class SFQuery {
 	    return bytes;
 	}
 	
+	private List<ReleaseNote> convertToReleaseNotes(JSONArray results) {
+		List<ReleaseNote> releaseNotes = new ArrayList<ReleaseNote>();
+		if (results != null) {
+			for (int i = 0; i < results.length(); i++) {
+				JSONObject ticket = results.getJSONObject(i);
+				String ticketId = ticket.getString("Id");
+				String ticketFixedVersion = "";
+				String ticketDate = "";
+				String ticketReleaseNotes = "";
+				if (ticket.get("Fixed_in_Ver__c") != null) {
+					ticketFixedVersion = ticket.getString("Fixed_in_Ver__c");
+				}
+				if (ticket.get("Est_Due_Date__c") != null) {
+					ticketDate = ticket.getString("Est_Due_Date__c");
+				}
+				if (ticket.get("Release_Notes__c") != null) {
+					ticketReleaseNotes = ticket.getString("Release_Notes__c");
+				}
+				releaseNotes.add(new ReleaseNote(ticketId, ticketDate, ticketFixedVersion, ticketReleaseNotes));
+			}
+		}
+		return releaseNotes;
+	}
 }
