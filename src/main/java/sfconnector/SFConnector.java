@@ -50,16 +50,16 @@ public class SFConnector {
 					+ "/services/oauth2/authorize?response_type=code&client_id="
 					+ CLIENT_ID + "&redirect_uri="
 					+ URLEncoder.encode(REDIRECT_URL, "UTF-8");
-			this.properties = new Properties();
-			properties.load(new FileInputStream(new File(FILENAME)));
+//			this.properties = new Properties();
+//			properties.load(new FileInputStream(new File(FILENAME)));
 			
 		} catch (UnsupportedEncodingException e) {
 			throw new ServletException(e);
-		} catch (FileNotFoundException e) {
+		} /*catch (FileNotFoundException e) {
 			log.severe(e.getMessage());
 		} catch (IOException e) {
 			log.severe(e.getMessage());
-		}
+		}*/
 
 		tokenUrl = ENVIRONMENT + "/services/oauth2/token";
 	}
