@@ -2,10 +2,12 @@ package rncontroller;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -85,6 +87,9 @@ public class RNController extends HttpServlet {
 	}
 	
 	private void actionCreateVersionsFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Properties props = new Properties();
+		props.load(new FileInputStream(new File("params.properties")));
+		log.info("TEST PROPERTY ENVIRONMENT => " + props.getProperty("ENVIRONMENT"));
 		String newMinVer = request.getParameter("minVer");
 		String newMaxVer = request.getParameter("maxVer");
 		String newProjectId = request.getParameter("projectId");

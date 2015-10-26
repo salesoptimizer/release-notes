@@ -1,8 +1,12 @@
 package sfconnector;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Properties;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -26,11 +30,15 @@ public class SFConnector {
 	
 	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 	private static final String INSTANCE_URL = "INSTANCE_URL";
+
+	private static final String FILENAME = "params.properties";
 	
 	private String authUrl = null;
 	private String tokenUrl = null;
 	
-	private Logger log1 = LogManager.getLogManager().getLogger("rnotes");
+	private Properties properties;
+	
+	private Logger log = LogManager.getLogManager().getLogger("rnotes");
 	
 	public SFConnector() throws ServletException {
 		init();
@@ -42,8 +50,15 @@ public class SFConnector {
 					+ "/services/oauth2/authorize?response_type=code&client_id="
 					+ CLIENT_ID + "&redirect_uri="
 					+ URLEncoder.encode(REDIRECT_URL, "UTF-8");
+			this.properties = new Properties();
+			properties.load(new FileInputStream(new File(FILENAME)));
+			
 		} catch (UnsupportedEncodingException e) {
 			throw new ServletException(e);
+		} catch (FileNotFoundException e) {
+			log.severe(e.getMessage());
+		} catch (IOException e) {
+			log.severe(e.getMessage());
 		}
 
 		tokenUrl = ENVIRONMENT + "/services/oauth2/token";
@@ -55,13 +70,13 @@ public class SFConnector {
 		if (accessToken == null) {
 			String instanceUrl = null;
 			if (!request.getRequestURI().endsWith("_callback")) {
-				log1.info("REQ DOESN'T END WITH _callback");
-				log1.info("oauth authUrl =>"+authUrl);
+				log.info("REQ DOESN'T END WITH _callback");
+				log.info("oauth authUrl =>"+authUrl);
 				// we need to send the user to authorize
 				response.sendRedirect(authUrl);
 				return;
 			} else {
-				log1.info("REQ ENDS WITH _callback");
+				log.info("REQ ENDS WITH _callback");
 				String code = request.getParameter("code");
 				HttpClient httpclient = new HttpClient();
 				PostMethod post = new PostMethod(tokenUrl);
@@ -79,7 +94,7 @@ public class SFConnector {
 						accessToken = authResponse.getString("access_token");
 						instanceUrl = authResponse.getString("instance_url");
 					} catch (JSONException e) {
-						e.printStackTrace();
+						log.severe(e.getMessage());
 						throw new ServletException("JSONException => " + e);
 					}
 				} finally {
