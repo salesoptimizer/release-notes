@@ -21,16 +21,16 @@ import org.json.JSONObject;
 
 public class SFConnector {
 	/* Salesoptimizer sandbox */ 
-	private static final String CLIENT_ID = "3MVG9snqYUvtJB1MWfzh1Ehkk24Hanyly3hFbq9YTZnjgwkXBDQ5YoXmqQDF9F6yfwY5hzAW3U6d5ORMILt4x";
-//	private static String CLIENT_ID;
+//	private static final String CLIENT_ID = "3MVG9snqYUvtJB1MWfzh1Ehkk24Hanyly3hFbq9YTZnjgwkXBDQ5YoXmqQDF9F6yfwY5hzAW3U6d5ORMILt4x";
+	private String clientId;
 //	private static final String CLIENT_SECRET = "6328597736698327307";
-	private String CLIENT_SECRET;
+	private String clientSecret;
 	
-	private static final String REDIRECT_URL = "https://tranquil-taiga-6535.herokuapp.com/RestTest/oauth/_callback";
-//	private static String REDIRECT_URL;
+//	private static final String REDIRECT_URL = "https://tranquil-taiga-6535.herokuapp.com/RestTest/oauth/_callback";
+	private String redirectURL;
 //	private static final String ENVIRONMENT = "https://login.salesforce.com";
-	private static final String ENVIRONMENT = "https://test.salesforce.com";
-//	private static String ENVIRONMENT;
+//	private static final String ENVIRONMENT = "https://test.salesforce.com";
+	private String environment;
 	
 	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 	private static final String INSTANCE_URL = "INSTANCE_URL";
@@ -51,15 +51,14 @@ public class SFConnector {
 		try {
 			this.properties = new Properties();
 			this.properties.load(new FileInputStream(new File(FILENAME)));
-//			CLIENT_ID = properties.getProperty("CLIENT_ID");
-			this.CLIENT_SECRET = properties.getProperty("CLIENT_SECRET");
-			log.info("CLIENT_SECRET => " + CLIENT_SECRET);
-//			REDIRECT_URL = properties.getProperty("REDIRECT_URL");
-//			ENVIRONMENT = properties.getProperty("ENVIRONMENT");
-			authUrl = ENVIRONMENT
+			this.clientId = properties.getProperty("CLIENT_ID");
+			this.clientSecret = properties.getProperty("CLIENT_SECRET");
+			this.redirectURL = properties.getProperty("REDIRECT_URL");
+			this.environment = properties.getProperty("ENVIRONMENT");
+			authUrl = environment
 					+ "/services/oauth2/authorize?response_type=code&client_id="
-					+ CLIENT_ID + "&redirect_uri="
-					+ URLEncoder.encode(REDIRECT_URL, "UTF-8");
+					+ clientId + "&redirect_uri="
+					+ URLEncoder.encode(redirectURL, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			throw new ServletException(e);
 		} catch (FileNotFoundException e) {
@@ -68,7 +67,7 @@ public class SFConnector {
 			e.printStackTrace();
 		} 
 
-		tokenUrl = ENVIRONMENT + "/services/oauth2/token";
+		tokenUrl = environment + "/services/oauth2/token";
 	}
 	
 	public void getAccessToSalesforce(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -89,9 +88,9 @@ public class SFConnector {
 				PostMethod post = new PostMethod(tokenUrl);
 				post.addParameter("code", code);
 				post.addParameter("grant_type", "authorization_code");
-				post.addParameter("client_id", CLIENT_ID);
-				post.addParameter("client_secret", CLIENT_SECRET);
-				post.addParameter("redirect_uri", REDIRECT_URL);
+				post.addParameter("client_id", clientId);
+				post.addParameter("client_secret", clientSecret);
+				post.addParameter("redirect_uri", redirectURL);
 
 				try {
 					httpclient.executeMethod(post);
