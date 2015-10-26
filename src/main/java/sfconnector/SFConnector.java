@@ -43,7 +43,11 @@ public class SFConnector {
 	private static Properties properties;
 	private Logger log = LogManager.getLogManager().getLogger("rnotes");
 	
-	static {
+	public SFConnector() throws ServletException {
+		init();
+	}
+	
+	public void init() throws ServletException {
 		try {
 			properties = new Properties();
 			properties.load(new FileInputStream(new File(FILENAME)));
@@ -51,26 +55,16 @@ public class SFConnector {
 			CLIENT_SECRET = properties.getProperty("CLIENT_SECRET");
 			REDIRECT_URL = properties.getProperty("REDIRECT_URL");
 			ENVIRONMENT = properties.getProperty("ENVIRONMENT");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		CLIENT_ID = properties.getProperty("CLIENT_ID");
-	}
-	
-	public SFConnector() throws ServletException {
-		init();
-	}
-	
-	public void init() throws ServletException {
-		try {
 			authUrl = ENVIRONMENT
 					+ "/services/oauth2/authorize?response_type=code&client_id="
 					+ CLIENT_ID + "&redirect_uri="
 					+ URLEncoder.encode(REDIRECT_URL, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			throw new ServletException(e);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		} 
 
 		tokenUrl = ENVIRONMENT + "/services/oauth2/token";
