@@ -20,21 +20,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SFConnector {
-	/* Salesoptimizer sandbox */ 
-//	private static final String CLIENT_ID = "3MVG9snqYUvtJB1MWfzh1Ehkk24Hanyly3hFbq9YTZnjgwkXBDQ5YoXmqQDF9F6yfwY5hzAW3U6d5ORMILt4x";
 	private String clientId;
-//	private static final String CLIENT_SECRET = "6328597736698327307";
 	private String clientSecret;
-	
-//	private static final String REDIRECT_URL = "https://tranquil-taiga-6535.herokuapp.com/RestTest/oauth/_callback";
 	private String redirectURL;
-//	private static final String ENVIRONMENT = "https://login.salesforce.com";
-//	private static final String ENVIRONMENT = "https://test.salesforce.com";
 	private String environment;
 	
 	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 	private static final String INSTANCE_URL = "INSTANCE_URL";
-
 	private static final String FILENAME = "src/main/resources/params.properties";
 	
 	private String authUrl = null;
@@ -62,9 +54,9 @@ public class SFConnector {
 		} catch (UnsupportedEncodingException e) {
 			throw new ServletException(e);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		} 
 
 		tokenUrl = environment + "/services/oauth2/token";
