@@ -21,24 +21,43 @@ import org.json.JSONObject;
 
 public class SFConnector {
 	/* Salesoptimizer sandbox */ 
-	private static final String CLIENT_ID = "3MVG9snqYUvtJB1MWfzh1Ehkk24Hanyly3hFbq9YTZnjgwkXBDQ5YoXmqQDF9F6yfwY5hzAW3U6d5ORMILt4x";
-	private static final String CLIENT_SECRET = "6328597736698327307";
+//	private static final String CLIENT_ID = "3MVG9snqYUvtJB1MWfzh1Ehkk24Hanyly3hFbq9YTZnjgwkXBDQ5YoXmqQDF9F6yfwY5hzAW3U6d5ORMILt4x";
+	private static String CLIENT_ID;
+//	private static final String CLIENT_SECRET = "6328597736698327307";
+	private static String CLIENT_SECRET;
 	
-	private static final String REDIRECT_URL = "https://tranquil-taiga-6535.herokuapp.com/RestTest/oauth/_callback";
+//	private static final String REDIRECT_URL = "https://tranquil-taiga-6535.herokuapp.com/RestTest/oauth/_callback";
+	private static String REDIRECT_URL;
 //	private static final String ENVIRONMENT = "https://login.salesforce.com";
-	private static final String ENVIRONMENT = "https://test.salesforce.com";
+//	private static final String ENVIRONMENT = "https://test.salesforce.com";
+	private static String ENVIRONMENT;
 	
 	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 	private static final String INSTANCE_URL = "INSTANCE_URL";
 
-	private static final String FILENAME = "params.properties";
+	private static final String FILENAME = "src/main/resources/params.properties";
 	
 	private String authUrl = null;
 	private String tokenUrl = null;
 	
-	private Properties properties;
-	
+	private static Properties properties;
 	private Logger log = LogManager.getLogManager().getLogger("rnotes");
+	
+	static {
+		try {
+			properties = new Properties();
+			properties.load(new FileInputStream(new File(FILENAME)));
+			CLIENT_ID = properties.getProperty("CLIENT_ID");
+			CLIENT_SECRET = properties.getProperty("CLIENT_SECRET");
+			REDIRECT_URL = properties.getProperty("REDIRECT_URL");
+			ENVIRONMENT = properties.getProperty("ENVIRONMENT");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		CLIENT_ID = properties.getProperty("CLIENT_ID");
+	}
 	
 	public SFConnector() throws ServletException {
 		init();
@@ -50,16 +69,9 @@ public class SFConnector {
 					+ "/services/oauth2/authorize?response_type=code&client_id="
 					+ CLIENT_ID + "&redirect_uri="
 					+ URLEncoder.encode(REDIRECT_URL, "UTF-8");
-//			this.properties = new Properties();
-//			properties.load(new FileInputStream(new File(FILENAME)));
-			
 		} catch (UnsupportedEncodingException e) {
 			throw new ServletException(e);
-		} /*catch (FileNotFoundException e) {
-			log.severe(e.getMessage());
-		} catch (IOException e) {
-			log.severe(e.getMessage());
-		}*/
+		} 
 
 		tokenUrl = ENVIRONMENT + "/services/oauth2/token";
 	}
