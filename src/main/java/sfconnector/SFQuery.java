@@ -290,13 +290,13 @@ public class SFQuery {
 				String ticketFixedVersion = "";
 				String ticketDate = "";
 				String ticketReleaseNotes = "";
-				if (ticket.get("Fixed_in_Ver__c") != null) {
+				if (ticket.get("Fixed_in_Ver__c") instanceof String) {
 					ticketFixedVersion = ticket.getString("Fixed_in_Ver__c");
 				}
-				if (ticket.get("Est_Due_Date__c") != null) {
+				if (ticket.get("Est_Due_Date__c") instanceof String) {
 					ticketDate = ticket.getString("Est_Due_Date__c");
 				}
-				if (ticket.get("Release_Notes__c") != null) {
+				if (ticket.get("Release_Notes__c") instanceof String) {
 					ticketReleaseNotes = ticket.getString("Release_Notes__c");
 				}
 				releaseNotes.add(new ReleaseNote(ticketId, ticketDate, ticketFixedVersion, ticketReleaseNotes));
