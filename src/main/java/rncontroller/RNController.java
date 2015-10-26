@@ -88,7 +88,7 @@ public class RNController extends HttpServlet {
 	
 	private void actionCreateVersionsFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Properties props = new Properties();
-		props.load(new FileInputStream(new File("params.properties")));
+		props.load(new FileInputStream(new File("resources/params.properties")));
 		log.info("TEST PROPERTY ENVIRONMENT => " + props.getProperty("ENVIRONMENT"));
 		String newMinVer = request.getParameter("minVer");
 		String newMaxVer = request.getParameter("maxVer");
