@@ -21,16 +21,16 @@ import org.json.JSONObject;
 
 public class SFConnector {
 	/* Salesoptimizer sandbox */ 
-//	private static final String CLIENT_ID = "3MVG9snqYUvtJB1MWfzh1Ehkk24Hanyly3hFbq9YTZnjgwkXBDQ5YoXmqQDF9F6yfwY5hzAW3U6d5ORMILt4x";
-	private static String CLIENT_ID;
-//	private static final String CLIENT_SECRET = "6328597736698327307";
-	private static String CLIENT_SECRET;
+	private static final String CLIENT_ID = "3MVG9snqYUvtJB1MWfzh1Ehkk24Hanyly3hFbq9YTZnjgwkXBDQ5YoXmqQDF9F6yfwY5hzAW3U6d5ORMILt4x";
+//	private static String CLIENT_ID;
+	private static final String CLIENT_SECRET = "6328597736698327307";
+//	private static String CLIENT_SECRET;
 	
-//	private static final String REDIRECT_URL = "https://tranquil-taiga-6535.herokuapp.com/RestTest/oauth/_callback";
-	private static String REDIRECT_URL;
+	private static final String REDIRECT_URL = "https://tranquil-taiga-6535.herokuapp.com/RestTest/oauth/_callback";
+//	private static String REDIRECT_URL;
 //	private static final String ENVIRONMENT = "https://login.salesforce.com";
-//	private static final String ENVIRONMENT = "https://test.salesforce.com";
-	private static String ENVIRONMENT;
+	private static final String ENVIRONMENT = "https://test.salesforce.com";
+//	private static String ENVIRONMENT;
 	
 	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 	private static final String INSTANCE_URL = "INSTANCE_URL";
@@ -51,10 +51,10 @@ public class SFConnector {
 		try {
 			properties = new Properties();
 			properties.load(new FileInputStream(new File(FILENAME)));
-			CLIENT_ID = properties.getProperty("CLIENT_ID");
-			CLIENT_SECRET = properties.getProperty("CLIENT_SECRET");
-			REDIRECT_URL = properties.getProperty("REDIRECT_URL");
-			ENVIRONMENT = properties.getProperty("ENVIRONMENT");
+//			CLIENT_ID = properties.getProperty("CLIENT_ID");
+//			CLIENT_SECRET = properties.getProperty("CLIENT_SECRET");
+//			REDIRECT_URL = properties.getProperty("REDIRECT_URL");
+//			ENVIRONMENT = properties.getProperty("ENVIRONMENT");
 			authUrl = ENVIRONMENT
 					+ "/services/oauth2/authorize?response_type=code&client_id="
 					+ CLIENT_ID + "&redirect_uri="
