@@ -24,7 +24,7 @@ public class SFConnector {
 	private static final String CLIENT_ID = "3MVG9snqYUvtJB1MWfzh1Ehkk24Hanyly3hFbq9YTZnjgwkXBDQ5YoXmqQDF9F6yfwY5hzAW3U6d5ORMILt4x";
 //	private static String CLIENT_ID;
 //	private static final String CLIENT_SECRET = "6328597736698327307";
-	private static String CLIENT_SECRET;
+	private String CLIENT_SECRET;
 	
 	private static final String REDIRECT_URL = "https://tranquil-taiga-6535.herokuapp.com/RestTest/oauth/_callback";
 //	private static String REDIRECT_URL;
@@ -40,7 +40,7 @@ public class SFConnector {
 	private String authUrl = null;
 	private String tokenUrl = null;
 	
-	private static Properties properties;
+	private Properties properties;
 	private Logger log = LogManager.getLogManager().getLogger("rnotes");
 	
 	public SFConnector() throws ServletException {
@@ -49,10 +49,10 @@ public class SFConnector {
 	
 	public void init() throws ServletException {
 		try {
-			properties = new Properties();
-			properties.load(new FileInputStream(new File(FILENAME)));
+			this.properties = new Properties();
+			this.properties.load(new FileInputStream(new File(FILENAME)));
 //			CLIENT_ID = properties.getProperty("CLIENT_ID");
-			CLIENT_SECRET = properties.getProperty("CLIENT_SECRET");
+			this.CLIENT_SECRET = properties.getProperty("CLIENT_SECRET");
 			log.info("CLIENT_SECRET => " + CLIENT_SECRET);
 //			REDIRECT_URL = properties.getProperty("REDIRECT_URL");
 //			ENVIRONMENT = properties.getProperty("ENVIRONMENT");
