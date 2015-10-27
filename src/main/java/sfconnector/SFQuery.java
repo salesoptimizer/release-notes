@@ -72,7 +72,7 @@ public class SFQuery {
 			HttpClient httpclient = new HttpClient();
 			
 			// set the SOQL as a query param
-			NameValuePair[] params = new NameValuePair[1];
+//			NameValuePair[] params = new NameValuePair[1];
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("SELECT Id, Name, Fixed_in_Ver__c, Release_Notes__c, Est_Due_Date__c ")
 						 .append("FROM Ticket__c ")
@@ -80,7 +80,8 @@ public class SFQuery {
 						 .append("' AND Fixed_in_Ver__c <= '").append(ver2).append("')")
 						 .append("AND Project__c = '").append(projectId).append("'")
 						 .append("LIMIT 100");
-			params[0] = new NameValuePair("q", stringBuilder.toString());
+//			params[0] = new NameValuePair("q", stringBuilder.toString());
+			NameValuePair[] params = { new NameValuePair("q", stringBuilder.toString()) };
 			GetMethod getMethod = createGetMethod();
 			getMethod.setQueryString(params);
 			
@@ -97,11 +98,11 @@ public class SFQuery {
 							releaseNotes = convertToReleaseNotes(results);
 						}
 					} catch (JSONException e) {
-						e.printStackTrace();
+						log.severe(e.getMessage());
 						throw new ServletException(e);
 					}
 				} else {
-					log.warning("STATUS CODE " + statusCode);
+					log.warning("getTickets() => STATUS CODE " + statusCode);
 				}
 			} finally {
 				getMethod.releaseConnection();
@@ -147,38 +148,42 @@ public class SFQuery {
 
 	public File getLogo(String projectId) {
 		File logo = null;
-		HttpClient httpclient = new HttpClient();
-		
-		NameValuePair[] params = new NameValuePair[1];
-		params[0] = new NameValuePair("q",
-				"SELECT Id FROM Attachment WHERE ParentId = '" + projectId + "' AND Name = 'logo.png' LIMIT 1");
-		GetMethod getMethod = createGetMethod();
-		getMethod.setQueryString(params);
-		
-		try {
-			httpclient.executeMethod(getMethod);
-			int statusCode = getMethod.getStatusCode(); 
-			if (statusCode == HttpStatus.SC_OK) {
-				String responseBody = getMethod.getResponseBodyAsString();
-				try {
-					JSONObject response = new JSONObject(responseBody);
-					JSONArray results = response.getJSONArray("records");
-					String logoId = results.getJSONObject(0).getString("Id");
-					
-					if (!logoId.isEmpty()) {
-						getMethod = createGetAttachmentMethod(logoId);
-						logo = getLogoFromBytes(getMethod);
+		if (projectId != null && !projectId.isEmpty()) {
+			HttpClient httpclient = new HttpClient();
+			
+			NameValuePair[] params = new NameValuePair[1];
+			params[0] = new NameValuePair("q",
+					"SELECT Id FROM Attachment WHERE ParentId = '" + projectId + "' AND Name = 'logo.png' LIMIT 1");
+			GetMethod getMethod = createGetMethod();
+			getMethod.setQueryString(params);
+			
+			try {
+				httpclient.executeMethod(getMethod);
+				int statusCode = getMethod.getStatusCode(); 
+				if (statusCode == HttpStatus.SC_OK) {
+					String responseBody = getMethod.getResponseBodyAsString();
+					try {
+						JSONObject response = new JSONObject(responseBody);
+						JSONArray results = response.getJSONArray("records");
+						String logoId = results.getJSONObject(0).getString("Id");
+						
+						if (!logoId.isEmpty()) {
+							getMethod = createGetAttachmentMethod(logoId);
+							logo = getLogoFromBytes(getMethod);
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
-				} catch (JSONException e) {
-					e.printStackTrace();
+				} else {
+					log.warning("getLogo() => STATUS CODE " + statusCode);
 				}
+			} catch (HttpException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				getMethod.releaseConnection();
 			}
-		} catch (HttpException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			getMethod.releaseConnection();
 		}
 		return logo;
 	}
