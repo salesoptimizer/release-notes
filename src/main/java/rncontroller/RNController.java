@@ -155,9 +155,9 @@ public class RNController extends HttpServlet {
 					}
 				}
 			}
-//			if (showPage) {
+			if (showPage) {
 				request.getRequestDispatcher("/main.jsp").forward(request, response);
-//			}
+			}
 		}
 	}
 }
