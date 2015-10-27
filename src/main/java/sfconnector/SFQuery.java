@@ -35,6 +35,7 @@ import rnservices.GGLService;
  * Servlet implementation class DemoREST
  */
 public class SFQuery {
+	private static final String LOGO_NAME = "logo.png";
 	private String accessToken;
 	private String instanceUrl;
 	
@@ -72,7 +73,6 @@ public class SFQuery {
 			HttpClient httpclient = new HttpClient();
 			
 			// set the SOQL as a query param
-//			NameValuePair[] params = new NameValuePair[1];
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("SELECT Id, Name, Fixed_in_Ver__c, Release_Notes__c, Est_Due_Date__c ")
 						 .append("FROM Ticket__c ")
@@ -80,7 +80,6 @@ public class SFQuery {
 						 .append("' AND Fixed_in_Ver__c <= '").append(ver2).append("')")
 						 .append("AND Project__c = '").append(projectId).append("'")
 						 .append("LIMIT 100");
-//			params[0] = new NameValuePair("q", stringBuilder.toString());
 			NameValuePair[] params = { new NameValuePair("q", stringBuilder.toString()) };
 			GetMethod getMethod = createGetMethod();
 			getMethod.setQueryString(params);
@@ -151,9 +150,9 @@ public class SFQuery {
 		if (projectId != null && !projectId.isEmpty()) {
 			HttpClient httpclient = new HttpClient();
 			
-			NameValuePair[] params = new NameValuePair[1];
-			params[0] = new NameValuePair("q",
-					"SELECT Id FROM Attachment WHERE ParentId = '" + projectId + "' AND Name = 'logo.png' LIMIT 1");
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("SELECT Id FROM Attachment WHERE ParentId = '").append(projectId).append("' AND Name = 'logo.png' LIMIT 1");
+			NameValuePair[] params = { new NameValuePair("q", stringBuilder.toString()) };
 			GetMethod getMethod = createGetMethod();
 			getMethod.setQueryString(params);
 			
@@ -165,21 +164,23 @@ public class SFQuery {
 					try {
 						JSONObject response = new JSONObject(responseBody);
 						JSONArray results = response.getJSONArray("records");
-						String logoId = results.getJSONObject(0).getString("Id");
+						String logoId = results != null ? results.getJSONObject(0).getString("Id") : "";
 						
 						if (!logoId.isEmpty()) {
-							getMethod = createGetAttachmentMethod(logoId);
-							logo = getLogoFromBytes(getMethod);
+							logo = getLogoFromBytes(logoId);
 						}
 					} catch (JSONException e) {
+						log.severe(e.getMessage());
 						e.printStackTrace();
 					}
 				} else {
 					log.warning("getLogo() => STATUS CODE " + statusCode);
 				}
 			} catch (HttpException e) {
+				log.severe(e.getMessage());
 				e.printStackTrace();
 			} catch (IOException e) {
+				log.severe(e.getMessage());
 				e.printStackTrace();
 			} finally {
 				getMethod.releaseConnection();
@@ -189,27 +190,29 @@ public class SFQuery {
 	}
 
 //	create new logo.ong file from bytes array
-	private File getLogoFromBytes(GetMethod getMethod) {
+	private File getLogoFromBytes(String logoId) {
 		File logo = null;
-		HttpClient httpclient = new HttpClient();
-		try {
-			httpclient.executeMethod(getMethod);
-			int statusCode = getMethod.getStatusCode(); 
-			if (statusCode == HttpStatus.SC_OK) {
-				byte[] responseBody = getMethod.getResponseBody();
-				BufferedImage image = null;
-				ByteArrayInputStream bis = new ByteArrayInputStream(responseBody);
-				image = ImageIO.read(bis);
-				bis.close();
-				logo = new File("logo.png");
-				ImageIO.write(image, "png", logo);
+		if (logoId != null && !logoId.isEmpty()) {
+			GetMethod getMethod = createGetAttachmentMethod(logoId);
+			HttpClient httpclient = new HttpClient();
+			try {
+				httpclient.executeMethod(getMethod);
+				int statusCode = getMethod.getStatusCode(); 
+				if (statusCode == HttpStatus.SC_OK) {
+					byte[] responseBody = getMethod.getResponseBody();
+					BufferedImage image = readImage(responseBody);
+					logo = new File(LOGO_NAME);
+					ImageIO.write(image, "png", logo);
+				}
+			} catch (HttpException e) {
+				log.severe(e.getMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				log.severe(e.getMessage());
+				e.printStackTrace();
+			} finally {
+				getMethod.releaseConnection();
 			}
-		} catch (HttpException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			getMethod.releaseConnection();
 		}
 		return logo;
 	}
@@ -217,13 +220,14 @@ public class SFQuery {
 	public boolean addAttachmentToProject(String projectId, String projectName) {
 		boolean result = false;
 		log.info("addAttachmentToProject called");
-		if (!projectName.equals(null)) {
+		if (projectName != null && !projectName.isEmpty() &&
+			projectId != null && !projectId.isEmpty()) {
 			log.info(projectName);
 			HttpClient httpclient = new HttpClient();
 			
 			JSONObject attachment = new JSONObject();
-			attachment.put("Name", projectName + " Release Notes.rtf");
-			attachment.put("Body", encodeFileToBase64Binary("ReleaseNotes.rtf"));
+			attachment.put("Name", projectName + " " + GGLService.FILENAME);
+			attachment.put("Body", encodeFileToBase64Binary(GGLService.FILENAME));
 			attachment.put("ParentId", projectId);
 			
 			PostMethod postMethod = createPostMethod();
@@ -232,15 +236,18 @@ public class SFQuery {
 				postMethod.setRequestEntity(new StringRequestEntity(attachment.toString(), "application/json", null));
 				httpclient.executeMethod(postMethod);
 				int status = postMethod.getStatusCode();
-				if (status >= 200 && status < 300) {
+				if (status >= HttpStatus.SC_OK && status < HttpStatus.SC_MULTIPLE_CHOICES) {
 					result = true;
 				}
 				log.info("REQUEST STATUS CODE => " + status);
-			} catch (UnsupportedEncodingException e1) {
-				e1.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				log.severe(e.getMessage());
+				e.printStackTrace();
 			} catch (HttpException e) {
+				log.severe(e.getMessage());
 				e.printStackTrace();
 			} catch (IOException e) {
+				log.severe(e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -248,41 +255,50 @@ public class SFQuery {
 	}
 	
 	private String encodeFileToBase64Binary(String fileName) {
-
-		File file = new File(fileName);
-		byte[] bytes;
-		String encodedString = null;
-		try {
-			bytes = loadFile(file);
-			encodedString = Base64.encodeBase64String(bytes);
-		} catch (IOException e) {
-			e.printStackTrace();
+		String encodedString = "";
+		if (fileName != null && !fileName.isEmpty()){
+			File file = new File(fileName);
+			byte[] bytes = null;
+			try {
+				bytes = loadFile(file);
+				encodedString = Base64.encodeBase64String(bytes);
+			} catch (IOException e) {
+				log.severe(e.getMessage());
+				e.printStackTrace();
+			}
 		}
-		
 		return encodedString;
 	}
 
-	private static byte[] loadFile(File file) throws IOException {
-	    InputStream is = new FileInputStream(file);
-
-	    long length = file.length();
-	    if (length > Integer.MAX_VALUE) {
-	        // File is too large
-	    }
-	    byte[] bytes = new byte[(int)length];
-	    
-	    int offset = 0;
-	    int numRead = 0;
-	    while (offset < bytes.length 
-	    		&& (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
-	        offset += numRead;
-	    }
-
-	    if (offset < bytes.length) {
-	        throw new IOException("Could not completely read file " + file.getName());
-	    }
-
-	    is.close();
+	private byte[] loadFile(File file) throws IOException {
+		byte[] bytes = null;
+		if (file != null) {
+			InputStream is = null;
+			try {
+			    is = new FileInputStream(file);
+			    long length = file.length();
+			    if (length > Integer.MAX_VALUE) {
+			        throw new IOException("File is too large: " + file.length() / 1000 + "KB");
+			    }
+			    bytes = new byte[(int)length];
+			    int offset = 0;
+			    int numRead = 0;
+			    while (offset < bytes.length 
+			    		&& (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
+			        offset += numRead;
+			    }
+			    if (offset < bytes.length) {
+			        throw new IOException("Could not completely read file " + file.getName());
+			    }
+			} catch(IOException e) {
+				log.severe(e.getMessage());
+				e.printStackTrace();
+			} finally {
+				if (is != null) {
+					is.close();
+				}
+			}
+		}
 	    return bytes;
 	}
 	
@@ -308,5 +324,24 @@ public class SFQuery {
 			}
 		}
 		return releaseNotes;
+	}
+	
+	private BufferedImage readImage(byte[] responseBody) throws IOException {
+		BufferedImage image = null;
+		if (responseBody != null) {
+			ByteArrayInputStream bis = null;
+			try {
+				bis = new ByteArrayInputStream(responseBody);
+				image = ImageIO.read(bis);
+			} catch (IOException e) {
+				log.severe(e.getMessage());
+				e.printStackTrace();
+			} finally {
+				if (bis != null) {
+					bis.close();
+				}
+			}
+		}
+		return image;
 	}
 }
