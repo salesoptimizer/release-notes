@@ -103,10 +103,8 @@ public class RNController extends HttpServlet {
 			
 			accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 			instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
-			if (isLoggedInSfdc()) {
-				SFConnector sfConnector = new SFConnector();
-				sfConnector.getAccessToSalesforce(request, response);
-			}
+			SFConnector sfConnector = new SFConnector();
+			sfConnector.getAccessToSalesforce(request, response);
 
 			log.info("accessToken => " + accessToken);
 			log.info("instanceUrl => " + instanceUrl);
@@ -160,9 +158,4 @@ public class RNController extends HttpServlet {
 			}
 		}
 	}
-	
-	private Boolean isLoggedInSfdc() {
-		return accessToken != null && instanceUrl != null;
-	}
-
 }
