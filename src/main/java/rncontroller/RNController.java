@@ -101,16 +101,18 @@ public class RNController extends HttpServlet {
 					 " projectId => " + this.projectId + 
 					 " projectName => " + this.projectName);
 			
-			SFConnector sfConnector = new SFConnector();
-			sfConnector.getAccessToSalesforce(request, response);
-			
 			accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
 			instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
+			if (isLoggedInSfdc()) {
+				SFConnector sfConnector = new SFConnector();
+				sfConnector.getAccessToSalesforce(request, response);
+			}
 
 			log.info("accessToken => " + accessToken);
 			log.info("instanceUrl => " + instanceUrl);
 			
 			boolean isError = false;
+			boolean showPage = true;
 			if (accessToken == null) {
 				request.setAttribute("errorMsg", "Fatal Error: unable to connect to Salesforce. Access token not available");
 				isError = true;
@@ -129,9 +131,11 @@ public class RNController extends HttpServlet {
 				if (!isError) {
 					RTFConverter.convertToRTF(tickets, logo, true);
 					
-		//			bug-fix (3 docs were created instead of 1 after first calling during day)	***********************************************************  
+//					There was a bug about creating 3 docs instead of one. It happens once a day, when we use an app first time a day.
+//					So we have to check if we already created (or tried to create) documents last 1 min. If we did than we will do nothing.
 					Long time = (Long) request.getSession().getAttribute("docTime");
 					Long docTime = time == null ? 0 : time; 
+					
 					if ((System.currentTimeMillis() - docTime) > 60000) {
 						if (GGLService.createGoogleDoc(this.projectName)) {
 							request.setAttribute("gglResult", "Release Notes document was successfully created on Google Drive");
@@ -146,10 +150,19 @@ public class RNController extends HttpServlet {
 							request.setAttribute("attResult", "Error during document creating. Please, check app logs for getting more info");
 						}
 						request.getSession().setAttribute("docTime", System.currentTimeMillis());
+					} else {
+						showPage = false;
 					}
 				}
 			}
-			request.getRequestDispatcher("/main.jsp").forward(request, response);
+			if (showPage) {
+				request.getRequestDispatcher("/main.jsp").forward(request, response);
+			}
 		}
 	}
+	
+	private Boolean isLoggedInSfdc() {
+		return accessToken != null && instanceUrl != null;
+	}
+
 }

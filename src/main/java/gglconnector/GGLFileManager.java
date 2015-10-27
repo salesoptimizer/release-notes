@@ -39,15 +39,20 @@ public class GGLFileManager {
 		File body = createFileBody(title, description, parentId, mimeType);
 
 		// File's content.
-		java.io.File fileContent = new java.io.File(filename);
-		FileContent mediaContent = new FileContent(mimeType, fileContent);
-		try {
-			File file = service.files().insert(body, mediaContent).execute();
-			System.out.println("File ID: " + file.getId());
-			// return file;
-		} catch (IOException e) {
-			log.severe(e.getMessage());
-			e.printStackTrace();
+		FileContent mediaContent = null;
+		if (filename != null && !filename.isEmpty()) {
+			java.io.File fileContent = new java.io.File(filename);
+			mediaContent = new FileContent(mimeType, fileContent);
+		}
+		if (body != null && mediaContent != null) {
+			try {
+				File file = service.files().insert(body, mediaContent).execute();
+				System.out.println("File ID: " + file.getId());
+				// return file;
+			} catch (IOException e) {
+				log.severe(e.getMessage());
+				e.printStackTrace();
+			}
 		}
 	}
 
