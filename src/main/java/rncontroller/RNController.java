@@ -101,11 +101,13 @@ public class RNController extends HttpServlet {
 					 " projectId => " + this.projectId + 
 					 " projectName => " + this.projectName);
 			
-			accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
-			instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
+			
 			SFConnector sfConnector = new SFConnector();
 			sfConnector.getAccessToSalesforce(request, response);
 
+			accessToken = (String) request.getSession().getAttribute(ACCESS_TOKEN);
+			instanceUrl = (String) request.getSession().getAttribute(INSTANCE_URL);
+			
 			log.info("accessToken => " + accessToken);
 			log.info("instanceUrl => " + instanceUrl);
 			
@@ -153,9 +155,9 @@ public class RNController extends HttpServlet {
 					}
 				}
 			}
-			if (showPage) {
+//			if (showPage) {
 				request.getRequestDispatcher("/main.jsp").forward(request, response);
-			}
+//			}
 		}
 	}
 }
