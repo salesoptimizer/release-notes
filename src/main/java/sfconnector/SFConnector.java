@@ -54,8 +54,10 @@ public class SFConnector {
 			throw new ServletException(e);
 		} catch (FileNotFoundException e) {
 			log.severe(e.getMessage());
+			e.printStackTrace();
 		} catch (IOException e) {
 			log.severe(e.getMessage());
+			e.printStackTrace();
 		} 
 
 		tokenUrl = environment + "/services/oauth2/token";
