@@ -32,7 +32,6 @@ public class SFConnector {
 	private String authUrl = null;
 	private String tokenUrl = null;
 	
-	private Properties properties;
 	private Logger log = LogManager.getLogManager().getLogger("rnotes");
 	
 	public SFConnector() throws ServletException {
@@ -41,8 +40,8 @@ public class SFConnector {
 	
 	public void init() throws ServletException {
 		try {
-			this.properties = new Properties();
-			this.properties.load(new FileInputStream(new File(FILENAME)));
+			Properties properties = new Properties();
+			properties.load(new FileInputStream(new File(FILENAME)));
 			this.clientId = properties.getProperty("CLIENT_ID");
 			this.clientSecret = properties.getProperty("CLIENT_SECRET");
 			this.redirectURL = properties.getProperty("REDIRECT_URL");
