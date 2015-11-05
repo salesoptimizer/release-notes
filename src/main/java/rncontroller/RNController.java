@@ -136,7 +136,7 @@ public class RNController extends HttpServlet {
 					Long time = (Long) request.getSession().getAttribute("docTime");
 					Long docTime = time == null ? 0 : time; 
 					
-					if ((System.currentTimeMillis() - docTime) > 60000) {
+					if ((System.currentTimeMillis() - docTime) > 5000) {
 						if (GGLService.createGoogleDoc(this.projectName)) {
 							request.setAttribute("gglResult", "Release Notes document was successfully created on Google Drive");
 						} else {
