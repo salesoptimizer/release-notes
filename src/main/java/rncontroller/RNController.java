@@ -2,12 +2,9 @@ package rncontroller;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -132,7 +129,7 @@ public class RNController extends HttpServlet {
 					RTFConverter.convertToRTF(tickets, logo, true);
 					
 //					There was a bug about creating 3 docs instead of one. It happens once a day, when we use an app first time a day.
-//					So we have to check if we already created (or tried to create) documents last 1 min. If we did than we will do nothing.
+//					So we have to check if we already created (or tried to create) documents last 5 sec. If we did than we will do nothing.
 					Long time = (Long) request.getSession().getAttribute("docTime");
 					Long docTime = time == null ? 0 : time; 
 					
