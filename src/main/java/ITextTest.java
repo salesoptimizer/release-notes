@@ -1,10 +1,18 @@
 import java.awt.Color;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.util.Iterator;
+
+import javax.swing.text.BadLocationException;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.rtf.RTFEditorKit;
 
 import models.ReleaseNote;
 
@@ -74,6 +82,30 @@ public class ITextTest {
             e.printStackTrace();
         }
         document.close();
+	}
+	
+	private static String convertToRTF(String htmlStr) {
+	    OutputStream os = new ByteArrayOutputStream();
+	    HTMLEditorKit htmlEditorKit = new HTMLEditorKit();
+	    RTFEditorKit rtfEditorKit = new RTFEditorKit();
+	    String rtfStr = null;
+
+	    htmlStr = htmlStr.replaceAll("<br.*?>","#NEW_LINE#");
+	    htmlStr = htmlStr.replaceAll("</p>","#NEW_LINE#");
+	    htmlStr = htmlStr.replaceAll("<p.*?>","");
+	    InputStream is = new ByteArrayInputStream(htmlStr.getBytes());
+	    try {
+	        javax.swing.text.Document doc = htmlEditorKit.createDefaultDocument();
+	        htmlEditorKit.read(is, doc, 0);
+	        rtfEditorKit .write(os, doc, 0, doc.getLength());
+	        rtfStr = os.toString();
+	        rtfStr = rtfStr.replaceAll("#NEW_LINE#","\\\\par ");
+	    } catch (IOException e) {
+	          e.printStackTrace();
+	        } catch (BadLocationException e) {
+	          e.printStackTrace();
+	        }
+	    return rtfStr;
 	}
 	
 	private static void addBoldText(PdfPTable table, String text) throws DocumentException {

@@ -173,7 +173,7 @@ public class RTFConverter {
 	        } catch (BadLocationException e) {
 	          e.printStackTrace();
 	        }
-	    return rtfStr;
+	    return rtfStr.toString();
 	}
 	
 }
