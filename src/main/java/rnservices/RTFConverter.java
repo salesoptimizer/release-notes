@@ -1,15 +1,23 @@
 package rnservices;
 
 import java.awt.Color;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
+
+import javax.swing.text.BadLocationException;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.rtf.RTFEditorKit;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -135,7 +143,7 @@ public class RTFConverter {
 //            	add list of release notes to the last cell	***************************************************************************************
             	cell.setPhrase(new Phrase(""));
 //            	cell.addElement(getReleaseNotesList(rnote.getReleaseNotes()));
-            	cell.setPhrase(new Phrase(rnote.getReleaseNotes()));
+            	cell.setPhrase(new Phrase(convertToRTF(rnote.getReleaseNotes())));
             	cell.setBorderColor(Color.BLUE);
             	table.addCell(cell);
     
@@ -143,4 +151,29 @@ public class RTFConverter {
             }
         }
 	}
+	
+	private static String convertToRTF(String htmlStr) {
+	    OutputStream os = new ByteArrayOutputStream();
+	    HTMLEditorKit htmlEditorKit = new HTMLEditorKit();
+	    RTFEditorKit rtfEditorKit = new RTFEditorKit();
+	    String rtfStr = null;
+
+	    htmlStr = htmlStr.replaceAll("<br.*?>","#NEW_LINE#");
+	    htmlStr = htmlStr.replaceAll("</p>","#NEW_LINE#");
+	    htmlStr = htmlStr.replaceAll("<p.*?>","");
+	    InputStream is = new ByteArrayInputStream(htmlStr.getBytes());
+	    try {
+	        javax.swing.text.Document doc = htmlEditorKit.createDefaultDocument();
+	        htmlEditorKit.read(is, doc, 0);
+	        rtfEditorKit .write(os, doc, 0, doc.getLength());
+	        rtfStr = os.toString();
+	        rtfStr = rtfStr.replaceAll("#NEW_LINE#","\\\\par ");
+	    } catch (IOException e) {
+	          e.printStackTrace();
+	        } catch (BadLocationException e) {
+	          e.printStackTrace();
+	        }
+	    return rtfStr;
+	}
+	
 }
