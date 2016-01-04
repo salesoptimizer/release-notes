@@ -270,6 +270,7 @@ public class SFQuery {
 	
 	private List<ReleaseNote> convertToReleaseNotes(JSONArray results) {
 		List<ReleaseNote> releaseNotes = new ArrayList<ReleaseNote>();
+		log.info("results => " + results);
 		if (results != null) {
 			log.info("results.length() => " + results.length());
 			for (int i = 0; i < results.length(); i++) {
