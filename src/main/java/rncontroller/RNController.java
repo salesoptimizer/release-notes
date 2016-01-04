@@ -124,7 +124,7 @@ public class RNController extends HttpServlet {
 				if (tickets.isEmpty()) {
 					request.setAttribute("errorMsg", "There are no any appropriate tickets");
 					isError = true;
-					return;
+//					return;
 				}
 				if (!isError) {
 					RTFConverter.convertToRTF(tickets, logo, true);
