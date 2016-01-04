@@ -124,7 +124,6 @@ public class RNController extends HttpServlet {
 				if (tickets.isEmpty()) {
 					request.setAttribute("errorMsg", "There are no any appropriate tickets. Release Notes were not able to generate.");
 					isError = true;
-//					return;
 				}
 				if (!isError) {
 					RTFConverter.convertToRTF(tickets, logo, true);
