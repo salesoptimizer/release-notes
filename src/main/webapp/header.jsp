@@ -6,11 +6,17 @@
 	<title>Release Notes</title>
 	<style>
 		body {
-			background: #099AD6;
 			padding: 100px 0;
 			font-size: 20px;
 			font-family: Arial;
 			margin: 0;
+		}
+		
+		body:before {
+			content: "";
+			display: block;
+			height: 50px;
+			background: #099AD6;
 		}
 		
 		.result-box {
