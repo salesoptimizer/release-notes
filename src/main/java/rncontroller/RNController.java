@@ -120,6 +120,7 @@ public class RNController extends HttpServlet {
 				SFQuery sfQuery = new SFQuery(accessToken, instanceUrl);
 				File logo = sfQuery.getLogo(this.projectId);
 				List<ReleaseNote> tickets = sfQuery.getTickets(this.minVer, this.maxVer, this.projectId);
+				log.info("tickets.isEmpty() => " + tickets.isEmpty());
 				if (tickets.isEmpty()) {
 					request.setAttribute("errorMsg", "There are no any appropriate tickets");
 					isError = true;
