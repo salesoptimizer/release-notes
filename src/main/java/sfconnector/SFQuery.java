@@ -79,7 +79,7 @@ public class SFQuery {
 						 .append("WHERE (Fixed_in_Ver__c >= '").append(ver1)
 						 .append("' AND Fixed_in_Ver__c <= '").append(ver2).append("')")
 						 .append("AND Project__c = '").append(projectId).append("'")
-						 .append("AND Include_in_Release_Notes__c = false")
+						 .append("AND Include_in_Release_Notes__c = true")
 						 .append("LIMIT 100");
 			NameValuePair[] params = { new NameValuePair("q", stringBuilder.toString()) };
 			GetMethod getMethod = createGetMethod();
@@ -271,6 +271,7 @@ public class SFQuery {
 	private List<ReleaseNote> convertToReleaseNotes(JSONArray results) {
 		List<ReleaseNote> releaseNotes = new ArrayList<ReleaseNote>();
 		if (results != null) {
+			log.info("results.length() => " + results.length());
 			for (int i = 0; i < results.length(); i++) {
 				JSONObject ticket = results.getJSONObject(i);
 				String ticketId = ticket.getString("Id");
