@@ -122,7 +122,7 @@ public class RNController extends HttpServlet {
 				List<ReleaseNote> tickets = sfQuery.getTickets(this.minVer, this.maxVer, this.projectId);
 				log.info("tickets.isEmpty() => " + tickets.isEmpty());
 				if (tickets.isEmpty()) {
-					request.setAttribute("errorMsg", "There are no any appropriate tickets");
+					request.setAttribute("errorMsg", "There are no any appropriate tickets. Release Notes were not able to generate.");
 					isError = true;
 //					return;
 				}
