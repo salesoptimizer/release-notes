@@ -79,7 +79,7 @@ public class SFQuery {
 						 .append("WHERE (Fixed_in_Ver__c >= '").append(ver1)
 						 .append("' AND Fixed_in_Ver__c <= '").append(ver2).append("')")
 						 .append("AND Project__c = '").append(projectId).append("'")
-						 //.append("AND Include_in_Release_Notes__c = true")
+						 .append("AND Include_in_Release_Notes__c = false")
 						 .append("LIMIT 100");
 			NameValuePair[] params = { new NameValuePair("q", stringBuilder.toString()) };
 			GetMethod getMethod = createGetMethod();
