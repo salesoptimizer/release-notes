@@ -287,9 +287,6 @@ public class SFQuery {
 				if (ticket.get("Release_Notes__c") instanceof String) {
 					ticketReleaseNotes = ticket.getString("Release_Notes__c");
 				}
-				/*if (ticket.get("RN_Rich__c") instanceof String) {
-					ticketReleaseNotes = ticket.getString("RN_Rich__c");
-				}*/
 				releaseNotes.add(new ReleaseNote(ticketId, ticketDate, ticketFixedVersion, ticketReleaseNotes));
 			}
 		}
