@@ -6,7 +6,6 @@
 	<title>Release Notes</title>
 	<style>
 		body {
-			padding: 100px 0;
 			font-size: 20px;
 			font-family: Arial;
 			margin: 0;
