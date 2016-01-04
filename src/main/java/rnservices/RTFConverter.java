@@ -142,8 +142,8 @@ public class RTFConverter {
             	
 //            	add list of release notes to the last cell	***************************************************************************************
             	cell.setPhrase(new Phrase(""));
-//            	cell.addElement(getReleaseNotesList(rnote.getReleaseNotes()));
-            	cell.setPhrase(new Phrase(convertToRTF(rnote.getReleaseNotes())));
+            	cell.addElement(getReleaseNotesList(rnote.getReleaseNotes()));
+//            	cell.setPhrase(new Phrase(convertToRTF(rnote.getReleaseNotes())));
             	cell.setBorderColor(Color.BLUE);
             	table.addCell(cell);
     

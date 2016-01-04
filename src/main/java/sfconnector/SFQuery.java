@@ -74,7 +74,7 @@ public class SFQuery {
 			
 			// set the SOQL as a query param
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append("SELECT Id, Name, Fixed_in_Ver__c, Release_Notes__c, RN_Rich__c, Est_Due_Date__c ")
+			stringBuilder.append("SELECT Id, Name, Fixed_in_Ver__c, Release_Notes__c, Est_Due_Date__c ")
 						 .append("FROM Ticket__c ")
 						 .append("WHERE (Fixed_in_Ver__c >= '").append(ver1)
 						 .append("' AND Fixed_in_Ver__c <= '").append(ver2).append("')")
@@ -283,12 +283,12 @@ public class SFQuery {
 				if (ticket.get("Est_Due_Date__c") instanceof String) {
 					ticketDate = ticket.getString("Est_Due_Date__c");
 				}
-				/*if (ticket.get("Release_Notes__c") instanceof String) {
+				if (ticket.get("Release_Notes__c") instanceof String) {
 					ticketReleaseNotes = ticket.getString("Release_Notes__c");
-				}*/
-				if (ticket.get("RN_Rich__c") instanceof String) {
-					ticketReleaseNotes = ticket.getString("RN_Rich__c");
 				}
+				/*if (ticket.get("RN_Rich__c") instanceof String) {
+					ticketReleaseNotes = ticket.getString("RN_Rich__c");
+				}*/
 				releaseNotes.add(new ReleaseNote(ticketId, ticketDate, ticketFixedVersion, ticketReleaseNotes));
 			}
 		}
