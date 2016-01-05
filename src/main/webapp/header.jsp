@@ -14,7 +14,7 @@
 		.header {
 			padding: 19px 0 0 175px;
 			height: 50px;
-			background: url("src/main/resources/SO_logo.jpg") #099AD6 no-repeat 100px 5px;
+			background: url("images/SO_logo.jpg") #099AD6 no-repeat 100px 5px;
 			color: #fff;
 			font-weight: bold;
 		}
