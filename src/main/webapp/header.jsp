@@ -32,6 +32,6 @@
 </head>
 <body>
 	<div class="header">
-	<img src="${pageContext.request.contextPath}/SO_logo.jpg" />
+	<img src="<%=request.getContextPath()%>/SO_logo.jpg" />
 		Sales Optimizer - Release Notes
 	</div>
