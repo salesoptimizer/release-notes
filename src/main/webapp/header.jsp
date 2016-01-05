@@ -19,13 +19,6 @@
 			font-weight: bold;
 		}
 		
-		/*body:before {
-			content: "";
-			display: block;
-			height: 50px;
-			background: #099AD6;
-		}*/
-		
 		.result-box {
 			padding: 50px 100px;
 			background: #fff;
