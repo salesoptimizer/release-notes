@@ -153,7 +153,6 @@ public class RNController extends HttpServlet {
 				}
 			}
 			if (showPage) {
-				request.setAttribute("logoPath", new File("SO_logo.jpg").getAbsoluteFile());
 				request.getRequestDispatcher("/main.jsp").forward(request, response);
 			}
 		}
