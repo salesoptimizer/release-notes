@@ -14,7 +14,7 @@
 		.header {
 			padding: 19px 0 0 175px;
 			height: 50px;
-			background: url("<%=getServletContext().getContextPath()%>/SO_logo.jpg") #099AD6 no-repeat 100px 5px;
+			background: url("${pageContext.request.contextPath}/SO_logo.jpg") #099AD6 no-repeat 100px 5px;
 			color: #fff;
 			font-weight: bold;
 		}
@@ -32,5 +32,6 @@
 </head>
 <body>
 	<div class="header">
+	<img src="${pageContext.request.contextPath}/SO_logo.jpg" />
 		Sales Optimizer - Release Notes
 	</div>
