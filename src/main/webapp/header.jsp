@@ -12,9 +12,9 @@
 		}
 		
 		.header {
-			padding: 19px 0 0 175px;
-			height: 50px;
-			background: url("SO_logo.jpg") #099AD6 no-repeat 100px 5px;
+			padding: 10px 0 0 100px;
+			height: 40px;
+			background: #099AD6;
 			color: #fff;
 			font-weight: bold;
 		}
