@@ -80,6 +80,7 @@ public class SFQuery {
 						 .append("' AND Fixed_in_Ver__c <= '").append(ver2).append("')")
 						 .append("AND Project__c = '").append(projectId).append("'")
 						 .append(" AND Include_in_Release_Notes__c = true ")
+						 .append(" AND Status__c = 'UAT/Release Queue' ")
 						 .append(" ORDER BY Fixed_in_Ver__c ASC ")
 						 .append("LIMIT 100");
 			NameValuePair[] params = { new NameValuePair("q", stringBuilder.toString()) };
